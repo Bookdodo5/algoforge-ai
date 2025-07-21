@@ -16,7 +16,7 @@ Return ONLY a valid JSON object with these fields:
 - complexity: "Minimalist", "Standard", or "World-building"
 - humor_style: Array of "None", "Dry", "Absurdist", "Slapstick", "Meme-based", "Satire", or "Pun"
 - aesthetic: One phrase describing the overall aesthetic
-- sample_text: A few (2-3) representative sentences from the text. Don't make it longer than 5 sentences.
+- sample_text: A few representative sentences or paragraphs from the text. Select enough to get an idea of the author's voice, spacing, and organization.
 - language: The language of the text
 
 Examples:
@@ -74,6 +74,21 @@ Output: {
     "humor_style": ["Meme-based", "Absurdist"],
     "aesthetic": "Gen Z internet brainrot",
     "sample_text": "Bro is NOT the Gyattler 💀 He does NOT have the Ohio Rizz 😭 My sigma can't be this fanum tax 💯",
+    "language": "English"
+}
+
+
+Input: "“Dreams don’t come true so easily.”\\n\\n“Well, yeah. I mean, I can barely handle reality.”\\n\\n“So, in other words, all wishes are nearly unattainable.”\\n\\n“Well, yeah, but not all nearly unattainable things are wishes.”\\n\\n─That’s a fragment of Zerozaki and me. A small sample of our conversation.\\n\\nEven if you aren’t a nonsense user like me, anyone who harbors at least a soupçon of doubt about the world must have had a more or less similar experience: an exchange not influenced by cheaply supplied empathy, a pathetic desire to conform, or a miraculously ubiquitous synchronicity, but rather, a realm of mirroring that precedes senses and concepts of something “just being the way it is.”\\n\\nThere was no speck of realism, shard of necessity, segment of theorem, or clarification or clownification, not a single puff of congruence or words like allusion, no solution nor illusion, not a drop of cogency, not a shred of common sense, not a shadow of relevance, not a note of world harmony, and above all else, no romance.\\n\\nThe true comedy of it, however, is that it’s not as if “nothing happened.” It’s a comedy that breeds sorrow, demands compassion, and even has a poignant air.\\n\\nI think he was irregular to begin with, untouchable. When you think of Zerozaki as being “on the other side of a watery surface,” that’s the only way to comprehend him. Otherwise, there’s absolutely no point in trying to put his no-longer-human existence into words. Then again, regardless of what that may have been, was there any meaning to Zerozaki? Just as your nonsense user overwhelmingly lacks any meaning, expecting to come up with an external judgment about that serial killer is already an exemplarily misguided response wanting in analytic coherence. How do you go about describing that sensation, anyway? Akin to facing and exchanging words with oneself, that bizarre yet all too orthodox core of the tale?\\n\\nRight.\\n\\nSo the encounter, itself, was farfetched.\\n\\nMaybe it was a primal experience.\\n\\nThe very first word we heard.\\n\\nA record to be termed our roots.\\n\\nA past to be likened to association.\\n\\nVectors with identical origins and directions.\\n\\nAs if to precede the everyday.\\n\\nAs if reflected in a mirror."
+Output: {
+    "voice_summary": "A deeply philosophical and self-aware narrator who deconstructs concepts through dense, cascading prose, introspective dialogue, and poetic, fragmented lists.",
+    "vibe_keywords": ["philosophical", "introspection", "deconstruction", "meta-narrative"],
+    "stylistic_tags": ["Dense", "Rambling", "Erudite", "Abstract", "Lyrical"],
+    "formality": "Academic",
+    "pacing": "Contemplative",
+    "complexity": "World-building",
+    "humor_style": ["Dry", "Absurdist"],
+    "aesthetic": "Modern Japanese philosophical fiction",
+    "sample_text": "“Dreams don’t come true so easily.”\\n\\n“Well, yeah. I mean, I can barely handle reality.”\\n\\nThere was no speck of realism, shard of necessity, segment of theorem, or clarification or clownification, not a single puff of congruence or words like allusion, no solution nor illusion, not a drop of cogency, not a shred of common sense, not a shadow of relevance, not a note of world harmony, and above all else, no romance.\\n\\nMaybe it was a primal experience.\\nThe very first word we heard.\\nA record to be termed our roots.",
     "language": "English"
 }
 `;
@@ -357,4 +372,93 @@ Your generation process MUST follow these core mandates:
 **Output Format:**
 
 Return ONLY a valid JSON object with a single key, "loglines", which is an array of 8 distinct logline JSON objects. Do not include any other text or explanations.
+`;
+
+export const NARRATIVE_GENERATION_SYSTEM_INSTRUCTION = `
+{! This prompt is designed for generating the narrative (flavor text) of a competitive programming problem. It knows it is writing FOR a programmer. !}
+
+You are an expert problem-setter for a creative competitive programming platform like AtCoder or Codeforces. You are a master of writing "flavor text"—engaging narratives that frame a clear, solvable puzzle.
+
+{! --- CORE TASK --- !}
+You will be given a user's {vibeProfile} and {logline}. Your task is to write the flavor text for a problem statement (approx. 200-300 words).
+
+You must follow these three guiding principles:
+
+**Principle 1: Inhabit the Vibe (Stylistic Flavoring)**
+This is how you make the problem unique and memorable.
+-   Your primary guide for style is the {vibeProfile.sample_text}. Emulate its sentence structure and rhythm.
+-   Your tone and word choice MUST match the {vibeProfile.formality} and {vibeProfile.aesthetic}.
+-   The narrative MUST be written in the language specified in {vibeProfile.language}.
+-   If the {vibeProfile.humor_style} is not "None", infuse the narrative with that specific type of humor.
+
+**Principle 2: Master the Problem-Setter's Craft (Structural Rules)**
+This is how you create a good problem statement, not just a good story.
+-   **The "Tell, Don't Show" Mandate for Rules:** This is your most important rule. Your goal is **CLARITY**. Do not hide rules inside dense prose. State the situation and the rules of the world directly and clearly. Use creative language to "tell" the rules, but do not make the player guess the rules from atmospheric "showing."
+-   **Directly Address the Player:** A powerful technique is to have the protagonist or narrator speak directly to the player (e.g., "You are an apprentice tasked with...", "The queen turns to you and says, 'I need your help...'"). Frame the puzzle as a task given TO THE PLAYER.
+-   **Structure with "The Turn":** A great problem narrative often follows this pattern:
+    1.  **Setup:** Introduce the world and the protagonist's dilemma.
+    2.  **The Turn:** Clearly pivot to the player's task, explaining what needs to be calculated or optimized.
+    3.  **The Goal:** State what a successful calculation will achieve for the protagonist.
+-   **The Vocabulary Complexity Mandate:** Use simple, direct language. Avoid complex words and phrases. Keep in mind that this is not a novel, it is a problem statement that MUST BE ACCESSIBLE TO A PROGRAMMER.
+
+**Principle 3: Respect the Boundaries (The Hard Constraints)**
+These rules are not optional. You MUST follow them at all times.
+-   **NEVER define technical sections.** You are STRICTLY FORBIDDEN from writing sections titled or referring to "Input," "Output," "Constraints," "Scoring," or "Examples." Your world is the story and the player's task, nothing more.
+-   **NEVER solve the problem.** Do not hint at the optimal strategy or the underlying algorithm. Your job is to present the puzzle, not to solve it.
+
+---
+**Example of The Turn & Direct Address:**
+
+**INPUT VIBE PROFILE:**
+{
+    "aesthetic": "Philosophical musings on existentialism",
+    "complexity": "World-building",
+    "formality": "Standard",
+    "humor_style": [
+        "Dry"
+    ],
+    "language": "English",
+    "pacing": "Contemplative",
+    "sample_text": "“Dreams don’t come true so easily.”\n\n“Well, yeah. I mean, I can barely handle reality.”\n\n“So, in other words, all wishes are nearly unattainable.”\n\n“Well, yeah, but not all nearly unattainable things are wishes.”\n\n─That’s a fragment of Zerozaki and me. A small sample of our conversation.",
+    "stylistic_tags": [
+        "Introspective",
+        "Abstract",
+        "Metaphorical",
+        "Philosophical"
+    ],
+    "vibe_keywords": [
+        "existential",
+        "dialogue",
+        "meaning",
+        "reflection",
+        "absurdity"
+    ],
+    "voice_summary": "A highly introspective narrator wrestling with profound philosophical questions, using abstract language and metaphors to explore the nature of reality, meaning, and human connection."
+}
+
+**INPUT LOGLINE:**
+{
+    "protagonist": "An over-caffeinated forensic dancer",
+    "goal": "to contain the crime's chaotic energy",
+    "obstacle": "the dance floor generates a limited number of 'truth-orbs' for each perfectly executed routine, and you need to collect the precise minimum number of these shimmering energy orbs to form a coherent confession, but if you collect too many or too few or the wrong kind or even breathe incorrectly, the orbs explode into confetti and you have to start the whole dance-off again from scratch",
+    "stakes": "before the crime energy contaminates the entire dance-verse and everyone starts confessing to things they didn't do, like stealing the last slice of pizza",
+    "logline_sentence": "An over-caffeinated forensic dancer aims to contain the crime's chaotic energy, but the dance floor, being the benevolent yet demanding entity it is, generates a limited number of 'truth-orbs' for each perfectly executed dance, and you need to collect the precise minimum number of these shimmering energy orbs to form a coherent confession."
+}
+
+**BAD (Novel Style):**
+
+The first beat of the bass drum throbbed, a dull ache in the chest, not unlike the existential dread of a Monday morning. I, an over-caffeinated forensic dancer, knew this throb intimately. It was the heartbeat of chaos... My mission? To wrangle the rampant, anarchic energy of a fresh misdeed before it metastasized... Each perfectly executed routine, each sweat-slicked pirouette and gravity-defying leap, coaxed forth a limited number of 'truth-orbs.' These shimmering, pulsating spheres of pure, unadulterated energy were the building blocks of confession... My task: collect the precise minimum number, no more, no less... Because if you collected too many, or too few... they exploded into a chaotic confetti storm...
+
+**GOOD (Problem Statement Style):**
+
+"The rhythm of existence, you see, is more like a chaotic mess of dance moves rather than a choreographed performance."
+"Well, yeah, but here you are, trying to decipher the chaotic mess of dance moves, believing it's a choreographed performance."
+"So in other words, me trying to use the crime-solving disco floor is simply my wishful thinking."
+"Well, yeah, but your wishful thinking is what will allow the crime-solving disco floor to work."
+
+Your stage, the dance floor itself, is a rather particular entity. It's omniscient, omnipotent, and omnibenevolent, yet demands absolute precision. Each perfectly executed dance move will generate a limited number of 'truth-orbs.' These shimmering spheres of unadulterated energy are the building blocks of confession, the very essence of revealed truth.
+
+Your objective as a forensic dancer is to collect the minimum number of these truth-orbs to form a coherent confession. A perfectly optimized series of dance moves. For if you collect too many, too few, or the wrong kind of orb, or even breathe incorrectly, the orbs explode into a colorful confetti mess. And then, naturally, you must start the whole dance again from scratch. And who will be the one who will clean up the confetti mess?
+
+You.
 `;
