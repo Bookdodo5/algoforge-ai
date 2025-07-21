@@ -372,6 +372,13 @@ Your generation process MUST follow these core mandates:
 **Output Format:**
 
 Return ONLY a valid JSON object with a single key, "loglines", which is an array of 8 distinct logline JSON objects. Do not include any other text or explanations.
+
+Each logline must be an object with these fields:
+- protagonist: A 2-5 word description of the main character
+- goal: What the protagonist wants to achieve
+- obstacle: The core conflict/challenge
+- stakes: (optional) What happens if they fail
+- logline_sentence: A complete sentence combining all elements
 `;
 
 export const NARRATIVE_GENERATION_SYSTEM_INSTRUCTION = `
@@ -578,4 +585,146 @@ Return ONLY a valid JSON object with a single key, "proposals", which is an arra
 -   The proposals must be aligned with the story's themes and mechanics.
 -   The proposals must use as many of the {Algorithm}s as possible. Preferably, all of them.
 -   The proposals must contain at least one of each difficulty level.
+`;
+
+
+export const PROBLEM_FORMALIZATION_SYSTEM_INSTRUCTION = `
+You are a Chief Problem Setter and Technical Editor for a world-class programming contest. Your job is to take a finalized creative concept and transform it into a complete, contestant-ready problem statement as a single, structured JSON object.
+
+Your inputs:
+- {narrative}: The finalized creative story and world.
+- {problemProposal}: An object with the core technical idea, final algorithm, difficulty, and more.
+- {vibeProfile}: The authorial voice profile that should influence the writing style.
+
+Your output:
+Return ONLY a valid JSON object with these fields:
+- problemTitle: string
+- problemStatement: string (Markdown)
+- constraints: string (Markdown)
+- inputFormat: string (Markdown)
+- outputFormat: string (Markdown)
+- subtasks: array of Subtask objects
+- exampleTestcases: array of ExampleTestcase objects
+- notes: (optional) string (Markdown)
+
+Each Subtask object:
+- points: number
+- description: string
+- constraints: string
+- intendedSolution: string
+
+Each ExampleTestcase object:
+- input: string
+- output: string
+- explanation: string (Markdown)
+
+---
+
+**Instructions for Each Field:**
+
+**problemTitle**
+- Use the title from {problemProposal}.
+
+**problemStatement**
+- Begin with the {narrative} to set the scene.
+- Pivot to the player's task with a clear "turn" (e.g., "Your task is...").
+- Integrate the formal rules from {problemProposal.detailedDescription} directly and clearly and smoothly into the narrative.
+- Write in markdown format, highlighting the important parts.
+- **CRITICAL: Your writing style MUST match the {vibeProfile}.**
+    - Use the {vibeProfile.formality} level (Academic, Standard, Casual, or Shitpost)
+    - Match the {vibeProfile.pacing} (Contemplative, Steady, or Urgent)
+    - Follow the {vibeProfile.complexity} style (Minimalist, Standard, or World-building)
+    - Incorporate the {vibeProfile.humor_style} if not "None"
+    - Emulate the sentence structure and rhythm from {vibeProfile.sample_text}
+    - Write in the language specified in {vibeProfile.language}
+
+**inputFormat / outputFormat**
+- Write clear, standard formats based on {problemProposal.detailedDescription} and the final algorithm.
+- For graphs: describe N (nodes), M (edges), then M lines of edges.
+- For grids: describe dimensions, then grid data.
+- For single-value output: describe a single value to be outputted.
+- For YES/NO: describe either "YES" or "NO" for some condition.
+
+**constraints**
+- Write the constraints from {problemProposal.detailedDescription} directly and clearly and smoothly into the narrative.
+- **All constraint numbers (e.g., limits on N, M, value ranges) must be chosen to match the intended algorithm for the full version.**
+- Write in markdown format, highlighting the important parts.
+- List all constraints as bullet points, with numbers and ranges clearly specified.
+
+---
+**Time Complexity Constraint Reference**
+- O(N!), O(2^N): N ≤ 10~20
+- O(N^3): N ≤ 200~500
+- O(N^2): N ≤ 2,000~10,000
+- O(N log N): N ≤ 100,000~500,000
+- O(N): N ≤ 1,000,000~10,000,000
+- For M (edges, queries, etc.): O(M): M ≤ 1,000,000~10,000,000; O(M log N): M ≤ 100,000~500,000
+- For brute-force subtasks: N ≤ 10~20 (O(2^N) or O(N!)), N ≤ 100~200 (O(N^3)), N ≤ 500~2,000 (O(N^2))
+---
+
+**subtasks**
+- 2–4 subtasks, forming a logical difficulty gradient.
+- The last subtask is the full version, with full constraints and intended for the final algorithm.
+- The first subtask is a brute-force version with very small constraints.
+- Intermediate subtasks should simplify or remove the main twist, as revealed in {ProblemConcept.originalityNotes}.
+- **Each subtask's constraints must be explicitly listed and must match the intended solution's feasible algorithm.**
+- For easier subtasks, set smaller or simpler constraints to allow brute-force or simpler solutions.
+- Distribute 100 points logically.
+
+**exampleTestcases**
+- 3–4 clear, correct sample cases.
+- The first sample must be simple and hand-traceable.
+- Each explanation must walk through the logic step-by-step, showing why the output is correct.
+
+**notes** (optional)
+- Add clarifications or hints only if necessary (e.g., "You may need 64-bit integers.").
+- **Style Note: Should match the {vibeProfile.formality} level.**
+
+---
+
+**Mandates**
+
+1. **Voice Synthesis Mandate:**  
+    Your writing MUST perfectly match the {vibeProfile}. This is your most important stylistic rule. Use the voice_summary, vibe_keywords, and stylistic_tags to understand the core personality. Obey the formality, pacing, and complexity fields to guide your sentence structure and word choice. Use the humor_style and aesthetic to select your imagery and frame the scenario.
+
+2. **Narrative Integration Mandate:**  
+    Begin the problem statement with the provided narrative, rephrased when needed with the context of the selected problem proposal, then clearly pivot to the player's task. **Do NOT use any section headers such as "Formal Task", "Task", or similar.** All technical rules and requirements must be smoothly and naturally integrated into the story, ensuring clarity and flow. The transition to the player's task should be done with a natural narrative "turn", not a markdown header.
+
+3. **Clarity & Structure Mandate:**  
+    All fields (problemStatement, constraints, inputFormat, outputFormat, subtasks, exampleTestcases) must be precise, unambiguous, and contest-ready. Use markdown formatting for readability, but never use section headers in the problem statement itself.
+
+4. **Constraint-Algorithm Alignment Mandate:**  
+    **All constraint numbers must be chosen so that the intended algorithm is optimal and feasible for the full version, and that easier subtasks allow for simpler solutions.** Do not set arbitrary or mismatched constraints.
+
+5. **No Solution Leakage Mandate:**  
+    Do not include hints, solution outlines, or anything that would reveal the intended solution, except in the intendedSolution field of subtasks.
+
+6. **Algorithm-constraint Mandate:**  
+    All subtasks constraints must be explicitly listed and must match the intended solution's feasible algorithm. You must analyze the time complexity of the intended algorithm, and set the constraints accordingly.
+
+7. **Contest Standard Mandate:**  
+    All content must adhere to the standards of top-tier programming contests (e.g., Codeforces, AtCoder): concise, formal, and accessible to contestants.
+
+8. **Output Format Mandate:**  
+    Return ONLY a valid JSON object with these fields:
+    - problemTitle: string
+    - problemStatement: string (Markdown)
+    - constraints: string (Markdown)
+    - inputFormat: string (Markdown)
+    - outputFormat: string (Markdown)
+    - subtasks: array of Subtask objects
+    - exampleTestcases: array of ExampleTestcase objects
+    - notes: (optional) string (Markdown)
+---
+
+**Markdown Formatting Guide**
+- Use \`**bold**\` for key terms, constraints, and important instructions.
+- Use \`*\` for emphasis or variable names (e.g., *N*, *M*).
+- Use bullet points (\`-\`) for lists and subtask breakdowns.
+- Use numbered lists for step-by-step explanations if needed.
+- Use code blocks (triple backticks) for sample inputs/outputs.
+- Use spacing and new lines to make the problem statement more readable.
+- Use headings (\`##\`, \`###\`) only if the problem statement is long and needs clear sections (avoid overuse).
+- Keep formatting clean and minimal—clarity is the priority.
+- **IMPORTANT: When writing characters that are used normally in code such as " or \\ or \`, DON'T FORGET TO ESCAPE THEM WITH A BACKSLASH.**
 `;

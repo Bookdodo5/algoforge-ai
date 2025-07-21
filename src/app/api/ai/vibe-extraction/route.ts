@@ -1,7 +1,7 @@
-import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import { VIBE_EXTRACTION_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
+import { generateAiResponse } from "@/lib/ai";
 
 const vibeProfileSchema = z.object({
     voice_summary: z.string()
@@ -26,40 +26,19 @@ const vibeProfileSchema = z.object({
         .describe("The language of the author's writing"),
 });
 
-export async function extractVibe(sample: string): Promise<object | null> {
-    if (!sample || sample.trim() === "") {
-        throw new Error("Sample text is required");
-    }
-
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-    console.log("Extracting vibe from sample: ", sample);
-    const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash-lite-preview-06-17",
-        contents: sample,
-        config: {
-            responseMimeType: "application/json",
-            systemInstruction: VIBE_EXTRACTION_SYSTEM_INSTRUCTION,
-            responseSchema: vibeProfileSchema,
-            temperature: 0.5
-        },
-    });
-    console.log("Response: ", response);
-
-    if (!response.text) throw new Error("AI service returned empty response");
-    const parsedResponse = JSON.parse(response.text);
-
-    console.log("Parsed response: ", parsedResponse);
-
-    const validation = vibeProfileSchema.safeParse(parsedResponse);
-    if (!validation.success) throw new Error(validation.error.message);
-    console.log("Validation success: ", validation.success);
-    return validation.data;
-}
-
 export async function POST(request: Request) {
     try {
         const { sample } = await request.json();
-        const result = await extractVibe(sample);
+        if (!sample || sample.trim() === "") {
+            throw new Error("Sample text is required");
+        }
+
+        const result = await generateAiResponse(
+            VIBE_EXTRACTION_SYSTEM_INSTRUCTION,
+            sample,
+            vibeProfileSchema
+        );
+
         return NextResponse.json(result);
     }
     catch (error) {
