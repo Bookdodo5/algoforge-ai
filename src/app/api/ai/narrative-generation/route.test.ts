@@ -9,12 +9,30 @@ testApiEndpoint({
     handler: POST,
     method: 'POST',
     endpoint: '/api/ai/narrative-generation',
-    validPayload: { 
-        logline: { protagonist: 'A hero' }, 
-        vibe: { voice_summary: 'epic' } 
+    validPayload: {
+        logline: {
+            protagonist: 'string',
+            goal: 'string',
+            obstacle: 'string',
+            stakes: 'string',
+            logline_sentence: 'string',
+        },
+        vibe: {
+            voice_summary: 'string',
+            vibe_keywords: ['string'],
+            stylistic_tags: ['string'],
+            formality: 'Standard',
+            pacing: 'Steady',
+            complexity: 'Standard',
+            humor_style: ['None'],
+            aesthetic: 'string',
+            sample_text: 'string',
+            language: 'string',
+        },
+        priorText: 'string',
     },
     requiredFields: ['logline', 'vibe'],
     missingFieldError: 'Logline and vibe are required',
-    successPayload: { narrative: 'Once upon a time...' },
+    successPayload: { narrative: 'string' },
     errorPrefix: 'Narrative generation',
 }); 

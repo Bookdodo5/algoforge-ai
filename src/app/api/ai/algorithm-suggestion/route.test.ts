@@ -9,9 +9,16 @@ testApiEndpoint({
     handler: POST,
     method: 'POST',
     endpoint: '/api/ai/algorithm-suggestion',
-    validPayload: { narrative: 'A story about numbers.' },
+    validPayload: { narrative: 'string' },
     requiredFields: ['narrative'],
     missingFieldError: 'Narrative is required',
-    successPayload: { suggestions: [{ id: 'dp' }] },
+    successPayload: {
+        suggestions: [
+            {
+                id: 'string',
+                narrativeJustification: 'string',
+            },
+        ],
+    },
     errorPrefix: 'Algorithm suggestion',
 }); 

@@ -9,12 +9,31 @@ testApiEndpoint({
     handler: POST,
     method: 'POST',
     endpoint: '/api/ai/algorithm-diversification',
-    validPayload: { 
-        narrative: 'A story.', 
-        algorithms: [{ id: 'dp' }] 
+    validPayload: {
+        narrative: 'string',
+        algorithms: [
+            {
+                id: 'string',
+                level: 'string',
+                category: 'string',
+                name: 'string',
+                description: 'string',
+            },
+        ],
     },
     requiredFields: ['narrative', 'algorithms'],
     missingFieldError: 'Narrative and at least one algorithm are required',
-    successPayload: { proposals: [{ coreAlgorithm: 'DP' }] },
+    successPayload: {
+        proposals: [
+            {
+                coreAlgorithm: 'string',
+                coreConcept: 'string',
+                detailedDescription: 'string',
+                narrativeJustification: 'string',
+                originalityNotes: 'string',
+                difficulty: 'Straightforward',
+            },
+        ],
+    },
     errorPrefix: 'Algorithm diversification',
 }); 

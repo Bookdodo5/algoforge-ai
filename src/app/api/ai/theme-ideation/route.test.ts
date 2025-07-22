@@ -9,6 +9,6 @@ testApiEndpoint({
     handler: GET,
     method: 'GET',
     endpoint: '/api/ai/theme-ideation',
-    successPayload: { themes: ['bloom into you', 'chuunibyou powers'] },
+    successPayload: { themes: ['string'] },
     errorPrefix: 'Theme ideation',
 });
