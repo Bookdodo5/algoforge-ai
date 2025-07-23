@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { NARRATIVE_GENERATION_SYSTEM_INSTRUCTION } from "@/lib/prompts";
+import { IMPLEMENTATION_OUTLINE_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
 import { generateAiResponse } from "@/lib/ai";
 import { withAuth } from "@/lib/auth-middleware";   
@@ -8,7 +8,7 @@ const outlineSchema = z.object({
     technicalOutline: z.string().describe("A well-structured implementation outline written in markdown"),
 });
 
-export const POST = withAuth(async (request: Request, session: any) => {
+export const POST = withAuth(async (request: Request, _session) => {
     try {
         const { fullProblem } = await request.json();
         if (!fullProblem) {
@@ -23,7 +23,7 @@ The output should be a valid JSON object with a single field, "technicalOutline"
 `;
 
         const result = await generateAiResponse(
-            NARRATIVE_GENERATION_SYSTEM_INSTRUCTION,
+            IMPLEMENTATION_OUTLINE_SYSTEM_INSTRUCTION,
             message,
             outlineSchema
         );

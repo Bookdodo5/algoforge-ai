@@ -8,7 +8,7 @@ const solutionSchema = z.object({
     cpp_code: z.string().describe("A well-structured implementation written in C++"),
 });
 
-export const POST = withAuth(async (request: Request, session: any) => {
+export const POST = withAuth(async (request: Request, _session) => {
     try {
         const { fullProblem, technicalOutline } = await request.json();
         if (!fullProblem || !technicalOutline) {

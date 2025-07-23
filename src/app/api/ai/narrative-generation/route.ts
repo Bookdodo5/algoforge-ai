@@ -8,7 +8,7 @@ const narrativeGenerationSchema = z.object({
     narrative: z.string().describe("A narrative of 200-300 words"),
 });
 
-export const POST = withAuth(async (request: Request, session: any) => {
+export const POST = withAuth(async (request: Request, _session) => {
     try {
         const { logline, vibe, priorText } = await request.json();
         if (!logline || !vibe) {

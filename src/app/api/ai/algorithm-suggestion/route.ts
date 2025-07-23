@@ -12,7 +12,7 @@ const algorithmSuggestionSchema = z.object({
     }))
 });
 
-export const POST = withAuth(async (request: Request, session: any) => {
+export const POST = withAuth(async (request: Request, _session) => {
     try {
         const { narrative } = await request.json();
         if (!narrative) {

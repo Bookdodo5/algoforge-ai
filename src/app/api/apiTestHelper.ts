@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 
 const act = (endpoint: string,
     method: 'POST' | 'GET',
-    payload: Record<string, any> | undefined,
+    payload: Record<string, unknown> | undefined,
     handler: (req: Request) => Promise<Response>
 ) => {
     const req = new Request(`http://localhost${endpoint}`, {
@@ -13,7 +13,7 @@ const act = (endpoint: string,
     return handler(req);
 }
 
-const expectSuccess = async (response: Response, expectedPayload: any) => {
+const expectSuccess = async (response: Response, expectedPayload: unknown) => {
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual(expectedPayload);
 };
@@ -37,10 +37,10 @@ export function testApiEndpoint({
     handler: (req: Request) => Promise<Response>,
     method: 'POST' | 'GET',
     endpoint: string,
-    validPayload?: Record<string, any>,
+    validPayload?: Record<string, unknown>,
     requiredFields?: string[],
     missingFieldError?: string,
-    successPayload: Record<string, any>,
+    successPayload: Record<string, unknown>,
     errorPrefix: string,
 }) {
     const mockedGenerateAiResponse = generateAiResponse as jest.Mock;

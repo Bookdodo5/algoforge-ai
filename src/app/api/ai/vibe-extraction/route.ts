@@ -27,7 +27,7 @@ const vibeProfileSchema = z.object({
         .describe("The language of the author's writing"),
 });
 
-export const POST = withAuth(async (request: Request, session: any) => {
+export const POST = withAuth(async (request: Request, _session) => {
     try {
         const { sample } = await request.json();
         if (!sample || sample.trim() === "") {

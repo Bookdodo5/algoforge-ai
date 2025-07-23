@@ -24,7 +24,7 @@ const problemFormalizationOutputSchema = z.object({
     notes: z.string().optional(),
 });
 
-export const POST = withAuth(async (request: Request, session: any) => {
+export const POST = withAuth(async (request: Request, _session) => {
     try {
         const { narrative, problem, vibe } = await request.json();
         if (!narrative || !problem || !vibe) {

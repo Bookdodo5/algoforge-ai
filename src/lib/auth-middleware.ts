@@ -1,8 +1,9 @@
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+import { Session } from "next-auth";
 
 export function withAuth<T>(
-    handler: (request: Request, session: any) => Promise<T>
+    handler: (request: Request, session: Session) => Promise<T>
 ) {
     return async (request: Request) => {
         try {

@@ -8,7 +8,7 @@ const testGeneratorSchema = z.object({
     python_code: z.string().describe("A well-structured test generator written in Python"),
 });
 
-export const POST = withAuth(async (request: Request, session: any) => {
+export const POST = withAuth(async (request: Request, _session) => {
     try {
         const { fullProblem } = await request.json();
         if (!fullProblem) {

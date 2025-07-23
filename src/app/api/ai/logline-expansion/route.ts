@@ -15,7 +15,7 @@ const loglineExpansionSchema = z.object({
         .describe("An array of exactly 8 logline JSON objects"),
 });
 
-export const POST = withAuth(async (request: Request, session: any) => {
+export const POST = withAuth(async (request: Request, _session) => {
     try {
         const { theme, vibe } = await request.json();
         if (!theme || !vibe) {

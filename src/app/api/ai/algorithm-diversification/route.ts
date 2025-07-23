@@ -15,7 +15,7 @@ const problemProposalSchema = z.object({
     }))
 });
 
-export const POST = withAuth(async (request: Request, session: any) => {
+export const POST = withAuth(async (request: Request, _session) => {
     try {
         const { narrative, algorithms } = await request.json();
         if (!narrative || !algorithms || algorithms.length === 0) {

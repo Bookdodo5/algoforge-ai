@@ -9,7 +9,7 @@ const themeProfileSchema = z.object({
         .describe("An array of exactly 100 theme strings (numbered 1-100)"),
 });
 
-export const GET = withAuth(async (request: Request, session: any) => {
+export const GET = withAuth(async (_request: Request, _session) => {
     try {
         const message = `
 Generate exactly 100 individual theme strings, one per array element.
