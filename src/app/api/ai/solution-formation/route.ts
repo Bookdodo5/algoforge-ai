@@ -2,12 +2,13 @@ import { z } from "zod";
 import { SOLUTION_FORMATION_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
 import { generateAiResponse } from "@/lib/ai";
+import { withAuth } from "@/lib/auth-middleware";   
 
 const solutionSchema = z.object({
     cpp_code: z.string().describe("A well-structured implementation written in C++"),
 });
 
-export async function POST(request: Request) {
+export const POST = withAuth(async (request: Request, session: any) => {
     try {
         const { fullProblem, technicalOutline } = await request.json();
         if (!fullProblem || !technicalOutline) {
@@ -43,4 +44,4 @@ The output should be a valid JSON object with a single field, "cpp_code", which 
             error: error instanceof Error ? error.message : String(error)
         }, { status: 500 });
     }
-}
+});

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { PROBLEM_FORMALIZATION_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
 import { generateAiResponse } from "@/lib/ai";
+import { withAuth } from "@/lib/auth-middleware";
 
 const problemFormalizationOutputSchema = z.object({
     problemTitle: z.string(),
@@ -23,7 +24,7 @@ const problemFormalizationOutputSchema = z.object({
     notes: z.string().optional(),
 });
 
-export async function POST(request: Request) {
+export const POST = withAuth(async (request: Request, session: any) => {
     try {
         const { narrative, problem, vibe } = await request.json();
         if (!narrative || !problem || !vibe) {
@@ -55,4 +56,4 @@ ${JSON.stringify(vibe, null, 2)}
             { status: 500 }
         );
     }
-}
+});

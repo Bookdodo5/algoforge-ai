@@ -1,13 +1,17 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Brain, Code, Sparkles, Zap, Target, CheckCircle } from "lucide-react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Home() {
     return (
         <div className="min-h-screen">
+            <AuthButton></AuthButton>
             {/* Hero Section */}
             <section className="px-4 py-20 mx-auto max-w-7xl">
                 <div className="text-center mb-16">
@@ -22,7 +26,7 @@ export default function Home() {
                         AI-Powered Problem Creation
                     </Badge>
                     <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-                        Transform your creative ideas into compelling competitive programming problems. 
+                        Transform your creative ideas into compelling competitive programming problems.
                         Let AI amplify your vision and craft the perfect algorithmic challenges.
                     </p>
                     <div className="flex gap-4 justify-center">
@@ -134,7 +138,7 @@ export default function Home() {
                         <CardContent className="p-12">
                             <h2 className="text-3xl font-bold mb-4">Ready to Forge Your First Problem?</h2>
                             <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                                Join the revolution in competitive programming problem creation. 
+                                Join the revolution in competitive programming problem creation.
                                 Where creativity meets algorithmic excellence.
                             </p>
                             <div className="flex gap-4 justify-center">
@@ -154,7 +158,7 @@ export default function Home() {
             {/* UI Testing Section */}
             <section className="px-4 py-20 mx-auto max-w-7xl">
                 <Separator className="my-16" />
-                
+
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold mb-4">UI Component Testing</h2>
                     <p className="text-muted-foreground">Test all available component variants</p>
@@ -274,6 +278,41 @@ export default function Home() {
                     </CardContent>
                 </Card>
             </section>
+        </div>
+    );
+}
+
+function AuthButton() {
+    const { data: session } = useSession();
+
+    if (session) {
+        return (
+            <div className="p-4 border rounded">
+                <p>Signed in as {session.user?.email}</p>
+                <button 
+                    onClick={() => signOut()}
+                    className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                    Sign out
+                </button>
+            </div>
+        );
+    }
+    
+    return (
+        <div className="flex gap-4">
+            <button 
+                onClick={() => signIn("google")}
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+                Sign in with Google
+            </button>
+            <button 
+                onClick={() => signIn("github")}
+                className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900"
+            >
+                Sign in with GitHub
+            </button>
         </div>
     );
 }

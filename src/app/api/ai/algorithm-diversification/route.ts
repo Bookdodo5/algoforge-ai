@@ -2,6 +2,7 @@ import { z } from "zod";
 import { ALGORITHM_DIVERSIFICATION_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
 import { generateAiResponse } from "@/lib/ai";
+import { withAuth } from "@/lib/auth-middleware";   
 
 const problemProposalSchema = z.object({
     proposals: z.array(z.object({
@@ -14,7 +15,7 @@ const problemProposalSchema = z.object({
     }))
 });
 
-export async function POST(request: Request) {
+export const POST = withAuth(async (request: Request, session: any) => {
     try {
         const { narrative, algorithms } = await request.json();
         if (!narrative || !algorithms || algorithms.length === 0) {
@@ -37,4 +38,4 @@ export async function POST(request: Request) {
             error: error instanceof Error ? error.message : String(error)
         }, { status: 500 });
     }
-} 
+});

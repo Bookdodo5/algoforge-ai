@@ -2,12 +2,13 @@ import { z } from "zod";
 import { TEST_GENERATOR_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
 import { generateAiResponse } from "@/lib/ai";
+import { withAuth } from "@/lib/auth-middleware";
 
 const testGeneratorSchema = z.object({
     python_code: z.string().describe("A well-structured test generator written in Python"),
 });
 
-export async function POST(request: Request) {
+export const POST = withAuth(async (request: Request, session: any) => {
     try {
         const { fullProblem } = await request.json();
         if (!fullProblem) {
@@ -41,4 +42,4 @@ The output should be a valid JSON object with a single field, "python_code", whi
             error: error instanceof Error ? error.message : String(error)
         }, { status: 500 });
     }
-}
+});

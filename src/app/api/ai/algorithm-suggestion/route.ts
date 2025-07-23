@@ -3,6 +3,7 @@ import { ALGORITHM_SUGGESTION_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
 import { generateAiResponse } from "@/lib/ai";
 import { ALGORITHM_LIBRARY } from "@/lib/algorithms";
+import { withAuth } from "@/lib/auth-middleware";
 
 const algorithmSuggestionSchema = z.object({
     suggestions: z.array(z.object({
@@ -11,7 +12,7 @@ const algorithmSuggestionSchema = z.object({
     }))
 });
 
-export async function POST(request: Request) {
+export const POST = withAuth(async (request: Request, session: any) => {
     try {
         const { narrative } = await request.json();
         if (!narrative) {
@@ -39,4 +40,4 @@ export async function POST(request: Request) {
             error: error instanceof Error ? error.message : String(error)
         }, { status: 500 });
     }
-}
+});

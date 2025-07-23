@@ -2,13 +2,14 @@ import { z } from "zod";
 import { THEME_IDEATION_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
 import { generateAiResponse } from "@/lib/ai";
+import { withAuth } from "@/lib/auth-middleware";
 
 const themeProfileSchema = z.object({
     themes: z.array(z.string())
         .describe("An array of exactly 100 theme strings (numbered 1-100)"),
 });
 
-export async function GET(request: Request) {
+export const GET = withAuth(async (request: Request, session: any) => {
     try {
         const message = `
 Generate exactly 100 individual theme strings, one per array element.
@@ -29,4 +30,4 @@ Do not combine multiple themes into single strings or use numbered lists.
             error: error instanceof Error ? error.message : String(error)
         }, { status: 500 });
     }
-}
+});

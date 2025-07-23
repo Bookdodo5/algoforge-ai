@@ -2,6 +2,7 @@ import { z } from "zod";
 import { LOGLINE_EXPANSION_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
 import { generateAiResponse } from "@/lib/ai";
+import { withAuth } from "@/lib/auth-middleware";   
 
 const loglineExpansionSchema = z.object({
     loglines: z.array(z.object({
@@ -14,7 +15,7 @@ const loglineExpansionSchema = z.object({
         .describe("An array of exactly 8 logline JSON objects"),
 });
 
-export async function POST(request: Request) {
+export const POST = withAuth(async (request: Request, session: any) => {
     try {
         const { theme, vibe } = await request.json();
         if (!theme || !vibe) {
@@ -41,4 +42,4 @@ Voice Profile: ${JSON.stringify(vibe, null, 2)}
             error: error instanceof Error ? error.message : String(error)
         }, { status: 500 });
     }
-}
+});

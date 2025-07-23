@@ -2,12 +2,13 @@ import { z } from "zod";
 import { NARRATIVE_GENERATION_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
 import { generateAiResponse } from "@/lib/ai";
+import { withAuth } from "@/lib/auth-middleware";   
 
 const outlineSchema = z.object({
     technicalOutline: z.string().describe("A well-structured implementation outline written in markdown"),
 });
 
-export async function POST(request: Request) {
+export const POST = withAuth(async (request: Request, session: any) => {
     try {
         const { fullProblem } = await request.json();
         if (!fullProblem) {
@@ -35,4 +36,4 @@ The output should be a valid JSON object with a single field, "technicalOutline"
             error: error instanceof Error ? error.message : String(error)
         }, { status: 500 });
     }
-}
+});

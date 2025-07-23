@@ -2,12 +2,13 @@ import { z } from "zod";
 import { NARRATIVE_GENERATION_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
 import { generateAiResponse } from "@/lib/ai";
+import { withAuth } from "@/lib/auth-middleware";
 
 const narrativeGenerationSchema = z.object({
     narrative: z.string().describe("A narrative of 200-300 words"),
 });
 
-export async function POST(request: Request) {
+export const POST = withAuth(async (request: Request, session: any) => {
     try {
         const { logline, vibe, priorText } = await request.json();
         if (!logline || !vibe) {
@@ -42,4 +43,4 @@ The output should be a valid JSON object with a single field, "narrative", which
             error: error instanceof Error ? error.message : String(error)
         }, { status: 500 });
     }
-}
+});

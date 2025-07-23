@@ -2,6 +2,7 @@ import { z } from "zod";
 import { VIBE_EXTRACTION_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
 import { generateAiResponse } from "@/lib/ai";
+import { withAuth } from "@/lib/auth-middleware";
 
 const vibeProfileSchema = z.object({
     voice_summary: z.string()
@@ -26,7 +27,7 @@ const vibeProfileSchema = z.object({
         .describe("The language of the author's writing"),
 });
 
-export async function POST(request: Request) {
+export const POST = withAuth(async (request: Request, session: any) => {
     try {
         const { sample } = await request.json();
         if (!sample || sample.trim() === "") {
@@ -47,4 +48,4 @@ export async function POST(request: Request) {
             error: error instanceof Error ? error.message : String(error)
         }, { status: 500 });
     }
-}
+});
