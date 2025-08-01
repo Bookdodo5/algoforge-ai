@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon Quest Algorithm - AlgoForge AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="algoforge_theme.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        // Dark mode detection and toggle
+        (function() {
+            const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark');
+            }
+            
+            // Listen for changes
+            if (window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                    if (e.matches) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                });
+            }
+        })();
+    </script>
+    <style>
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .code-highlight {
+            background: var(--muted);
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+        }
+        .copy-success {
+            animation: copySuccess 2s ease-out forwards;
+        }
+        @keyframes copySuccess {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-sans">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-background/80 backdrop-blur-lg border-b border-border z-50">
+        <div class="container-page">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 rounded-lg hover:bg-muted">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="brain" class="w-6 h-6 text-primary"></i>
+                        <span class="font-bold algoforge-text-gradient">AlgoForge AI</span>
+                    </div>
+                    <span class="text-muted-foreground">•</span>
+                    <span class="font-medium">Dragon Quest Algorithm</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 rounded-lg hover:bg-muted">
+                        <i data-lucide="settings" class="w-5 h-5"></i>
+                    </button>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <span class="text-sm font-semibold text-primary-foreground">JD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="pt-16 bg-card border-b border-border">
+        <div class="container-content py-6">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <div class="flex items-center space-x-3 mb-2">
+                        <h1 class="heading-lg">Dragon Quest Algorithm</h1>
+                        <div class="status-completed px-3 py-1 rounded-full text-sm font-medium">
+                            ✅ Completed
+                        </div>
+                    </div>
+                    <p class="text-muted-foreground">Fantasy Adventure • Created 2 days ago • Last edited 1 day ago</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button class="flex items-center space-x-2 px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors">
+                        <i data-lucide="share" class="w-4 h-4"></i>
+                        <span>Share</span>
+                    </button>
+                    <button class="flex items-center space-x-2 px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        <span>Export</span>
+                    </button>
+                    <button class="flex items-center space-x-2 px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors">
+                        <i data-lucide="copy" class="w-4 h-4"></i>
+                        <span>Clone</span>
+                    </button>
+                    <button class="flex items-center space-x-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium interactive-hover">
+                        <i data-lucide="edit" class="w-4 h-4"></i>
+                        <span>Edit</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="flex items-center space-x-1 bg-muted/30 rounded-lg p-1">
+                <button class="tab-btn active px-4 py-2 rounded-md font-medium transition-colors" data-tab="problem">
+                    <i data-lucide="file-text" class="w-4 h-4 mr-2 inline"></i>
+                    Problem
+                </button>
+                <button class="tab-btn px-4 py-2 rounded-md font-medium transition-colors" data-tab="solution">
+                    <i data-lucide="code" class="w-4 h-4 mr-2 inline"></i>
+                    Solution
+                </button>
+                <button class="tab-btn px-4 py-2 rounded-md font-medium transition-colors" data-tab="tests">
+                    <i data-lucide="check-circle" class="w-4 h-4 mr-2 inline"></i>
+                    Test Cases
+                </button>
+                <button class="tab-btn px-4 py-2 rounded-md font-medium transition-colors" data-tab="export">
+                    <i data-lucide="package" class="w-4 h-4 mr-2 inline"></i>
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container-content py-8">
+        <!-- Problem Tab -->
+        <div id="problem" class="tab-content active">
+            <div class="max-w-4xl mx-auto space-y-8">
+                <!-- Problem Statement -->
+                <div class="bg-card border border-border rounded-xl p-8">
+                    <h2 class="heading-md mb-6 flex items-center">
+                        <i data-lucide="scroll" class="w-6 h-6 mr-3 text-primary"></i>
+                        Problem Statement
+                    </h2>
+                    
+                    <div class="prose max-w-none">
+                        <h3 class="text-xl font-semibold mb-4">Dragon Quest Pathfinding</h3>
+                        
+                        <p class="text-muted-foreground mb-6">
+                            A brave knight embarks on a quest to rescue a dragon from an enchanted forest. The forest is represented as 
+                            a weighted graph where each node is a clearing and each edge is a path between clearings with a travel cost.
+                        </p>
+
+                        <h4 class="font-semibold mb-3">The Challenge</h4>
+                        <p class="mb-4">
+                            The knight starts at clearing 1 and must reach the dragon at clearing N. However, the forest is magical:
+                        </p>
+                        
+                        <ul class="list-disc list-inside space-y-2 mb-6 text-muted-foreground">
+                            <li>Path costs change based on the time of day (represented by a time parameter T)</li>
+                            <li>The knight has a limited inventory capacity that affects movement speed</li>
+                            <li>Some paths are only accessible if the knight carries specific magical items</li>
+                            <li>The dragon's location may change if the rescue takes too long</li>
+                        </ul>
+
+                        <h4 class="font-semibold mb-3">Input Format</h4>
+                        <div class="code-highlight p-4 mb-4">
+                            <div class="font-mono text-sm">
+                                <div>• First line: N (number of clearings), M (number of paths), T (time limit)</div>
+                                <div>• Next M lines: u v w t (path from u to v with base cost w, time modifier t)</div>
+                                <div>• Next line: K (number of magical items)</div>
+                                <div>• Next K lines: item_id required_path_id benefit</div>
+                            </div>
+                        </div>
+
+                        <h4 class="font-semibold mb-3">Output Format</h4>
+                        <div class="code-highlight p-4 mb-4">
+                            <div class="font-mono text-sm">
+                                <div>• First line: minimum cost to reach the dragon</div>
+                                <div>• Second line: path taken (clearing numbers separated by spaces)</div>
+                                <div>• Third line: items collected (item IDs separated by spaces)</div>
+                            </div>
+                        </div>
+
+                        <h4 class="font-semibold mb-3">Constraints</h4>
+                        <ul class="list-disc list-inside space-y-1 text-muted-foreground">
+                            <li>1 ≤ N ≤ 1000</li>
+                            <li>1 ≤ M ≤ 5000</li>
+                            <li>1 ≤ T ≤ 100</li>
+                            <li>1 ≤ w ≤ 100</li>
+                            <li>1 ≤ K ≤ 50</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sample Input/Output -->
+                <div class="bg-card border border-border rounded-xl p-8">
+                    <h2 class="heading-md mb-6 flex items-center">
+                        <i data-lucide="terminal" class="w-6 h-6 mr-3 text-accent"></i>
+                        Sample Input/Output
+                    </h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-semibold mb-3">Sample Input</h3>
+                            <div class="code-highlight p-4">
+                                <pre class="font-mono text-sm"><code>5 7 10
+1 2 3 1
+1 3 1 2
+2 4 2 1
+3 4 4 1
+3 5 2 3
+4 5 1 2
+2 5 8 1
+2
+1 6 -2
+2 4 -1</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold mb-3">Expected Output</h3>
+                            <div class="code-highlight p-4">
+                                <pre class="font-mono text-sm"><code>4
+1 3 5
+2</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 p-4 bg-muted/30 rounded-lg">
+                        <h4 class="font-semibold mb-2">Explanation</h4>
+                        <p class="text-sm text-muted-foreground">
+                            The optimal path is 1 → 3 → 5 with total cost 4. The knight collects magical item 2 along the way, 
+                            which reduces the cost of path 3→5 by 1 (from 5 to 4 after time adjustment).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution Tab -->
+        <div id="solution" class="tab-content">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="bg-card border border-border rounded-xl p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="heading-md flex items-center">
+                            <i data-lucide="code" class="w-6 h-6 mr-3 text-secondary"></i>
+                            Solution Code
+                        </h2>
+                        <div class="flex items-center space-x-3">
+                            <select class="px-3 py-2 border border-border rounded-lg">
+                                <option>C++</option>
+                                <option>Python</option>
+                                <option>Java</option>
+                            </select>
+                            <button id="copy-code" class="flex items-center space-x-2 px-3 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors">
+                                <i data-lucide="copy" class="w-4 h-4"></i>
+                                <span>Copy</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="code-highlight p-6 overflow-x-auto">
+                        <pre class="font-mono text-sm" id="solution-code"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+#include &lt;climits&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+struct Edge {
+    int to, cost, time_mod;
+};
+
+struct State {
+    int node, cost, items_mask;
+    vector&lt;int&gt; path;
+    
+    bool operator&gt;(const State& other) const {
+        return cost &gt; other.cost;
+    }
+};
+
+int main() {
+    int N, M, T;
+    cin &gt;&gt; N &gt;&gt; M &gt;&gt; T;
+    
+    vector&lt;vector&lt;Edge&gt;&gt; graph(N + 1);
+    
+    // Build graph
+    for (int i = 0; i &lt; M; i++) {
+        int u, v, w, t;
+        cin &gt;&gt; u &gt;&gt; v &gt;&gt; w &gt;&gt; t;
+        graph[u].push_back({v, w, t});
+        graph[v].push_back({u, w, t}); // bidirectional
+    }
+    
+    int K;
+    cin &gt;&gt; K;
+    
+    vector&lt;int&gt; item_path(K), item_benefit(K);
+    for (int i = 0; i &lt; K; i++) {
+        int item_id, path_id, benefit;
+        cin &gt;&gt; item_id &gt;&gt; path_id &gt;&gt; benefit;
+        item_path[i] = path_id;
+        item_benefit[i] = benefit;
+    }
+    
+    // Dijkstra with state space search
+    priority_queue&lt;State, vector&lt;State&gt;, greater&lt;State&gt;&gt; pq;
+    map&lt;pair&lt;int, int&gt;, int&gt; best; // (node, items_mask) -&gt; best_cost
+    
+    pq.push({1, 0, 0, {1}});
+    
+    while (!pq.empty()) {
+        State current = pq.top();
+        pq.pop();
+        
+        if (current.node == N) {
+            cout &lt;&lt; current.cost &lt;&lt; endl;
+            for (int i = 0; i &lt; current.path.size(); i++) {
+                if (i &gt; 0) cout &lt;&lt; " ";
+                cout &lt;&lt; current.path[i];
+            }
+            cout &lt;&lt; endl;
+            
+            // Output collected items
+            for (int i = 0; i &lt; K; i++) {
+                if (current.items_mask & (1 &lt;&lt; i)) {
+                    cout &lt;&lt; (i + 1) &lt;&lt; " ";
+                }
+            }
+            cout &lt;&lt; endl;
+            return 0;
+        }
+        
+        auto key = make_pair(current.node, current.items_mask);
+        if (best.count(key) && best[key] &lt; current.cost) continue;
+        best[key] = current.cost;
+        
+        for (const Edge& edge : graph[current.node]) {
+            int new_cost = current.cost + edge.cost + edge.time_mod;
+            int new_mask = current.items_mask;
+            
+            // Check for item collection and benefits
+            for (int i = 0; i &lt; K; i++) {
+                if (item_path[i] == /* edge id logic */ && !(new_mask & (1 &lt;&lt; i))) {
+                    new_mask |= (1 &lt;&lt; i);
+                    new_cost += item_benefit[i];
+                }
+            }
+            
+            vector&lt;int&gt; new_path = current.path;
+            new_path.push_back(edge.to);
+            
+            pq.push({edge.to, new_cost, new_mask, new_path});
+        }
+    }
+    
+    cout &lt;&lt; -1 &lt;&lt; endl; // No solution found
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <div class="mt-6 p-4 bg-accent/5 border border-accent/20 rounded-lg">
+                        <h4 class="font-semibold text-accent mb-2">Algorithm Explanation</h4>
+                        <p class="text-sm text-muted-foreground">
+                            This solution uses a modified Dijkstra's algorithm with state-space search. Each state includes the current 
+                            node, accumulated cost, and a bitmask representing collected items. The algorithm explores all possible 
+                            paths while considering item benefits and time constraints.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Cases Tab -->
+        <div id="tests" class="tab-content">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="bg-card border border-border rounded-xl p-8">
+                    <h2 class="heading-md mb-6 flex items-center">
+                        <i data-lucide="check-circle" class="w-6 h-6 mr-3 text-chart-4"></i>
+                        Test Cases
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <!-- Test Case 1 -->
+                        <div class="border border-border rounded-lg p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold">Test Case 1: Basic Path</h3>
+                                <div class="status-completed px-3 py-1 rounded-full text-xs font-medium">
+                                    ✅ Passed
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-3 gap-4 text-sm">
+                                <div>
+                                    <div class="font-medium mb-2">Input</div>
+                                    <div class="code-highlight p-3">
+                                        <pre class="font-mono">3 2 5
+1 2 2 1
+2 3 3 1
+0</pre>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="font-medium mb-2">Expected</div>
+                                    <div class="code-highlight p-3">
+                                        <pre class="font-mono">6
+1 2 3</pre>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="font-medium mb-2">Actual</div>
+                                    <div class="code-highlight p-3">
+                                        <pre class="font-mono">6
+1 2 3</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Test Case 2 -->
+                        <div class="border border-border rounded-lg p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold">Test Case 2: With Items</h3>
+                                <div class="status-completed px-3 py-1 rounded-full text-xs font-medium">
+                                    ✅ Passed
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-3 gap-4 text-sm">
+                                <div>
+                                    <div class="font-medium mb-2">Input</div>
+                                    <div class="code-highlight p-3">
+                                        <pre class="font-mono">4 4 8
+1 2 5 1
+2 3 3 2
+3 4 2 1
+1 4 10 1
+1
+1 2 -3</pre>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="font-medium mb-2">Expected</div>
+                                    <div class="code-highlight p-3">
+                                        <pre class="font-mono">8
+1 2 3 4
+1</pre>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="font-medium mb-2">Actual</div>
+                                    <div class="code-highlight p-3">
+                                        <pre class="font-mono">8
+1 2 3 4
+1</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Test Case 3 -->
+                        <div class="border border-border rounded-lg p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold">Test Case 3: Edge Case</h3>
+                                <div class="status-completed px-3 py-1 rounded-full text-xs font-medium">
+                                    ✅ Passed
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-3 gap-4 text-sm">
+                                <div>
+                                    <div class="font-medium mb-2">Input</div>
+                                    <div class="code-highlight p-3">
+                                        <pre class="font-mono">2 1 3
+1 2 1 0
+0</pre>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="font-medium mb-2">Expected</div>
+                                    <div class="code-highlight p-3">
+                                        <pre class="font-mono">1
+1 2</pre>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="font-medium mb-2">Actual</div>
+                                    <div class="code-highlight p-3">
+                                        <pre class="font-mono">1
+1 2</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-4 bg-chart-4/10 border border-chart-4/20 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-chart-4"></i>
+                            <div>
+                                <div class="font-semibold text-chart-4">All Tests Passed</div>
+                                <div class="text-sm text-muted-foreground">3/3 test cases successful • Time: 0.12s • Memory: 2.1MB</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Tab -->
+        <div id="export" class="tab-content">
+            <div class="max-w-2xl mx-auto space-y-6">
+                <div class="bg-card border border-border rounded-xl p-8">
+                    <h2 class="heading-md mb-6 flex items-center">
+                        <i data-lucide="package" class="w-6 h-6 mr-3 text-secondary"></i>
+                        Export Options
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors cursor-pointer">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <i data-lucide="file-text" class="w-5 h-5 text-primary"></i>
+                                    <div>
+                                        <div class="font-medium">Problem Statement (PDF)</div>
+                                        <div class="text-sm text-muted-foreground">Formatted problem statement with examples</div>
+                                    </div>
+                                </div>
+                                <button class="px-4 py-2 bg-primary text-primary-foreground rounded-lg">Export</button>
+                            </div>
+                        </div>
+
+                        <div class="p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors cursor-pointer">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <i data-lucide="code" class="w-5 h-5 text-accent"></i>
+                                    <div>
+                                        <div class="font-medium">Solution Archive</div>
+                                        <div class="text-sm text-muted-foreground">Source code in multiple languages</div>
+                                    </div>
+                                </div>
+                                <button class="px-4 py-2 bg-accent text-accent-foreground rounded-lg">Export</button>
+                            </div>
+                        </div>
+
+                        <div class="p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors cursor-pointer">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <i data-lucide="database" class="w-5 h-5 text-secondary"></i>
+                                    <div>
+                                        <div class="font-medium">Test Cases (JSON)</div>
+                                        <div class="text-sm text-muted-foreground">All test cases in structured format</div>
+                                    </div>
+                                </div>
+                                <button class="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg">Export</button>
+                            </div>
+                        </div>
+
+                        <div class="p-4 border border-border rounded-lg hover:bg-muted/30 transition-colors cursor-pointer">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <i data-lucide="package" class="w-5 h-5 text-chart-4"></i>
+                                    <div>
+                                        <div class="font-medium">Complete Package</div>
+                                        <div class="text-sm text-muted-foreground">Problem + solution + tests in ZIP archive</div>
+                                    </div>
+                                </div>
+                                <button class="px-4 py-2 algoforge-gradient text-white rounded-lg">Export All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Copy Success Toast -->
+    <div id="copy-toast" class="fixed bottom-4 right-4 bg-chart-4 text-white px-4 py-2 rounded-lg shadow-lg hidden">
+        <div class="flex items-center space-x-2">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Code copied to clipboard!</span>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetTab = btn.dataset.tab;
+                
+                // Update active states
+                tabBtns.forEach(b => b.classList.remove('active', 'bg-background', 'text-foreground'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                btn.classList.add('active', 'bg-background', 'text-foreground');
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+
+        // Copy code functionality
+        const copyBtn = document.getElementById('copy-code');
+        const codeElement = document.getElementById('solution-code');
+        const copyToast = document.getElementById('copy-toast');
+
+        copyBtn?.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(codeElement.textContent);
+                
+                // Show toast
+                copyToast.classList.remove('hidden');
+                setTimeout(() => {
+                    copyToast.classList.add('hidden');
+                }, 2000);
+                
+                // Update button temporarily
+                copyBtn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i><span>Copied!</span>';
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<i data-lucide="copy" class="w-4 h-4"></i><span>Copy</span>';
+                    lucide.createIcons();
+                }, 2000);
+                
+                lucide.createIcons();
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+        });
+    </script>
+</body>
+</html> 

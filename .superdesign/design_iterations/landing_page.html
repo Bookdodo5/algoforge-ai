@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlgoForge AI - Transform Ideas into Algorithms</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="algoforge_theme.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        // Dark mode detection
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            
+            // Apply saved theme or system preference
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+            
+            // Listen for system theme changes (only if no saved preference)
+            if (!savedTheme && window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                    if (e.matches) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                });
+            }
+        })();
+    </script>
+    <style>
+        /* Additional landing page styles */
+        .hero-animation {
+            animation: heroFloat 6s ease-in-out infinite;
+        }
+        @keyframes heroFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .stagger-in {
+            animation: staggerIn 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .stagger-in:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-in:nth-child(2) { animation-delay: 0.2s; }
+        .stagger-in:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes staggerIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .workflow-pulse {
+            animation: workflowPulse 2s ease-in-out infinite;
+        }
+        @keyframes workflowPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(87, 144, 255, 0.4); }
+            50% { box-shadow: 0 0 0 20px rgba(87, 144, 255, 0); }
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-sans">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-background/80 backdrop-blur-lg border-b border-border z-50">
+        <div class="container-page">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="brain" class="w-8 h-8 text-primary"></i>
+                        <span class="text-xl font-bold algoforge-text-gradient">AlgoForge AI</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#features" class="text-muted-foreground hover:text-foreground transition-colors">Features</a>
+                    <a href="#workflow" class="text-muted-foreground hover:text-foreground transition-colors">How it Works</a>
+                    <a href="#examples" class="text-muted-foreground hover:text-foreground transition-colors">Examples</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="px-4 py-2 text-muted-foreground hover:text-foreground transition-colors">Sign In</button>
+                    <button class="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all interactive-hover">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 overflow-hidden">
+        <div class="container-content text-center">
+            <div class="stagger-in">
+                <div class="inline-flex items-center px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full mb-8">
+                    <i data-lucide="sparkles" class="w-4 h-4 mr-2 text-accent"></i>
+                    <span class="text-sm font-medium">AI-Powered Problem Creation</span>
+                </div>
+            </div>
+            
+            <div class="stagger-in">
+                <h1 class="heading-xl mb-6 max-w-4xl mx-auto">
+                    Transform Your <span class="algoforge-text-gradient">Creative Ideas</span> 
+                    into Compelling Algorithms
+                </h1>
+            </div>
+            
+            <div class="stagger-in">
+                <p class="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
+                    Let AI amplify your vision and craft the perfect competitive programming problems. 
+                    From storytelling to solution code, we handle the technical complexity while you focus on creativity.
+                </p>
+            </div>
+
+            <div class="stagger-in flex flex-col sm:flex-row gap-4 justify-center mb-16">
+                <button class="px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold interactive-hover algoforge-gradient">
+                    <i data-lucide="rocket" class="w-5 h-5 mr-2 inline"></i>
+                    Start Creating Free
+                </button>
+                <button class="px-8 py-4 border border-border text-foreground rounded-lg font-semibold interactive-hover">
+                    <i data-lucide="play-circle" class="w-5 h-5 mr-2 inline"></i>
+                    Watch Demo
+                </button>
+            </div>
+
+            <!-- Hero Visual -->
+            <div class="hero-animation max-w-4xl mx-auto">
+                <div class="bg-card border border-border rounded-xl shadow-xl p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-semibold">Problem Creation Workflow</h3>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-accent rounded-full"></div>
+                            <div class="w-3 h-3 bg-muted rounded-full"></div>
+                            <div class="w-3 h-3 bg-muted rounded-full"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="workflow-step-active w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">3</div>
+                            <div class="flex-1 bg-muted/50 rounded-lg p-3 text-left">
+                                <div class="font-medium mb-1">Logline Expansion</div>
+                                <div class="text-sm text-muted-foreground">A young knight must navigate through a magical forest...</div>
+                            </div>
+                        </div>
+                        <div class="ml-11 space-y-2">
+                            <div class="h-2 bg-primary/20 rounded-full">
+                                <div class="h-full w-3/8 bg-primary rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-muted/30">
+        <div class="container-content">
+            <div class="text-center mb-16">
+                <h2 class="heading-lg mb-4">Why Choose AlgoForge AI?</h2>
+                <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    Advanced AI meets creative problem design for unparalleled algorithmic challenges
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-card border border-border rounded-xl p-8 interactive-hover">
+                    <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                        <i data-lucide="palette" class="w-6 h-6 text-primary"></i>
+                    </div>
+                    <h3 class="heading-md mb-4">Creative First</h3>
+                    <p class="text-muted-foreground leading-relaxed">
+                        Start with your unique theme or story concept. Our AI transforms your creative vision into engaging algorithmic challenges that captivate solvers.
+                    </p>
+                    <div class="mt-6 flex items-center text-primary font-medium">
+                        <span>Learn more</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                    </div>
+                </div>
+
+                <div class="bg-card border border-border rounded-xl p-8 interactive-hover">
+                    <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-6">
+                        <i data-lucide="zap" class="w-6 h-6 text-accent"></i>
+                    </div>
+                    <h3 class="heading-md mb-4">AI-Powered Generation</h3>
+                    <p class="text-muted-foreground leading-relaxed">
+                        Advanced AI algorithms generate problem statements, test cases, and solutions that match your creative direction with mathematical precision.
+                    </p>
+                    <div class="mt-6 flex items-center text-accent font-medium">
+                        <span>See examples</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                    </div>
+                </div>
+
+                <div class="bg-card border border-border rounded-xl p-8 interactive-hover">
+                    <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-6">
+                        <i data-lucide="shield-check" class="w-6 h-6 text-secondary"></i>
+                    </div>
+                    <h3 class="heading-md mb-4">Quality Assured</h3>
+                    <p class="text-muted-foreground leading-relaxed">
+                        Comprehensive testing and validation ensure your problems are challenging, fair, and ready for competition deployment.
+                    </p>
+                    <div class="mt-6 flex items-center text-secondary font-medium">
+                        <span>View process</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section id="workflow" class="py-20">
+        <div class="container-content">
+            <div class="text-center mb-16">
+                <h2 class="heading-lg mb-4">8-Step Creation Process</h2>
+                <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    From initial idea to complete algorithmic challenge in 8 guided steps
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="workflow-step-completed workflow-pulse w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
+                    <h3 class="font-semibold mb-2">Theme Ideation</h3>
+                    <p class="text-sm text-muted-foreground">Choose your creative theme and setting</p>
+                </div>
+                <div class="text-center">
+                    <div class="workflow-step-completed w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
+                    <h3 class="font-semibold mb-2">Vibe Extraction</h3>
+                    <p class="text-sm text-muted-foreground">Define mood and atmosphere</p>
+                </div>
+                <div class="text-center">
+                    <div class="workflow-step-active w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
+                    <h3 class="font-semibold mb-2">Logline Expansion</h3>
+                    <p class="text-sm text-muted-foreground">Develop core narrative concept</p>
+                </div>
+                <div class="text-center">
+                    <div class="workflow-step-upcoming w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">4</div>
+                    <h3 class="font-semibold mb-2">Narrative Generation</h3>
+                    <p class="text-sm text-muted-foreground">Create complete story framework</p>
+                </div>
+                <div class="text-center">
+                    <div class="workflow-step-upcoming w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">5</div>
+                    <h3 class="font-semibold mb-2">Algorithm Specification</h3>
+                    <p class="text-sm text-muted-foreground">Define required algorithms</p>
+                </div>
+                <div class="text-center">
+                    <div class="workflow-step-upcoming w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">6</div>
+                    <h3 class="font-semibold mb-2">Problem Formalization</h3>
+                    <p class="text-sm text-muted-foreground">Create formal problem statement</p>
+                </div>
+                <div class="text-center">
+                    <div class="workflow-step-upcoming w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">7</div>
+                    <h3 class="font-semibold mb-2">Solution Formation</h3>
+                    <p class="text-sm text-muted-foreground">Generate solution code</p>
+                </div>
+                <div class="text-center">
+                    <div class="workflow-step-upcoming w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">8</div>
+                    <h3 class="font-semibold mb-2">Finalization</h3>
+                    <p class="text-sm text-muted-foreground">Polish and complete</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-muted/30">
+        <div class="container-narrow text-center">
+            <div class="bg-card border border-border rounded-2xl p-12">
+                <h2 class="heading-lg mb-6">Ready to Forge Your First Algorithm?</h2>
+                <p class="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+                    Join thousands of problem creators who are revolutionizing competitive programming with AI-powered creativity.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="px-8 py-4 algoforge-gradient text-white rounded-lg font-semibold interactive-hover">
+                        <i data-lucide="rocket" class="w-5 h-5 mr-2 inline"></i>
+                        Start Creating Free
+                    </button>
+                    <button class="px-8 py-4 border border-border text-foreground rounded-lg font-semibold interactive-hover">
+                        <i data-lucide="book-open" class="w-5 h-5 mr-2 inline"></i>
+                        View Documentation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 border-t border-border">
+        <div class="container-content">
+            <div class="text-center mb-8">
+                <div class="flex items-center justify-center space-x-2 mb-4">
+                    <i data-lucide="brain" class="w-6 h-6 text-primary"></i>
+                    <span class="text-lg font-bold algoforge-text-gradient">AlgoForge AI</span>
+                </div>
+                <p class="text-muted-foreground">Where creativity meets algorithmic excellence</p>
+            </div>
+            <div class="flex justify-center items-center space-x-8 text-sm text-muted-foreground">
+                <a href="#" class="hover:text-foreground transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-foreground transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-foreground transition-colors">Documentation</a>
+                <a href="#" class="hover:text-foreground transition-colors">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        
+        // Simple scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.interactive-hover').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html> 

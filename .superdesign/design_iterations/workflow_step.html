@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 3: Logline Expansion - AlgoForge AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="algoforge_theme.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        // Dark mode detection
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            
+            // Apply saved theme or system preference
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+            
+            // Listen for system theme changes (only if no saved preference)
+            if (!savedTheme && window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                    if (e.matches) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                });
+            }
+        })();
+    </script>
+    <style>
+        .progress-bar {
+            transition: width 0.8s ease-out;
+        }
+        .step-indicator {
+            transition: all 0.3s ease-out;
+        }
+        .ai-thinking {
+            animation: aiPulse 2s ease-in-out infinite;
+        }
+        @keyframes aiPulse {
+            0%, 100% { 
+                opacity: 0.6; 
+                transform: scale(0.98);
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.02);
+            }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .typing-animation {
+            animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+            border-right: 3px solid;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: currentColor }
+        }
+        .sparkle {
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-sans">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-background/80 backdrop-blur-lg border-b border-border z-50">
+        <div class="container-page">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 rounded-lg hover:bg-muted">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="brain" class="w-6 h-6 text-primary"></i>
+                        <span class="font-bold algoforge-text-gradient">AlgoForge AI</span>
+                    </div>
+                    <span class="text-muted-foreground">•</span>
+                    <span class="font-medium">"Dragon Quest Algorithm"</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground border border-border rounded-lg transition-colors">
+                        Save Draft
+                    </button>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <span class="text-sm font-semibold text-primary-foreground">JD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16 min-h-screen">
+        <!-- Progress Header -->
+        <div class="bg-card border-b border-border">
+            <div class="container-content py-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h1 class="heading-md">Step 3 of 8: Logline Expansion</h1>
+                        <p class="text-muted-foreground">Develop your core narrative concept into a compelling story framework</p>
+                    </div>
+                    <button class="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground border border-border rounded-lg transition-colors">
+                        Skip Step
+                    </button>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="workflow-step-completed step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">1</div>
+                        <div class="workflow-step-completed step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">2</div>
+                        <div class="workflow-step-active step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">3</div>
+                        <div class="workflow-step-upcoming step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">4</div>
+                        <div class="workflow-step-upcoming step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">5</div>
+                        <div class="workflow-step-upcoming step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">6</div>
+                        <div class="workflow-step-upcoming step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">7</div>
+                        <div class="workflow-step-upcoming step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold">8</div>
+                    </div>
+                    <div class="flex-1 bg-muted rounded-full h-2">
+                        <div class="progress-bar h-full bg-primary rounded-full" style="width: 37.5%"></div>
+                    </div>
+                    <span class="text-sm font-medium text-muted-foreground">37.5%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="container-content py-8">
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Context Panel -->
+                    <div class="bg-card border border-border rounded-xl p-6">
+                        <h2 class="font-semibold mb-4 flex items-center">
+                            <i data-lucide="context-menu" class="w-5 h-5 mr-2 text-primary"></i>
+                            Current Context
+                        </h2>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-muted/30 rounded-lg p-4">
+                                <div class="text-sm font-medium text-muted-foreground mb-2">Theme</div>
+                                <div class="font-medium">"Fantasy Adventure"</div>
+                                <div class="text-sm text-muted-foreground mt-1">Epic medieval quest setting</div>
+                            </div>
+                            <div class="bg-muted/30 rounded-lg p-4">
+                                <div class="text-sm font-medium text-muted-foreground mb-2">Vibe</div>
+                                <div class="font-medium">"Epic quest with magical elements"</div>
+                                <div class="text-sm text-muted-foreground mt-1">Heroic journey atmosphere</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Expansion Area -->
+                    <div class="bg-card border border-border rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="heading-md flex items-center">
+                                <i data-lucide="book-open" class="w-6 h-6 mr-3 text-accent"></i>
+                                Expand Your Story Concept
+                            </h2>
+                            <div class="flex items-center space-x-2">
+                                <i data-lucide="sparkles" class="w-4 h-4 text-accent sparkle"></i>
+                                <span class="text-sm font-medium text-accent">AI Enhanced</span>
+                            </div>
+                        </div>
+
+                        <p class="text-muted-foreground mb-6">
+                            Based on your theme and vibe, let's develop the core narrative that will drive your algorithm. 
+                            This story will become the foundation for your problem statement.
+                        </p>
+
+                        <!-- Generated Logline -->
+                        <div class="bg-accent/5 border border-accent/20 rounded-xl p-6 mb-6">
+                            <div class="flex items-start justify-between mb-4">
+                                <h3 class="font-semibold text-accent">AI-Generated Logline</h3>
+                                <button class="p-2 hover:bg-accent/10 rounded-lg transition-colors" title="Star this logline">
+                                    <i data-lucide="star" class="w-4 h-4 text-accent"></i>
+                                </button>
+                            </div>
+                            <div class="prose max-w-none">
+                                <p class="text-foreground leading-relaxed">
+                                    A young knight must navigate through a magical forest to rescue a captured dragon. 
+                                    The forest paths change based on the time of day and the knight's inventory. Each decision 
+                                    affects future path availability, creating a dynamic pathfinding challenge where optimal 
+                                    routes depend on resource management and timing constraints.
+                                </p>
+                            </div>
+                            <div class="flex items-center justify-between mt-4 pt-4 border-t border-accent/10">
+                                <div class="flex items-center space-x-2 text-sm text-muted-foreground">
+                                    <i data-lucide="clock" class="w-4 h-4"></i>
+                                    <span>Generated 2 minutes ago</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button class="px-3 py-1 bg-accent/10 text-accent rounded-lg text-sm font-medium hover:bg-accent/20 transition-colors">
+                                        Use This
+                                    </button>
+                                    <button class="px-3 py-1 border border-border rounded-lg text-sm font-medium hover:bg-muted transition-colors">
+                                        Refine
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap gap-3 mb-6">
+                            <button id="generate-btn" class="flex items-center space-x-2 px-6 py-3 algoforge-gradient text-white rounded-lg font-semibold interactive-hover">
+                                <i data-lucide="dice-3" class="w-5 h-5"></i>
+                                <span>Generate New Logline</span>
+                            </button>
+                            <button class="flex items-center space-x-2 px-6 py-3 border border-border rounded-lg font-semibold hover:bg-muted transition-colors">
+                                <i data-lucide="sparkles" class="w-5 h-5"></i>
+                                <span>Enhance Current</span>
+                            </button>
+                            <button class="flex items-center space-x-2 px-6 py-3 border border-accent text-accent rounded-lg font-semibold hover:bg-accent/10 transition-colors">
+                                <i data-lucide="star" class="w-5 h-5"></i>
+                                <span>Star This Logline</span>
+                            </button>
+                        </div>
+
+                        <!-- AI Thinking State (Hidden by default) -->
+                        <div id="ai-thinking" class="hidden bg-primary/5 border border-primary/20 rounded-xl p-6 mb-6 ai-thinking">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                                    <i data-lucide="brain" class="w-4 h-4 text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-primary">AI is thinking...</div>
+                                    <div class="text-sm text-muted-foreground">Crafting your new logline based on fantasy adventure themes</div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="h-2 bg-primary/10 rounded-full overflow-hidden">
+                                    <div class="h-full bg-primary rounded-full animate-pulse" style="width: 60%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alternative Suggestions -->
+                    <div class="bg-card border border-border rounded-xl p-6">
+                        <h3 class="font-semibold mb-4 flex items-center">
+                            <i data-lucide="lightbulb" class="w-5 h-5 mr-2 text-secondary"></i>
+                            Alternative Loglines
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start space-x-3 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
+                                <div class="w-2 h-2 bg-secondary rounded-full mt-2"></div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Dragon keeper's tournament bracket challenge</div>
+                                    <div class="text-sm text-muted-foreground">A tournament where dragon keepers compete in algorithm-based challenges</div>
+                                </div>
+                                <button class="p-1 hover:bg-background rounded">
+                                    <i data-lucide="star" class="w-4 h-4 text-muted-foreground"></i>
+                                </button>
+                            </div>
+                            <div class="flex items-start space-x-3 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
+                                <div class="w-2 h-2 bg-secondary rounded-full mt-2"></div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Enchanted maze with shifting walls puzzle</div>
+                                    <div class="text-sm text-muted-foreground">Navigate a magical maze where walls move based on solved sub-problems</div>
+                                </div>
+                                <button class="p-1 hover:bg-background rounded">
+                                    <i data-lucide="star" class="w-4 h-4 text-muted-foreground"></i>
+                                </button>
+                            </div>
+                            <div class="flex items-start space-x-3 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
+                                <div class="w-2 h-2 bg-secondary rounded-full mt-2"></div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Magic spell component optimization quest</div>
+                                    <div class="text-sm text-muted-foreground">Optimize spell casting by finding the most efficient ingredient combinations</div>
+                                </div>
+                                <button class="p-1 hover:bg-background rounded">
+                                    <i data-lucide="star" class="w-4 h-4 text-muted-foreground"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Step Guide -->
+                    <div class="bg-card border border-border rounded-xl p-6">
+                        <h3 class="font-semibold mb-4 flex items-center">
+                            <i data-lucide="map" class="w-5 h-5 mr-2 text-primary"></i>
+                            Step Guide
+                        </h3>
+                        <div class="space-y-4 text-sm">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mt-0.5">
+                                    <span class="text-xs font-semibold text-primary">1</span>
+                                </div>
+                                <div>
+                                    <div class="font-medium">Review Generated Logline</div>
+                                    <div class="text-muted-foreground">Examine the AI-created story concept</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mt-0.5">
+                                    <span class="text-xs font-semibold text-primary">2</span>
+                                </div>
+                                <div>
+                                    <div class="font-medium">Refine or Generate New</div>
+                                    <div class="text-muted-foreground">Adjust details or create alternatives</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center mt-0.5">
+                                    <span class="text-xs font-semibold text-primary">3</span>
+                                </div>
+                                <div>
+                                    <div class="font-medium">Select Final Logline</div>
+                                    <div class="text-muted-foreground">Choose the story that will guide your problem</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tips & Best Practices -->
+                    <div class="bg-card border border-border rounded-xl p-6">
+                        <h3 class="font-semibold mb-4 flex items-center">
+                            <i data-lucide="lightbulb" class="w-5 h-5 mr-2 text-accent"></i>
+                            Tips & Best Practices
+                        </h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-start space-x-2">
+                                <i data-lucide="check" class="w-4 h-4 text-accent mt-0.5"></i>
+                                <div class="text-muted-foreground">Include clear constraints and objectives in your story</div>
+                            </div>
+                            <div class="flex items-start space-x-2">
+                                <i data-lucide="check" class="w-4 h-4 text-accent mt-0.5"></i>
+                                <div class="text-muted-foreground">Make the narrative engaging but mathematically grounded</div>
+                            </div>
+                            <div class="flex items-start space-x-2">
+                                <i data-lucide="check" class="w-4 h-4 text-accent mt-0.5"></i>
+                                <div class="text-muted-foreground">Consider how the story translates to algorithmic challenges</div>
+                            </div>
+                            <div class="flex items-start space-x-2">
+                                <i data-lucide="check" class="w-4 h-4 text-accent mt-0.5"></i>
+                                <div class="text-muted-foreground">Think about input/output relationships within the narrative</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Summary -->
+                    <div class="bg-card border border-border rounded-xl p-6">
+                        <h3 class="font-semibold mb-4">Progress Summary</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="text-muted-foreground">Steps completed</span>
+                                <span class="font-medium">2 of 8</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-muted-foreground">Estimated time remaining</span>
+                                <span class="font-medium">15 min</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-muted-foreground">Last saved</span>
+                                <span class="font-medium">2 min ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="border-t border-border bg-card">
+            <div class="container-content py-6">
+                <div class="flex items-center justify-between">
+                    <button class="flex items-center space-x-2 px-6 py-3 border border-border rounded-lg font-semibold hover:bg-muted transition-colors">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        <span>Previous Step</span>
+                    </button>
+                    
+                    <div class="text-center">
+                        <div class="text-sm text-muted-foreground">Step 3 of 8</div>
+                        <div class="text-xs text-muted-foreground mt-1">Logline Expansion</div>
+                    </div>
+
+                    <button class="flex items-center space-x-2 px-6 py-3 algoforge-gradient text-white rounded-lg font-semibold interactive-hover">
+                        <span>Next Step</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        // AI Generation simulation
+        const generateBtn = document.getElementById('generate-btn');
+        const aiThinking = document.getElementById('ai-thinking');
+
+        generateBtn?.addEventListener('click', () => {
+            // Show AI thinking state
+            aiThinking.classList.remove('hidden');
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin mr-2"></i>Generating...';
+            
+            // Simulate AI processing
+            setTimeout(() => {
+                aiThinking.classList.add('hidden');
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<i data-lucide="dice-3" class="w-5 h-5 mr-2"></i>Generate New Logline';
+                lucide.createIcons();
+                
+                // Add fade-in effect to content
+                const content = document.querySelector('.prose');
+                if (content) {
+                    content.classList.add('fade-in');
+                }
+            }, 3000);
+        });
+
+        // Auto-save simulation
+        let saveTimer;
+        function simulateAutoSave() {
+            clearTimeout(saveTimer);
+            saveTimer = setTimeout(() => {
+                console.log('Auto-saved');
+                // Update last saved time in UI
+            }, 2000);
+        }
+        
+        // Trigger auto-save on any interaction
+        document.addEventListener('click', simulateAutoSave);
+    </script>
+</body>
+</html> 

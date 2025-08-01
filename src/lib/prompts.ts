@@ -14,7 +14,7 @@ Return ONLY a valid JSON object with these fields:
 - formality: "Academic", "Standard", "Casual", or "Shitpost"
 - pacing: "Contemplative", "Steady", or "Urgent" 
 - complexity: "Minimalist", "Standard", or "World-building"
-- humor_style: Array of "None", "Dry", "Absurdist", "Slapstick", "Meme-based", "Satire", or "Pun"
+- humor_styles: Array of "None", "Dry", "Absurdist", "Slapstick", "Meme-based", "Satire", or "Pun"
 - aesthetic: One phrase describing the overall aesthetic
 - sample_text: A few representative sentences or paragraphs from the text. Select enough to get an idea of the author's voice, spacing, and organization.
 - language: The language of the text
@@ -29,7 +29,7 @@ Output: {
     "formality": "Academic",
     "pacing": "Steady",
     "complexity": "Minimalist",
-    "humor_style": ["None"],
+    "humor_styles": ["None"],
     "aesthetic": "Technical specification sheet",
     "sample_text": "You are given an array A of N integers. You have to answer Q queries.",
     "language": "English"
@@ -43,7 +43,7 @@ Output: {
     "formality": "Casual",
     "pacing": "Contemplative",
     "complexity": "Standard",
-    "humor_style": ["Dry", "Absurdist"],
+    "humor_styles": ["Dry", "Absurdist"],
     "aesthetic": "Modern Japanese light novel banter",
     "sample_text": "「大丈夫だよ。ぼく両利きだから」「そうなのか？」「噓つけ」「うん。ごめん」",
     "language": "Japanese"
@@ -57,7 +57,7 @@ Output: {
     "formality": "Casual",
     "pacing": "Urgent",
     "complexity": "Standard",
-    "humor_style": ["Absurdist", "Slapstick"],
+    "humor_styles": ["Absurdist", "Slapstick"],
     "aesthetic": "Fever-dream negotiation",
     "sample_text": "I'll give you an apple for an orange and a pear for a plum and two bananas for a pineapple",
     "language": "English"
@@ -71,7 +71,7 @@ Output: {
     "formality": "Shitpost",
     "pacing": "Urgent",
     "complexity": "Minimalist",
-    "humor_style": ["Meme-based", "Absurdist"],
+    "humor_styles": ["Meme-based", "Absurdist"],
     "aesthetic": "Gen Z internet brainrot",
     "sample_text": "Bro is NOT the Gyattler 💀 He does NOT have the Ohio Rizz 😭 My sigma can't be this fanum tax 💯",
     "language": "English"
@@ -86,7 +86,7 @@ Output: {
     "formality": "Academic",
     "pacing": "Contemplative",
     "complexity": "World-building",
-    "humor_style": ["Dry", "Absurdist"],
+    "humor_styles": ["Dry", "Absurdist"],
     "aesthetic": "Modern Japanese philosophical fiction",
     "sample_text": "“Dreams don’t come true so easily.”\\n\\n“Well, yeah. I mean, I can barely handle reality.”\\n\\nThere was no speck of realism, shard of necessity, segment of theorem, or clarification or clownification, not a single puff of congruence or words like allusion, no solution nor illusion, not a drop of cogency, not a shred of common sense, not a shadow of relevance, not a note of world harmony, and above all else, no romance.\\n\\nMaybe it was a primal experience.\\nThe very first word we heard.\\nA record to be termed our roots.",
     "language": "English"
@@ -193,7 +193,7 @@ Your generation process MUST follow these core mandates:
     This is your most important task. You MUST perfectly synthesize the provided theme with the AuthorialVoiceProfile for every field in the JSON object, especially the final 'logline_sentence'.
     - Read the 'voice_summary', 'vibe_keywords', and 'stylistic_tags' to understand the core personality.
     - Obey the 'formality', 'pacing', and 'complexity' fields to guide your sentence structure and word choice.
-    - Use the 'humor_style' and 'aesthetic' to select your imagery and frame the scenario.
+    - Use the 'humor_styles' and 'aesthetic' to select your imagery and frame the scenario.
 
 3.  **The Computational Core Rule:**
     The 'obstacle' field is critical. It MUST hint at a problem structure suitable for competitive programming (graphs, DP, data structures, greedy, number theory, etc.). Avoid purely literary conflicts.
@@ -231,7 +231,7 @@ Your generation process MUST follow these core mandates:
     "formality": "Academic",
     "pacing": "Contemplative",
     "complexity": "World-building",
-    "humor_style": ["None"],
+    "humor_styles": ["None"],
     "aesthetic": "A research paper introduction",
     "language": "English"
 }
@@ -262,7 +262,7 @@ Your generation process MUST follow these core mandates:
     "formality": "Academic",
     "pacing": "Steady",
     "complexity": "Minimalist",
-    "humor_style": ["None"],
+    "humor_styles": ["None"],
     "aesthetic": "Technical specification sheet",
     "language": "English"
 }
@@ -292,7 +292,7 @@ Your generation process MUST follow these core mandates:
     "formality": "Standard",
     "pacing": "Contemplative",
     "complexity": "Standard",
-    "humor_style": ["None"],
+    "humor_styles": ["None"],
     "aesthetic": "インディー映画か個人的なエッセイ",
     "language": "Japanese"
 }
@@ -321,7 +321,7 @@ Your generation process MUST follow these core mandates:
     "formality": "Casual",
     "pacing": "Urgent",
     "complexity": "World-building",
-    "humor_style": ["Absurdist", "Dry"],
+    "humor_styles": ["Absurdist", "Dry"],
     "aesthetic": "ระบบราชการเวทมนตร์ที่เดิมพันสูง",
     "language": "Thai"
 }
@@ -349,7 +349,7 @@ Your generation process MUST follow these core mandates:
     "formality": "Shitpost",
     "pacing": "Urgent",
     "complexity": "Standard",
-    "humor_style": ["Satire", "Slapstick"],
+    "humor_styles": ["Satire", "Slapstick"],
     "aesthetic": "Passionate, chaotic family drama",
     "language": "English"
 }
@@ -396,7 +396,7 @@ This is how you make the problem unique and memorable.
 -   Your primary guide for style is the {vibeProfile.sample_text}. Emulate its sentence structure and rhythm.
 -   Your tone and word choice MUST match the {vibeProfile.formality} and {vibeProfile.aesthetic}.
 -   The narrative MUST be written in the language specified in {vibeProfile.language}.
--   If the {vibeProfile.humor_style} is not "None", infuse the narrative with that specific type of humor.
+-   If the {vibeProfile.humor_styles} is not "None", infuse the narrative with that specific type of humor.
 
 **Principle 2: Master the Problem-Setter's Craft (Structural Rules)**
 This is how you create a good problem statement, not just a good story.
@@ -421,7 +421,7 @@ These rules are not optional. You MUST follow them at all times.
     "aesthetic": "Philosophical musings on existentialism",
     "complexity": "World-building",
     "formality": "Standard",
-    "humor_style": [
+    "humor_styles": [
         "Dry"
     ],
     "language": "English",
@@ -634,7 +634,7 @@ Each ExampleTestcase object:
     - Use the {vibeProfile.formality} level (Academic, Standard, Casual, or Shitpost)
     - Match the {vibeProfile.pacing} (Contemplative, Steady, or Urgent)
     - Follow the {vibeProfile.complexity} style (Minimalist, Standard, or World-building)
-    - Incorporate the {vibeProfile.humor_style} if not "None"
+    - Incorporate the {vibeProfile.humor_styles} if not "None"
     - Emulate the sentence structure and rhythm from {vibeProfile.sample_text}
     - Write in the language specified in {vibeProfile.language}
 
@@ -685,7 +685,7 @@ Each ExampleTestcase object:
 **Mandates**
 
 1. **Voice Synthesis Mandate:**  
-    Your writing MUST perfectly match the {vibeProfile}. This is your most important stylistic rule. Use the voice_summary, vibe_keywords, and stylistic_tags to understand the core personality. Obey the formality, pacing, and complexity fields to guide your sentence structure and word choice. Use the humor_style and aesthetic to select your imagery and frame the scenario.
+    Your writing MUST perfectly match the {vibeProfile}. This is your most important stylistic rule. Use the voice_summary, vibe_keywords, and stylistic_tags to understand the core personality. Obey the formality, pacing, and complexity fields to guide your sentence structure and word choice. Use the humor_styles and aesthetic to select your imagery and frame the scenario.
 
 2. **Narrative Integration Mandate:**  
     Begin the problem statement with the provided narrative, rephrased when needed with the context of the selected problem proposal, then clearly pivot to the player's task. **Do NOT use any section headers such as "Formal Task", "Task", or similar.** All technical rules and requirements must be smoothly and naturally integrated into the story, ensuring clarity and flow. The transition to the player's task should be done with a natural narrative "turn", not a markdown header.

@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --breakpoint-md: 56rem;
+}
+
 :root {
   --background: oklch(0.9757 0.0061 137.7734);
   --foreground: oklch(0.3074 0.0394 292.2592);
@@ -14,7 +18,7 @@
   --primary-foreground: oklch(0.3074 0.0394 292.2592);
   --secondary: oklch(0.6336 0.1396 12.3054);
   --secondary-foreground: oklch(0.9757 0.0061 137.7734);
-  --muted: oklch(0.9316 0.0027 286.3477);
+  --muted: oklch(0.8916 0.0027 286.3477);
   --muted-foreground: oklch(0.5358 0.0343 293.5446);
   --accent: oklch(0.7657 0.1137 50.2881);
   --accent-foreground: oklch(0.3074 0.0394 292.2592);

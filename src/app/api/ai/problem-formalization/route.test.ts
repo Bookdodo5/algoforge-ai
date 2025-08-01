@@ -26,7 +26,7 @@ testApiEndpoint({
             formality: 'Standard',
             pacing: 'Steady',
             complexity: 'Standard',
-            humor_style: ['None'],
+            humor_styles: ['None'],
             aesthetic: 'string',
             sample_text: 'string',
             language: 'string',

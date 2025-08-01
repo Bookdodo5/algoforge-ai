@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starred Themes - AlgoForge AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="algoforge_theme.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        // Dark mode detection and toggle
+        (function() {
+            const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark');
+            }
+            
+            // Listen for changes
+            if (window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                    if (e.matches) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                });
+            }
+        })();
+    </script>
+    <style>
+        .theme-card {
+            transition: all 0.2s ease-out;
+        }
+        .theme-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        .star-fill {
+            animation: starFill 0.3s ease-out forwards;
+        }
+        @keyframes starFill {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .grid-enter {
+            animation: gridEnter 0.4s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        @keyframes gridEnter {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-sans">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-background/80 backdrop-blur-lg border-b border-border z-50">
+        <div class="container-page">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 rounded-lg hover:bg-muted">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="brain" class="w-6 h-6 text-primary"></i>
+                        <span class="font-bold algoforge-text-gradient">AlgoForge AI</span>
+                    </div>
+                    <span class="text-muted-foreground">•</span>
+                    <span class="font-medium">Starred Themes</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 rounded-lg hover:bg-muted">
+                        <i data-lucide="settings" class="w-5 h-5"></i>
+                    </button>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <span class="text-sm font-semibold text-primary-foreground">JD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="pt-16 bg-card border-b border-border">
+        <div class="container-content py-8">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h1 class="heading-lg mb-2 flex items-center">
+                        <i data-lucide="star" class="w-8 h-8 mr-3 text-accent"></i>
+                        Starred Themes
+                    </h1>
+                    <p class="text-muted-foreground">Your collection of favorite creative themes and concepts</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button class="flex items-center space-x-2 px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors">
+                        <i data-lucide="import" class="w-4 h-4"></i>
+                        <span>Import Themes</span>
+                    </button>
+                    <button class="flex items-center space-x-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium interactive-hover">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <span>Create Theme</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="flex items-center justify-between gap-4">
+                <div class="flex-1 max-w-md">
+                    <div class="relative">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground"></i>
+                        <input 
+                            type="text" 
+                            placeholder="Search themes..."
+                            class="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                            id="search-input"
+                        >
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-3">
+                    <!-- Category Filter -->
+                    <div class="flex items-center space-x-2 bg-muted/30 rounded-lg p-1">
+                        <button class="filter-btn active px-3 py-1 rounded-md text-sm font-medium transition-colors" data-category="all">All</button>
+                        <button class="filter-btn px-3 py-1 rounded-md text-sm font-medium transition-colors" data-category="fantasy">Fantasy</button>
+                        <button class="filter-btn px-3 py-1 rounded-md text-sm font-medium transition-colors" data-category="sci-fi">Sci-Fi</button>
+                        <button class="filter-btn px-3 py-1 rounded-md text-sm font-medium transition-colors" data-category="horror">Horror</button>
+                        <button class="filter-btn px-3 py-1 rounded-md text-sm font-medium transition-colors" data-category="comedy">Comedy</button>
+                    </div>
+                    
+                    <!-- Sort Options -->
+                    <select class="px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring">
+                        <option>Sort: Recently Added</option>
+                        <option>Sort: Alphabetical</option>
+                        <option>Sort: Most Used</option>
+                        <option>Sort: Category</option>
+                    </select>
+
+                    <!-- View Toggle -->
+                    <div class="flex items-center bg-muted/30 rounded-lg p-1">
+                        <button class="view-btn active p-2 rounded-md transition-colors" data-view="grid">
+                            <i data-lucide="grid-3x3" class="w-4 h-4"></i>
+                        </button>
+                        <button class="view-btn p-2 rounded-md transition-colors" data-view="list">
+                            <i data-lucide="list" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container-content py-8">
+        <!-- Stats Bar -->
+        <div class="grid grid-cols-4 gap-6 mb-8">
+            <div class="bg-card border border-border rounded-lg p-4 text-center">
+                <div class="text-2xl font-bold text-accent mb-1">13</div>
+                <div class="text-sm text-muted-foreground">Total Themes</div>
+            </div>
+            <div class="bg-card border border-border rounded-lg p-4 text-center">
+                <div class="text-2xl font-bold text-primary mb-1">5</div>
+                <div class="text-sm text-muted-foreground">Categories</div>
+            </div>
+            <div class="bg-card border border-border rounded-lg p-4 text-center">
+                <div class="text-2xl font-bold text-secondary mb-1">8</div>
+                <div class="text-sm text-muted-foreground">Used in Problems</div>
+            </div>
+            <div class="bg-card border border-border rounded-lg p-4 text-center">
+                <div class="text-2xl font-bold text-chart-4 mb-1">+3</div>
+                <div class="text-sm text-muted-foreground">This Week</div>
+            </div>
+        </div>
+
+        <!-- Themes Grid -->
+        <div id="themes-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Fantasy Themes -->
+            <div class="theme-card bg-card border border-border rounded-xl p-6 cursor-pointer grid-enter" data-category="fantasy" style="animation-delay: 0.1s;">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                        <i data-lucide="crown" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <button class="star-btn p-2 hover:bg-muted rounded-lg transition-colors" data-starred="true">
+                        <i data-lucide="star" class="w-5 h-5 text-accent fill-current"></i>
+                    </button>
+                </div>
+                <h3 class="font-semibold mb-2">Fantasy Adventure</h3>
+                <p class="text-sm text-muted-foreground mb-4">Epic medieval quest with dragons, knights, and magical realms</p>
+                <div class="flex items-center justify-between text-xs">
+                    <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full">Fantasy</span>
+                    <span class="text-muted-foreground">Used 3 times</span>
+                </div>
+                <div class="mt-4 pt-4 border-t border-border">
+                    <div class="flex items-center space-x-2">
+                        <button class="flex-1 px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
+                            Use Theme
+                        </button>
+                        <button class="p-2 hover:bg-muted rounded-lg transition-colors">
+                            <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-card bg-card border border-border rounded-xl p-6 cursor-pointer grid-enter" data-category="fantasy" style="animation-delay: 0.2s;">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                        <i data-lucide="sparkles" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <button class="star-btn p-2 hover:bg-muted rounded-lg transition-colors" data-starred="true">
+                        <i data-lucide="star" class="w-5 h-5 text-accent fill-current"></i>
+                    </button>
+                </div>
+                <h3 class="font-semibold mb-2">Enchanted Forest</h3>
+                <p class="text-sm text-muted-foreground mb-4">Mystical woodland creatures and magical pathways</p>
+                <div class="flex items-center justify-between text-xs">
+                    <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full">Fantasy</span>
+                    <span class="text-muted-foreground">Used 1 time</span>
+                </div>
+                <div class="mt-4 pt-4 border-t border-border">
+                    <div class="flex items-center space-x-2">
+                        <button class="flex-1 px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
+                            Use Theme
+                        </button>
+                        <button class="p-2 hover:bg-muted rounded-lg transition-colors">
+                            <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sci-Fi Themes -->
+            <div class="theme-card bg-card border border-border rounded-xl p-6 cursor-pointer grid-enter" data-category="sci-fi" style="animation-delay: 0.3s;">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                        <i data-lucide="rocket" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <button class="star-btn p-2 hover:bg-muted rounded-lg transition-colors" data-starred="true">
+                        <i data-lucide="star" class="w-5 h-5 text-accent fill-current"></i>
+                    </button>
+                </div>
+                <h3 class="font-semibold mb-2">Space Pirates</h3>
+                <p class="text-sm text-muted-foreground mb-4">Intergalactic adventures and cosmic treasure hunts</p>
+                <div class="flex items-center justify-between text-xs">
+                    <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Sci-Fi</span>
+                    <span class="text-muted-foreground">Used 2 times</span>
+                </div>
+                <div class="mt-4 pt-4 border-t border-border">
+                    <div class="flex items-center space-x-2">
+                        <button class="flex-1 px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
+                            Use Theme
+                        </button>
+                        <button class="p-2 hover:bg-muted rounded-lg transition-colors">
+                            <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-card bg-card border border-border rounded-xl p-6 cursor-pointer grid-enter" data-category="sci-fi" style="animation-delay: 0.4s;">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-xl flex items-center justify-center">
+                        <i data-lucide="cpu" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <button class="star-btn p-2 hover:bg-muted rounded-lg transition-colors" data-starred="true">
+                        <i data-lucide="star" class="w-5 h-5 text-accent fill-current"></i>
+                    </button>
+                </div>
+                <h3 class="font-semibold mb-2">Cyberpunk Heist</h3>
+                <p class="text-sm text-muted-foreground mb-4">High-tech corporate infiltration and data theft</p>
+                <div class="flex items-center justify-between text-xs">
+                    <span class="px-2 py-1 bg-cyan-100 text-cyan-700 rounded-full">Sci-Fi</span>
+                    <span class="text-muted-foreground">New</span>
+                </div>
+                <div class="mt-4 pt-4 border-t border-border">
+                    <div class="flex items-center space-x-2">
+                        <button class="flex-1 px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
+                            Use Theme
+                        </button>
+                        <button class="p-2 hover:bg-muted rounded-lg transition-colors">
+                            <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Horror Themes -->
+            <div class="theme-card bg-card border border-border rounded-xl p-6 cursor-pointer grid-enter" data-category="horror" style="animation-delay: 0.5s;">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center">
+                        <i data-lucide="skull" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <button class="star-btn p-2 hover:bg-muted rounded-lg transition-colors" data-starred="true">
+                        <i data-lucide="star" class="w-5 h-5 text-accent fill-current"></i>
+                    </button>
+                </div>
+                <h3 class="font-semibold mb-2">Zombie Survival</h3>
+                <p class="text-sm text-muted-foreground mb-4">Post-apocalyptic resource management and escape</p>
+                <div class="flex items-center justify-between text-xs">
+                    <span class="px-2 py-1 bg-red-100 text-red-700 rounded-full">Horror</span>
+                    <span class="text-muted-foreground">Used 1 time</span>
+                </div>
+                <div class="mt-4 pt-4 border-t border-border">
+                    <div class="flex items-center space-x-2">
+                        <button class="flex-1 px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
+                            Use Theme
+                        </button>
+                        <button class="p-2 hover:bg-muted rounded-lg transition-colors">
+                            <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comedy Themes -->
+            <div class="theme-card bg-card border border-border rounded-xl p-6 cursor-pointer grid-enter" data-category="comedy" style="animation-delay: 0.6s;">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
+                        <i data-lucide="laugh" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <button class="star-btn p-2 hover:bg-muted rounded-lg transition-colors" data-starred="true">
+                        <i data-lucide="star" class="w-5 h-5 text-accent fill-current"></i>
+                    </button>
+                </div>
+                <h3 class="font-semibold mb-2">Comedy Contest</h3>
+                <p class="text-sm text-muted-foreground mb-4">Humorous mathematical challenges and silly scenarios</p>
+                <div class="flex items-center justify-between text-xs">
+                    <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full">Comedy</span>
+                    <span class="text-muted-foreground">Used 1 time</span>
+                </div>
+                <div class="mt-4 pt-4 border-t border-border">
+                    <div class="flex items-center space-x-2">
+                        <button class="flex-1 px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
+                            Use Theme
+                        </button>
+                        <button class="p-2 hover:bg-muted rounded-lg transition-colors">
+                            <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional themes... -->
+            <div class="theme-card bg-card border border-border rounded-xl p-6 cursor-pointer grid-enter" data-category="fantasy" style="animation-delay: 0.7s;">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+                        <i data-lucide="castle" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <button class="star-btn p-2 hover:bg-muted rounded-lg transition-colors" data-starred="true">
+                        <i data-lucide="star" class="w-5 h-5 text-accent fill-current"></i>
+                    </button>
+                </div>
+                <h3 class="font-semibold mb-2">Medieval Siege</h3>
+                <p class="text-sm text-muted-foreground mb-4">Castle defense and strategic warfare</p>
+                <div class="flex items-center justify-between text-xs">
+                    <span class="px-2 py-1 bg-indigo-100 text-indigo-700 rounded-full">Fantasy</span>
+                    <span class="text-muted-foreground">New</span>
+                </div>
+                <div class="mt-4 pt-4 border-t border-border">
+                    <div class="flex items-center space-x-2">
+                        <button class="flex-1 px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
+                            Use Theme
+                        </button>
+                        <button class="p-2 hover:bg-muted rounded-lg transition-colors">
+                            <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-card bg-card border border-border rounded-xl p-6 cursor-pointer grid-enter" data-category="sci-fi" style="animation-delay: 0.8s;">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-900 rounded-xl flex items-center justify-center">
+                        <i data-lucide="satellite" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <button class="star-btn p-2 hover:bg-muted rounded-lg transition-colors" data-starred="true">
+                        <i data-lucide="star" class="w-5 h-5 text-accent fill-current"></i>
+                    </button>
+                </div>
+                <h3 class="font-semibold mb-2">Space Station</h3>
+                <p class="text-sm text-muted-foreground mb-4">Orbital mechanics and life support systems</p>
+                <div class="flex items-center justify-between text-xs">
+                    <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded-full">Sci-Fi</span>
+                    <span class="text-muted-foreground">New</span>
+                </div>
+                <div class="mt-4 pt-4 border-t border-border">
+                    <div class="flex items-center space-x-2">
+                        <button class="flex-1 px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
+                            Use Theme
+                        </button>
+                        <button class="p-2 hover:bg-muted rounded-lg transition-colors">
+                            <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State (Hidden by default) -->
+        <div id="empty-state" class="hidden text-center py-16">
+            <div class="w-24 h-24 bg-muted/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="search" class="w-12 h-12 text-muted-foreground"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">No themes found</h3>
+            <p class="text-muted-foreground mb-6">Try adjusting your search or filter criteria</p>
+            <button class="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold interactive-hover">
+                Clear Filters
+            </button>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const themeCards = document.querySelectorAll('.theme-card');
+        const emptyState = document.getElementById('empty-state');
+        const themesGrid = document.getElementById('themes-grid');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active filter
+                filterBtns.forEach(b => b.classList.remove('active', 'bg-background', 'text-foreground'));
+                btn.classList.add('active', 'bg-background', 'text-foreground');
+
+                const category = btn.dataset.category;
+                let visibleCount = 0;
+
+                themeCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Show/hide empty state
+                if (visibleCount === 0) {
+                    themesGrid.style.display = 'none';
+                    emptyState.classList.remove('hidden');
+                } else {
+                    themesGrid.style.display = 'grid';
+                    emptyState.classList.add('hidden');
+                }
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            let visibleCount = 0;
+
+            themeCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show/hide empty state
+            if (visibleCount === 0 && searchTerm) {
+                themesGrid.style.display = 'none';
+                emptyState.classList.remove('hidden');
+            } else {
+                themesGrid.style.display = 'grid';
+                emptyState.classList.add('hidden');
+            }
+        });
+
+        // Star toggle functionality
+        document.querySelectorAll('.star-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const star = btn.querySelector('i');
+                const isStarred = btn.dataset.starred === 'true';
+                
+                if (isStarred) {
+                    // Unstar
+                    star.classList.remove('fill-current');
+                    star.classList.add('star-fill');
+                    btn.dataset.starred = 'false';
+                } else {
+                    // Star
+                    star.classList.add('fill-current', 'star-fill');
+                    btn.dataset.starred = 'true';
+                }
+            });
+        });
+
+        // View toggle functionality
+        const viewBtns = document.querySelectorAll('.view-btn');
+        viewBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                viewBtns.forEach(b => b.classList.remove('active', 'bg-background'));
+                btn.classList.add('active', 'bg-background');
+                
+                const view = btn.dataset.view;
+                const grid = document.getElementById('themes-grid');
+                
+                if (view === 'list') {
+                    grid.className = 'space-y-4';
+                    // Transform cards to list view
+                    themeCards.forEach(card => {
+                        card.className = card.className.replace('rounded-xl p-6', 'rounded-lg p-4 flex items-center space-x-4');
+                    });
+                } else {
+                    grid.className = 'grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6';
+                    // Reset to grid view
+                    themeCards.forEach(card => {
+                        card.className = card.className.replace('rounded-lg p-4 flex items-center space-x-4', 'rounded-xl p-6');
+                    });
+                }
+            });
+        });
+
+        // Theme card click handlers
+        themeCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const themeName = card.querySelector('h3').textContent;
+                // Simulate navigation to create problem with this theme
+                console.log(`Using theme: ${themeName}`);
+                // window.location.href = `create_problem.html?theme=${encodeURIComponent(themeName)}`;
+            });
+        });
+    </script>
+</body>
+</html> 

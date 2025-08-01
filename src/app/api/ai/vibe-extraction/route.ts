@@ -17,7 +17,7 @@ const vibeProfileSchema = z.object({
         .describe("The pacing of the author's writing"),
     complexity: z.enum(["Minimalist", "Standard", "World-building"])
         .describe("The complexity of the author's writing"),
-    humor_style: z.array(z.enum(["None", "Dry", "Absurdist", "Slapstick", "Meme-based", "Satire", "Pun"]))
+    humor_styles: z.array(z.enum(["None", "Dry", "Absurdist", "Slapstick", "Meme-based", "Satire", "Pun"]))
         .describe("The humor style of the author's writing"),
     aesthetic: z.string()
         .describe("The aesthetic of the author's writing"),

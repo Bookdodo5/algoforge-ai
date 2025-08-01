@@ -44,6 +44,15 @@ model Session {
   @@map("sessions")
 }
 
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -54,17 +63,32 @@ model User {
   sessions      Session[]
   
   problemGenerations ProblemGeneration[]
+  vibeProfiles      VibeProfile[]
+  starredLoglines   StarredLogline[]
+  starredThemes     StarredTheme[]
 
   @@map("users")
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+model StarredLogline {
+  id String @id @default(cuid())
+  userId String
+  logline Json
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
-  @@unique([identifier, token])
-  @@map("verificationtokens")
+model StarredTheme {
+  id String @id @default(cuid())
+  userId String
+  theme String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VibeProfile {
+  id String @id @default(cuid())
+  userId String
+  vibeProfile Json
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ProblemGeneration {

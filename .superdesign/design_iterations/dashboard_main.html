@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AlgoForge AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="algoforge_theme.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script>
+        // Dark mode detection and toggle
+        document.addEventListener('DOMContentLoaded', function () {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const savedTheme = localStorage.getItem('theme');
+
+            // Apply saved theme or system preference
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                if (themeIcon) themeIcon.setAttribute('data-lucide', 'moon');
+            } else {
+                if (themeIcon) themeIcon.setAttribute('data-lucide', 'sun');
+            }
+
+            // Theme toggle functionality
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    const isDark = document.documentElement.classList.contains('dark');
+
+                    if (isDark) {
+                        document.documentElement.classList.remove('dark');
+                        themeIcon.setAttribute('data-lucide', 'sun');
+                        localStorage.setItem('theme', 'light');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        themeIcon.setAttribute('data-lucide', 'moon');
+                        localStorage.setItem('theme', 'dark');
+                    }
+
+                    // Refresh lucide icons
+                    if (window.lucide) {
+                        window.lucide.createIcons();
+                    }
+                });
+            }
+
+            // Listen for system theme changes (only if no saved preference)
+            if (!savedTheme && window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                    if (e.matches) {
+                        document.documentElement.classList.add('dark');
+                        if (themeIcon) {
+                            themeIcon.setAttribute('data-lucide', 'moon');
+                            if (window.lucide) window.lucide.createIcons();
+                        }
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        if (themeIcon) {
+                            themeIcon.setAttribute('data-lucide', 'sun');
+                            if (window.lucide) window.lucide.createIcons();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+    <style>
+        .sidebar-transition {
+            transition: transform 0.3s ease-out;
+        }
+
+        .card-hover {
+            transition: all 0.2s ease-out;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-animation {
+            animation: countUp 1s ease-out forwards;
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background text-foreground font-sans">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-background/80 backdrop-blur-lg border-b border-border z-50">
+        <div class="container-page">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-4">
+                    <button id="sidebar-toggle" class="lg:hidden p-2 rounded-lg hover:bg-muted">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="brain" class="w-8 h-8 text-primary"></i>
+                        <span class="text-xl font-bold algoforge-text-gradient">AlgoForge AI</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 rounded-lg hover:bg-muted relative">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                        <span class="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full"></span>
+                    </button>
+                    <button id="theme-toggle" class="p-2 rounded-lg hover:bg-muted" title="Toggle theme">
+                        <i data-lucide="sun" id="theme-icon" class="w-5 h-5"></i>
+                    </button>
+                    <button class="p-2 rounded-lg hover:bg-muted">
+                        <i data-lucide="settings" class="w-5 h-5"></i>
+                    </button>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <span class="text-sm font-semibold text-primary-foreground">JD</span>
+                        </div>
+                        <button class="text-sm font-medium hover:text-primary transition-colors">
+                            John Doe
+                            <i data-lucide="chevron-down" class="w-4 h-4 inline ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-sidebar border-r border-border sidebar-transition z-40 lg:translate-x-0 -translate-x-full">
+        <div class="p-6">
+            <nav class="space-y-2">
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg bg-primary text-primary-foreground">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                <a href="#"
+                    class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-sidebar-accent transition-colors">
+                    <i data-lucide="folder" class="w-5 h-5"></i>
+                    <span>My Problems</span>
+                    <span class="ml-auto bg-primary/10 text-primary px-2 py-1 rounded-full text-xs">12</span>
+                </a>
+                <a href="#"
+                    class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-sidebar-accent transition-colors">
+                    <i data-lucide="star" class="w-5 h-5"></i>
+                    <span>Starred Themes</span>
+                    <span class="ml-auto bg-accent/10 text-accent px-2 py-1 rounded-full text-xs">5</span>
+                </a>
+                <a href="#"
+                    class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-sidebar-accent transition-colors">
+                    <i data-lucide="bookmark" class="w-5 h-5"></i>
+                    <span>Starred Loglines</span>
+                    <span class="ml-auto bg-secondary/10 text-secondary px-2 py-1 rounded-full text-xs">8</span>
+                </a>
+                <a href="#"
+                    class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-sidebar-accent transition-colors">
+                    <i data-lucide="palette" class="w-5 h-5"></i>
+                    <span>Vibe Profiles</span>
+                    <span class="ml-auto bg-muted text-muted-foreground px-2 py-1 rounded-full text-xs">3</span>
+                </a>
+            </nav>
+
+            <div class="mt-8 pt-6 border-t border-sidebar-border">
+                <h3 class="text-sm font-semibold text-muted-foreground mb-3">RECENT ACTIVITY</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-primary rounded-full"></div>
+                        <div class="text-sm">
+                            <div class="font-medium">Problem updated</div>
+                            <div class="text-muted-foreground">Dragon Quest • 2h ago</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-accent rounded-full"></div>
+                        <div class="text-sm">
+                            <div class="font-medium">Theme starred</div>
+                            <div class="text-muted-foreground">Cyberpunk • 3d ago</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-secondary rounded-full"></div>
+                        <div class="text-sm">
+                            <div class="font-medium">Problem completed</div>
+                            <div class="text-muted-foreground">Space Pirates • 1w ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="lg:ml-64 pt-16 min-h-screen">
+        <div class="container-content py-8">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="heading-lg mb-2">Welcome back, John! 👋</h1>
+                <p class="text-muted-foreground">Ready to create your next algorithmic masterpiece?</p>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="mb-8">
+                <div class="bg-card border border-border rounded-xl p-6">
+                    <h2 class="heading-md mb-4">Quick Actions</h2>
+                    <div class="flex flex-wrap gap-4">
+                        <button
+                            class="flex items-center space-x-2 px-6 py-3 algoforge-gradient text-white rounded-lg font-semibold interactive-hover">
+                            <i data-lucide="plus" class="w-5 h-5"></i>
+                            <span>New Problem</span>
+                        </button>
+                        <button
+                            class="flex items-center space-x-2 px-6 py-3 border border-border rounded-lg font-semibold interactive-hover">
+                            <i data-lucide="upload" class="w-5 h-5"></i>
+                            <span>Import Theme</span>
+                        </button>
+                        <button
+                            class="flex items-center space-x-2 px-6 py-3 border border-border rounded-lg font-semibold interactive-hover">
+                            <i data-lucide="gallery-horizontal" class="w-5 h-5"></i>
+                            <span>Browse Gallery</span>
+                        </button>
+                        <button
+                            class="flex items-center space-x-2 px-6 py-3 border border-border rounded-lg font-semibold interactive-hover">
+                            <i data-lucide="book-open" class="w-5 h-5"></i>
+                            <span>Documentation</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats and Activity Grid -->
+            <div class="grid lg:grid-cols-3 gap-6 mb-8">
+                <!-- Recent Activity -->
+                <div class="lg:col-span-2">
+                    <div class="bg-card border border-border rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="heading-md">Recent Activity</h2>
+                            <button class="text-sm text-primary hover:text-primary/80 font-medium">View All</button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-4 p-4 bg-muted/30 rounded-lg card-hover">
+                                <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="dragon" class="w-5 h-5 text-primary"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Dragon Quest Algorithm</div>
+                                    <div class="text-sm text-muted-foreground">Step 6/8 - Problem Formalization</div>
+                                    <div class="text-xs text-muted-foreground mt-1">Updated 2 hours ago</div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="status-in-progress px-3 py-1 rounded-full text-xs font-medium">
+                                        In Progress
+                                    </div>
+                                    <button class="p-2 hover:bg-muted rounded-lg">
+                                        <i data-lucide="play" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-4 p-4 bg-muted/30 rounded-lg card-hover">
+                                <div class="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="rocket" class="w-5 h-5 text-accent"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Space Pirates Pathfinding</div>
+                                    <div class="text-sm text-muted-foreground">Completed - 47 lines of code</div>
+                                    <div class="text-xs text-muted-foreground mt-1">Finished 1 day ago</div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="status-completed px-3 py-1 rounded-full text-xs font-medium">
+                                        Completed
+                                    </div>
+                                    <button class="p-2 hover:bg-muted rounded-lg">
+                                        <i data-lucide="eye" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-4 p-4 bg-muted/30 rounded-lg card-hover">
+                                <div class="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="star" class="w-5 h-5 text-secondary"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium">Starred new theme</div>
+                                    <div class="text-sm text-muted-foreground">"Cyberpunk Heist" theme</div>
+                                    <div class="text-xs text-muted-foreground mt-1">3 days ago</div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button class="p-2 hover:bg-muted rounded-lg">
+                                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="space-y-6">
+                    <div class="bg-card border border-border rounded-xl p-6">
+                        <h2 class="heading-md mb-4">Quick Stats</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="target" class="w-4 h-4 text-primary"></i>
+                                    </div>
+                                    <span class="font-medium">Problems</span>
+                                </div>
+                                <span class="text-2xl font-bold stat-animation">12</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-accent/10 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="star" class="w-4 h-4 text-accent"></i>
+                                    </div>
+                                    <span class="font-medium">Starred</span>
+                                </div>
+                                <span class="text-2xl font-bold stat-animation">13</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="check-circle" class="w-4 h-4 text-secondary"></i>
+                                    </div>
+                                    <span class="font-medium">Completed</span>
+                                </div>
+                                <span class="text-2xl font-bold stat-animation">5</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-chart-4/10 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="trending-up" class="w-4 h-4 text-chart-4"></i>
+                                    </div>
+                                    <span class="font-medium">This Week</span>
+                                </div>
+                                <span class="text-2xl font-bold stat-animation text-chart-4">+3</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Ring -->
+                    <div class="bg-card border border-border rounded-xl p-6 text-center">
+                        <h3 class="font-semibold mb-4">Weekly Goal</h3>
+                        <div class="relative w-20 h-20 mx-auto mb-4">
+                            <svg class="w-20 h-20 transform -rotate-90">
+                                <circle cx="40" cy="40" r="30" stroke="currentColor" stroke-width="4" fill="none"
+                                    class="text-muted opacity-30" />
+                                <circle cx="40" cy="40" r="30" stroke="currentColor" stroke-width="4" fill="none"
+                                    stroke-linecap="round" class="text-primary" stroke-dasharray="188"
+                                    stroke-dashoffset="50" />
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-2xl font-bold">73%</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-muted-foreground">3 of 4 problems completed</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Cards -->
+            <div class="mb-8">
+                <h2 class="heading-md mb-6">Content Library</h2>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-card border border-border rounded-xl p-6 text-center card-hover cursor-pointer">
+                        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="folder" class="w-6 h-6 text-primary"></i>
+                        </div>
+                        <h3 class="font-semibold mb-2">My Problems</h3>
+                        <p class="text-sm text-muted-foreground mb-4">View and manage all your created problems</p>
+                        <div class="text-2xl font-bold text-primary">12</div>
+                        <div class="text-xs text-muted-foreground">problems</div>
+                    </div>
+
+                    <div class="bg-card border border-border rounded-xl p-6 text-center card-hover cursor-pointer">
+                        <div class="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="star" class="w-6 h-6 text-accent"></i>
+                        </div>
+                        <h3 class="font-semibold mb-2">Starred Themes</h3>
+                        <p class="text-sm text-muted-foreground mb-4">Your favorite creative themes and concepts</p>
+                        <div class="text-2xl font-bold text-accent">5</div>
+                        <div class="text-xs text-muted-foreground">themes</div>
+                    </div>
+
+                    <div class="bg-card border border-border rounded-xl p-6 text-center card-hover cursor-pointer">
+                        <div class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="bookmark" class="w-6 h-6 text-secondary"></i>
+                        </div>
+                        <h3 class="font-semibold mb-2">Starred Loglines</h3>
+                        <p class="text-sm text-muted-foreground mb-4">Inspiring story concepts and narratives</p>
+                        <div class="text-2xl font-bold text-secondary">8</div>
+                        <div class="text-xs text-muted-foreground">loglines</div>
+                    </div>
+
+                    <div class="bg-card border border-border rounded-xl p-6 text-center card-hover cursor-pointer">
+                        <div class="w-12 h-12 bg-chart-4/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="palette" class="w-6 h-6 text-chart-4"></i>
+                        </div>
+                        <h3 class="font-semibold mb-2">Vibe Profiles</h3>
+                        <p class="text-sm text-muted-foreground mb-4">Mood and atmosphere templates</p>
+                        <div class="text-2xl font-bold text-chart-4">3</div>
+                        <div class="text-xs text-muted-foreground">profiles</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay"
+        class="fixed inset-0 bg-black/50 z-30 lg:hidden opacity-0 pointer-events-none transition-opacity"></div>
+
+    <script>
+        lucide.createIcons();
+
+        // Sidebar toggle
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        function toggleSidebar() {
+            const isOpen = !sidebar.classList.contains('-translate-x-full');
+
+            if (isOpen) {
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('opacity-0', 'pointer-events-none');
+            } else {
+                sidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        sidebarToggle?.addEventListener('click', toggleSidebar);
+        sidebarOverlay?.addEventListener('click', toggleSidebar);
+
+        // Animate stats on load
+        window.addEventListener('load', () => {
+            const stats = document.querySelectorAll('.stat-animation');
+            stats.forEach((stat, index) => {
+                setTimeout(() => {
+                    stat.style.animationDelay = `${index * 0.1}s`;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+
+</html>
