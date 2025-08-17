@@ -9,7 +9,7 @@ const loglineExpansionSchema = z.object({
         protagonist: z.string(),
         goal: z.string(),
         obstacle: z.string(),
-        stakes: z.string().optional(),
+        stakes: z.string(),
         logline_sentence: z.string()
     }))
         .describe("An array of exactly 8 logline JSON objects"),

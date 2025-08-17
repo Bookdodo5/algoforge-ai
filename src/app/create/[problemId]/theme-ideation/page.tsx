@@ -1,16 +1,40 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import React from 'react';
+import { prisma } from "@/lib/prisma";
+import { sessionValidation } from "@/app/actions/serverActions";
+import ThemeIdeationClient from "./theme-ideation-client";
 
-const ThemeIdeationPage = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="w-full max-w-md">
-            <CardHeader>
-                <CardTitle>Theme Ideation</CardTitle>
-            </CardHeader>
-        </Card>
-    </div>
-  );
-};
+export default async function ThemeIdeationPage({
+    params
+}: {
+    params: Promise<{
+        problemId: string
+    }>
+}) {
+    const { problemId } = await params;
+    const userId = await sessionValidation();
 
-export default ThemeIdeationPage; 
+    // Fetch starred themes and current problem
+    const [starredThemes, problem] = await Promise.all([
+        prisma.starredTheme.findMany({
+            where: {
+                userId: userId
+            }
+        }),
+        prisma.problemGeneration.findUnique({
+            where: {
+                id: problemId
+            }
+        })
+    ]);
+
+    const currentTheme = problem?.theme || "";
+
+    return (
+        <div className="h-full flex flex-grow items-center justify-center bg-background min-h-96 py-20 px-20">
+            <ThemeIdeationClient
+                problemId={problemId}
+                starredThemes={starredThemes}
+                currentTheme={currentTheme}
+            />
+        </div>
+    );
+} 

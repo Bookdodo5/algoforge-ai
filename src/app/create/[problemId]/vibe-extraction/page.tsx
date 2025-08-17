@@ -1,16 +1,35 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import React from 'react';
+import VibeProfileSelection from "@/app/create/[problemId]/vibe-extraction/vibe-profile-selection";
+import { prisma } from "@/lib/prisma";
+import { sessionValidation, VibeProfile } from "@/app/actions/serverActions";
 
-const VibeExtractionPage = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="w-full max-w-md">
-            <CardHeader>
-                <CardTitle>Vibe Extraction</CardTitle>
-            </CardHeader>
-        </Card>
-    </div>
-  );
-};
+export default async function VibeExtractionPage({
+    params
+}: {
+    params: Promise<{
+        problemId: string
+    }>
+}) {
+    const { problemId } = await params;
+    const userId = await sessionValidation();
+    const vibesFromDb = await prisma.vibeProfile.findMany({
+        where: {
+            userId: userId
+        }
+    })
+    const vibes = vibesFromDb.map(v => ({
+        ...v,
+        vibeProfile: JSON.parse((v.vibeProfile as string).replace("`", ""))
+    }));
+    const problemFromDb = await prisma.problemGeneration.findUnique({
+        where: {
+            id: problemId
+        }
+    })
+    const problemVibe = problemFromDb?.vibeProfile as VibeProfile | null;
 
-export default VibeExtractionPage; 
+    return (
+        <div className="h-full flex flex-grow items-center justify-center bg-background min-h-96 py-20 px-20">
+            <VibeProfileSelection vibes={vibes} problemVibe={problemVibe} problemId={problemId} />
+        </div>
+    )
+}

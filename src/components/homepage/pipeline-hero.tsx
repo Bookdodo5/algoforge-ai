@@ -7,34 +7,23 @@ import { Progress } from "@/components/ui/progress";
 import oneLight from 'react-syntax-highlighter/dist/cjs/styles/prism/one-light';
 import oneDark from 'react-syntax-highlighter/dist/cjs/styles/prism/one-dark';
 import {
-    BookOpen,
     BrainCircuit,
     ClipboardList,
     Bot,
     Network,
-    UserCheck,
-    ListChecks,
-    FileJson2,
     ScrollText,
-    Code2,
-    Cpu,
     Lightbulb,
-    Palette,
     Terminal,
     Trophy,
     FileText,
-    Copy,
-    Check,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import { useTheme } from "next-themes";
 import { ThemeSyntax } from "./theme-syntax";
 
 export const PipelineHero = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [displayedCode, setDisplayedCode] = useState("");
-    const { theme } = useTheme();
     const delayRef = useRef(-1);
 
     const steps = [
@@ -245,7 +234,7 @@ void solve() {
                                     displayedCode={displayedCode}
                                     dark={oneDark}
                                     light={oneLight}
-                                    theme={theme || "light"}
+                                    typing
                                 />
                             </div>
 

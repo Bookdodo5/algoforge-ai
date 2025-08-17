@@ -8,8 +8,9 @@ import { VibeProfile } from "@/app/actions/serverActions"
 import AITab from "./ai-tab"
 import ManualTab from "./manual-tab"
 
-export interface ManualProfile extends VibeProfile {
-    currentKeyword: string,
+export interface ManualProfile {
+    vibeProfile: VibeProfile["vibeProfile"]
+    currentKeyword: string
     currentTag: string
 }
 
@@ -18,23 +19,25 @@ export default function CreateVibes() {
     const editId = searchParams.get('edit')
     const editData = searchParams.get('data')
     const isEdit = !!editId
-    
+
     const [activeTab, setActiveTab] = useState<"ai" | "manual">(isEdit ? "manual" : "ai")
 
     const [sampleText, setSampleText] = useState("")
     const [manualProfile, setManualProfile] = useState<ManualProfile>(
         {
-            vibe_name: "",
-            voice_summary: "",
-            vibe_keywords: [],
-            stylistic_tags: [],
-            formality: "Standard",
-            pacing: "Steady",
-            complexity: "Standard",
-            humor_styles: ["None"],
-            aesthetic: "",
-            sample_text: "",
-            language: "English",
+            vibeProfile: {
+                vibe_name: "",
+                voice_summary: "",
+                vibe_keywords: [],
+                stylistic_tags: [],
+                formality: "Standard",
+                pacing: "Steady",
+                complexity: "Standard",
+                humor_styles: ["None"],
+                aesthetic: "",
+                sample_text: "",
+                language: "English",
+            },
             currentKeyword: "",
             currentTag: ""
         }
@@ -43,16 +46,19 @@ export default function CreateVibes() {
     useEffect(() => {
         if (isEdit && editData) {
             try {
-                const parsedData = JSON.parse(decodeURIComponent(editData))
-                setManualProfile(prev => ({...prev, ...parsedData}))
+                const parsedData = JSON.parse(decodeURIComponent(editData)) as VibeProfile["vibeProfile"];
+                setManualProfile(prev => ({
+                    ...prev,
+                    vibeProfile: { ...prev.vibeProfile, ...parsedData }
+                }));
             } catch (error) {
                 console.error("Failed to parse edit data:", error)
             }
         }
     }, [isEdit, editData])
 
-    const handleAnalysisSuccess = (data: VibeProfile) => {
-        setManualProfile(x => ({ ...x, ...data }))
+    const handleAnalysisSuccess = (data: VibeProfile["vibeProfile"]) => {
+        setManualProfile(x => ({ ...x, vibeProfile: data }))
         setActiveTab("manual")
     }
 
@@ -64,8 +70,8 @@ export default function CreateVibes() {
                     {isEdit ? "Edit" : "Create"} <span className="text-primary">Vibe Profiles</span>
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                    {isEdit 
-                        ? "Edit your existing vibe profile." 
+                    {isEdit
+                        ? "Edit your existing vibe profile."
                         : "Manually create the vibe, or create from sample text with AI."
                     }
                 </p>
@@ -89,8 +95,8 @@ export default function CreateVibes() {
                 </TabsContent>
 
                 <TabsContent value="manual" className="space-y-6">
-                    <ManualTab 
-                        manualProfile={manualProfile} 
+                    <ManualTab
+                        manualProfile={manualProfile}
                         setManualProfile={setManualProfile}
                         isEdit={isEdit}
                         editId={editId || undefined}

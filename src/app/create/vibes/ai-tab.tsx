@@ -9,7 +9,7 @@ import { Wand2, Loader2, Sparkles } from "lucide-react"
 import { VibeProfile } from "@/app/actions/serverActions"
 
 // API call
-const analyzeVibeText = async (sample: string): Promise<VibeProfile> => {
+const analyzeVibeText = async (sample: string): Promise<VibeProfile["vibeProfile"]> => {
     const response = await fetch("/api/ai/vibe-extraction", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -24,7 +24,7 @@ const analyzeVibeText = async (sample: string): Promise<VibeProfile> => {
 }
 
 export default function AITab({ onAnalysisSuccess, sampleText, setSampleText }: {
-    onAnalysisSuccess: (data: VibeProfile) => void,
+    onAnalysisSuccess: (data: VibeProfile["vibeProfile"]) => void,
     sampleText: string,
     setSampleText: (text: string) => void
 }) {

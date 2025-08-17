@@ -23,7 +23,7 @@ export default function AlgorithmDetailPage() {
                     The algorithm "{algorithmId}" doesn't exist in our library...
                 </p>
                 <Link href="/algorithms">
-                    <Button variant="ghost" className="flex items-center gap-2">
+                    <Button variant="ghost" className="flex items-center gap-2 cursor-pointer">
                         <ArrowLeft className="size-4" />
                         Back to Algorithms
                     </Button>
@@ -49,7 +49,7 @@ export default function AlgorithmDetailPage() {
             {/* Header with back button */}
             <div className="mb-4">
                 <Link href="/algorithms">
-                    <Button variant="ghost" className="flex items-center gap-2 mb-4">
+                    <Button variant="ghost" className="flex items-center gap-2 mb-4 cursor-pointer">
                         <ArrowLeft className="w-4 h-4" />
                         Back to Algorithms
                     </Button>

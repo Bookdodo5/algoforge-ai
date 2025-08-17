@@ -15,8 +15,8 @@ export function ThemeToggle() {
 
     return (
         <Button onClick={toggleTheme} variant="outline" size="icon" className="rounded-full border-2 border-muted-foreground hover:text-accent">
-            <MoonIcon className="dark:hidden" />
-            <SunIcon className="hidden dark:block" />
+            <MoonIcon className="dark:hidden" suppressHydrationWarning />
+            <SunIcon className="hidden dark:block" suppressHydrationWarning />
             <span className="sr-only">Toggle theme</span>
         </Button>
     )

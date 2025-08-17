@@ -7,13 +7,13 @@ import { VibeProfile, deleteVibeProfile } from "@/app/actions/serverActions"
 import { JsonValue } from "@prisma/client/runtime/library"
 import { useRouter } from "next/navigation"
 
-export function VibesDisplay({ vibes }: { vibes: JsonValue[] }) {
+export function VibesDisplay({ vibes }: { vibes: VibeProfile[] }) {
     const router = useRouter()
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {vibes.map(vibe => {
-                const vibeData: VibeProfile = JSON.parse((vibe as any).vibeProfile)
-                const vibeId: string = (vibe as any).id
+                const vibeData = vibe.vibeProfile
+                const vibeId = vibe.id
                 return (
                     <Card key={vibeId} className="border-2 border-border hover:border-primary/50 transition-all">
                         <CardHeader>
@@ -113,7 +113,7 @@ export function VibesDisplay({ vibes }: { vibes: JsonValue[] }) {
                             onClick={() => router.push('/create/vibes')}
                             className="mt-4"
                         >
-                            <Plus className="size-4 mr-2" />
+                            <Plus className="size-4" />
                             New Vibe
                         </Button>
                     </div>

@@ -1,16 +1,29 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import React from 'react';
+import { prisma } from "@/lib/prisma";
+import { sessionValidation } from "@/app/actions/serverActions";
+import AlgorithmSpecificationClient from "./algorithm-specification-client";
 
-const AlgorithmSpecificationPage = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="w-full max-w-md">
-            <CardHeader>
-                <CardTitle>Algorithm Specification</CardTitle>
-            </CardHeader>
-        </Card>
-    </div>
-  );
-};
+export default async function AlgorithmSpecificationPage({
+    params
+}: {
+    params: Promise<{ problemId: string }>
+}) {
+    const { problemId } = await params;
+    await sessionValidation();
 
-export default AlgorithmSpecificationPage; 
+    const problem = await prisma.problemGeneration.findUnique({ where: { id: problemId } });
+
+    const narrative = problem?.narrative || "";
+    const selectedAlgorithms = problem?.selectedAlgorithms ? (problem.selectedAlgorithms as any) : [];
+    const problemProposal = problem?.problemProposal ? (problem.problemProposal as any) : null;
+
+    return (
+        <div className="h-full flex flex-grow items-center justify-center bg-background min-h-96 py-20 px-20">
+            <AlgorithmSpecificationClient
+                problemId={problemId}
+                narrative={narrative}
+                selectedAlgorithms={selectedAlgorithms}
+                existingProposal={problemProposal}
+            />
+        </div>
+    );
+}

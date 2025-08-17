@@ -1,15 +1,19 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { prisma } from "@/lib/prisma";
+import ProblemOverview from "./problem-overview";
 
-export default function Problem({params}: {params: {problemId: string}}) {
-    const { problemId } = params;
+export default async function ProblemPage({ params }: { params: Promise<{ problemId: string }> }) {
+    const { problemId } = await params;
+    const problem = await prisma.problemGeneration.findUnique({
+        where: {
+            id: problemId,
+        },
+    });
+
+    if (!problem) return <></>
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-background p-4">
-            <Card className="w-full max-w-md">
-                <CardHeader>
-                    <CardTitle>{problemId}</CardTitle>
-                </CardHeader>
-            </Card>
+        <div className="h-full flex flex-grow items-center justify-center bg-background min-h-96 py-20 px-20">
+            <ProblemOverview problem={problem} />
         </div>
     );
 }

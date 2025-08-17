@@ -96,7 +96,7 @@ Output: {
 export const THEME_IDEATION_SYSTEM_INSTRUCTION = `
 You are a boundless creative engine for generating problem themes. Your ideas feel both novel and instantly understandable to a competitive programmer.
 
-Your task is to generate 100 short, low-specificity problem themes that make programmers immediately think of potential algorithms, data structures, or system constraints.
+Your task is to generate 30 short, low-specificity problem themes that make programmers immediately think of potential algorithms, data structures, or system constraints.
 
 1. The Golden Rule: "Grounded System with Implicit Rules"
 Every theme MUST describe an understandable system, game, or process. It must hint at a potential model (graph, sequence, states, rules) without being overly specific.
@@ -129,7 +129,7 @@ Wrong Scope (Not CP): AI Therapy Session, Crying Robots, Predicting Animal Behav
 Too Abstract to Model: Restoring a corrupted timeline, Crystalline Contamination, The Alchemist's Regret.
 
 Generation Strategy: Categorical Brainstorming
-Generate exactly 10 themes per category.
+Generate exactly 3 themes per category.
 
 Category 1: Object Manipulation & State Change
 (Core Task: Change the state—order, position, properties—of a set of objects.)
@@ -159,7 +159,7 @@ Category 7: Evaluation & Verification
 (Core Task: Judge, score, or validate a given configuration against a complex but well-defined ruleset.)
 Examples: Validating a Magic Spell, Refereeing a Strange Sport, Evaluating a Poker Hand, Checking Chessboard Legality.
 
-Category 8: Weird & Out of Place Words **(30 words)**
+Category 8: Weird & Out of Place Words **(9 words)**
 (Just weird unexpected objects or words you never thought you would see here that might inspire something.)
 Examples: Organ transplant, Chemical bonds, Ghostwriter, Four-leaf Clover
 (This is just for inspiration)
@@ -186,7 +186,7 @@ Your generation process MUST follow these core mandates:
     - **protagonist**: A 2-5 word description of the main character, including a key personality trait. (e.g., "A cynical detective," "A naive young artist," "A hyper-caffeinated delivery drone").
     - **goal**: A concise phrase describing what the protagonist wants to achieve. (e.g., "to solve a bizarre murder," "to paint a masterpiece," "to deliver a package to the moon").
     - **obstacle**: The core conflict that makes the goal difficult. This MUST be the heart of the computational challenge. (e.g., "where all clues are paradoxical statements," "using a palette of colors that cyclically shift," "navigating a field of unstable wormholes").
-    - **stakes**: (Optional) A brief clause on what happens if they fail. This field can be null if it doesn't fit the vibe or makes the logline clunky. (e.g., "before the city descends into chaos," "or be forgotten by history").
+    - **stakes**: A brief clause on what happens if they fail. This field can be null if it doesn't fit the vibe or makes the logline clunky. (e.g., "before the city descends into chaos," "or be forgotten by history").
     - **logline_sentence**: A single, polished sentence that masterfully combines the components above. This sentence MUST be written in the specified authorial voice.
 
 2.  **The Voice Synthesis Mandate:**
@@ -274,7 +274,7 @@ Your generation process MUST follow these core mandates:
         "protagonist": "A synthesis process",
         "goal": "to produce a target compound",
         "obstacle": "N reagents with activation temperature windows and M precedence  constraints of the form 'reagent i must be added before reagent j'",
-        "stakes": null,
+        "stakes": "no stakes",
         "logline_sentence": "Given N reagents with activation temperature windows and M   precedence constraints, determine a valid temperature and ordering schedule for the   synthesis process."
     },
     ...
@@ -377,7 +377,7 @@ Each logline must be an object with these fields:
 - protagonist: A 2-5 word description of the main character
 - goal: What the protagonist wants to achieve
 - obstacle: The core conflict/challenge
-- stakes: (optional) What happens if they fail
+- stakes: What happens if they fail
 - logline_sentence: A complete sentence combining all elements
 `;
 
@@ -518,6 +518,7 @@ Return ONLY a valid JSON object with a single key, "suggestions", which is an ar
 **IMPORTANT:**
 -   The suggestions must be aligned with the story's themes and mechanics.
 -   The suggestions id must be an exact match with the id in the official algorithm library.
+-   The narrativeJustification must only be 1-2 sentences long. Justify roughly why the algorithm is related to the problem, and just that. Don't make it too long.
 `;
 
 export const ALGORITHM_DIVERSIFICATION_SYSTEM_INSTRUCTION = `
@@ -529,9 +530,9 @@ Using the {Algorithm} objects given, you must develop it into 5 fully-fleshed-ou
 
 Your generated **Problem Proposal** objects MUST contain the following fields:
 
-1.  **coreAlgorithm:** The name of the algorithm / technique that is the core of the problem.
+1.  **coreAlgorithm:** The name of the technique that is the core of the problem. This must be a NOUN PHRASE, for example, "ALGORITHM_NAME with MAIN_TECHNIQUE" or "MAIN_TASK using ALGORITHM_NAME". There should be no more than 8-10 words
 2.  **coreConcept:** A one-sentence summary of the main twist or mechanic. This is the core concept of the problem.
-3.  **detailedDescription:** This is the most important part. Turn the narrative into a technical specification. Formalize the rules, define the inputs and outputs conceptually (e.g., "you are given a list of dance routines, each with an orb cost..."), and state the player's objective in unambiguous terms. Be creative and innovative.
+3.  **detailedDescription:** This is the most important part. Turn the narrative into a high level technical specification. Define the rules, inputs and outputs conceptually (e.g., "you are given a list of dance routines, each with an orb cost..."), and state the player's objective in unambiguous terms. Be creative and innovative. DON'T MAKE IT TOO FORMAL. JUST GIVE THE HIGH LEVEL TECHNICAL DETAILS. **This should be at most 3-5 sentences.
 4.  **narrativeJustification:** Briefly explain how your detailed description still honors the spirit of the original narrative. This is the justification for why the problem is a good fit for the algorithm.
 5.  **originalityNotes:** Compare your concept to standard textbook problems. How is it different? Does it combine ideas in a new way? If it's a completely novel mechanic, state that.
 6.  **difficulty:** Assess the implementation and thinking complexity. Choose one: "Straightforward" (requires direct application of a known algorithm), "Tricky" (requires a clever observation or modification), or "Challenging" (requires combining multiple complex ideas).
@@ -585,6 +586,9 @@ Return ONLY a valid JSON object with a single key, "proposals", which is an arra
 -   The proposals must be aligned with the story's themes and mechanics.
 -   The proposals must use as many of the {Algorithm}s as possible. Preferably, all of them.
 -   The proposals must contain at least one of each difficulty level.
+-   DO NOT PUT ANY 'INPUT FORMAT', 'OUTPUT FORMAT', or 'CONSTRAINTS' IN YOUR DESCRIPTION. ONLY TALK ABOUT HIGH LEVEL CONCEPT.
+-   The proposals must be high level concepts of the problem, without actual implementation details.
+-   The "coreAlgorithm" field string length must not exceed 10 words.
 `;
 
 

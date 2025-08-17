@@ -20,15 +20,15 @@ const badgeVariants = cva(
         accent:
           "border-transparent bg-accent text-accent-foreground [a&]:hover:bg-accent/90",
         chart1:
-          "border-transparent bg-[hsl(var(--chart-1))] text-primary-foreground [a&]:hover:bg-[hsl(var(--chart-1))/90]",
+          "border-transparent bg-chart-1 text-primary-foreground [a&]:hover:bg-chart-1/90",
         chart2:
-          "border-transparent bg-[hsl(var(--chart-2))] text-primary-foreground [a&]:hover:bg-[hsl(var(--chart-2))/90]",
+          "border-transparent bg-chart-2 text-primary-foreground [a&]:hover:bg-chart-2/90",
         chart3:
-          "border-transparent bg-[hsl(var(--chart-3))] text-primary-foreground [a&]:hover:bg-[hsl(var(--chart-3))/90]",
+          "border-transparent bg-chart-3 text-primary-foreground [a&]:hover:bg-chart-3/90",
         chart4:
-          "border-transparent bg-[hsl(var(--chart-4))] text-primary-foreground [a&]:hover:bg-[hsl(var(--chart-4))/90]",
+          "border-transparent bg-chart-4 text-primary-foreground [a&]:hover:bg-chart-4/90",
         chart5:
-          "border-transparent bg-[hsl(var(--chart-5))] text-primary-foreground [a&]:hover:bg-[hsl(var(--chart-5))/90]",
+          "border-transparent bg-chart-5 text-primary-foreground [a&]:hover:bg-chart-5/90",
       },
     },
     defaultVariants: {

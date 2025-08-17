@@ -29,6 +29,7 @@ function TabsList({
         "bg-muted text-muted-foreground inline-flex h-10 w-fit items-center justify-center rounded-lg p-1",
         className
       )}
+      onClick={(e) => e.stopPropagation()}
       {...props}
     />
   )

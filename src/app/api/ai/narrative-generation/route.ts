@@ -24,6 +24,7 @@ ${priorText ? `
 Prior Text: ${priorText}
 **Important** You have to continue writing the narrative from where the prior text left off. Do not start a new narrative. Do not rewrite the prior text. Just continue writing the narrative from where the prior text left off.
 
+DO NOT REWRITE THE PRIOR TEXT I GAVE YOU. JUST CONTINUE!!!
 ` : ""}
 
 The output should be a valid JSON object with a single field, "narrative", which is a string of 200-300 words.

@@ -1,16 +1,31 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import React from 'react';
+import { prisma } from "@/lib/prisma";
+import { sessionValidation } from "@/app/actions/serverActions";
+import NarrativeGenerationClient from "./narrative-generation-client";
 
-const NarrativeGenerationPage = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="w-full max-w-md">
-            <CardHeader>
-                <CardTitle>Narrative Generation</CardTitle>
-            </CardHeader>
-        </Card>
-    </div>
-  );
-};
+export default async function NarrativeGenerationPage({
+    params
+}: {
+    params: Promise<{ problemId: string }>
+}) {
+    const { problemId } = await params;
+    await sessionValidation();
 
-export default NarrativeGenerationPage; 
+    const problem = await prisma.problemGeneration.findUnique({ where: { id: problemId } });
+
+    const theme = problem?.theme || "";
+    const vibe = problem?.vibeProfile ? JSON.parse(JSON.stringify(problem.vibeProfile)) : null;
+    const logline = problem?.selectedLogline ? (problem.selectedLogline as any) : null;
+    const narrative = problem?.narrative || "";
+
+    return (
+        <div className="h-full flex flex-grow items-center justify-center bg-background min-h-96 py-20 px-20">
+            <NarrativeGenerationClient
+                problemId={problemId}
+                theme={theme}
+                vibe={vibe}
+                logline={logline}
+                narrative={narrative}
+            />
+        </div>
+    );
+}

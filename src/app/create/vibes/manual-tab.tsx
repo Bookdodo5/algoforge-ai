@@ -13,7 +13,7 @@ import { Plus, Save, Loader2, X, Edit3 } from "lucide-react"
 import { createVibeProfile, editVibeProfile } from "@/app/actions/serverActions"
 import { useRouter } from "next/navigation"
 import { ManualProfile } from "./page"
-import { SetStateAction, useCallback } from "react"
+import { useCallback } from "react"
 
 const FORMALITY_OPTIONS = ["Academic", "Standard", "Casual", "Shitpost"]
 const PACING_OPTIONS = ["Contemplative", "Steady", "Urgent"]
@@ -24,25 +24,25 @@ function TagWrapper({ field, children, manualProfile, removeFromManual }: {
     field: "vibe_keywords" | "stylistic_tags" | "humor_styles"
     children: React.ReactNode
     manualProfile: ManualProfile
-    removeFromManual: (field: keyof ManualProfile, value: string) => void
+    removeFromManual: (field: keyof ManualProfile["vibeProfile"], value: string) => void
 }) {
     return <div key={field}>
         <Label>{field.charAt(0).toUpperCase() + field.slice(1).replace("_", " ")}</Label>
         <div className="flex gap-2 mt-3">
             {children}
         </div>
-        {manualProfile[field].length > 0 && (
-        <div className="flex flex-wrap gap-2 mt-3">
-            {manualProfile[field].map((item, index) => (
-                <Badge key={`${field}-${item}-${index}`} variant="secondary" className="flex items-center gap-1">
-                    {item}
-                    <button
-                        onClick={() => removeFromManual(field, item)}
-                        className="ml-1 hover:text-destructive cursor-pointer transition-colors"
-                    >
-                        <X className="size-3" />
-                    </button>
-                </Badge>
+        {(manualProfile.vibeProfile[field] as string[]).length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-3">
+                {(manualProfile.vibeProfile[field] as string[]).map((item, index) => (
+                    <Badge key={`${field}-${item}-${index}`} variant="secondary" className="flex items-center gap-1">
+                        {item}
+                        <button
+                            onClick={() => removeFromManual(field, item)}
+                            className="ml-1 hover:text-destructive cursor-pointer transition-colors"
+                        >
+                            <X className="size-3" />
+                        </button>
+                    </Badge>
                 ))}
             </div>
         )}
@@ -65,9 +65,9 @@ export default function ManualTab({
     const saveMutation = useMutation({
         mutationFn: async (data: ManualProfile) => {
             if (isEdit && editId) {
-                return editVibeProfile(editId, data)
+                return editVibeProfile(editId, data.vibeProfile)
             } else {
-                return createVibeProfile(data)
+                return createVibeProfile(data.vibeProfile)
             }
         },
         onSuccess: () => {
@@ -79,17 +79,16 @@ export default function ManualTab({
         }
     })
 
-    const addToManual = useCallback((value: string, field: keyof ManualProfile) => {
-        const currentArray = manualProfile[field] as string[]
-        console.log("ADD", value, field, manualProfile, { ...manualProfile, [field]: [...currentArray, value.trim()] })
+    const addToManual = useCallback((value: string, field: keyof ManualProfile["vibeProfile"]) => {
+        const currentArray = manualProfile.vibeProfile[field] as string[]
         if (value.trim() && !currentArray.includes(value.trim())) {
-            setManualProfile(x => ({ ...x, [field]: [...currentArray, value.trim()] }))
+            setManualProfile(x => ({ ...x, vibeProfile: { ...x.vibeProfile, [field]: [...currentArray, value.trim()] } }))
         }
     }, [manualProfile, setManualProfile])
 
-    const removeFromManual = useCallback((field: keyof ManualProfile, value: string) => {
-        const currentArray = manualProfile[field] as string[]
-        setManualProfile(x => ({ ...x, [field]: currentArray.filter(i => i !== value) }))
+    const removeFromManual = useCallback((field: keyof ManualProfile["vibeProfile"], value: string) => {
+        const currentArray = manualProfile.vibeProfile[field] as string[]
+        setManualProfile(x => ({ ...x, vibeProfile: { ...x.vibeProfile, [field]: currentArray.filter(i => i !== value) } }))
     }, [manualProfile, setManualProfile])
 
     function OptionInput({ field, options }: {
@@ -99,8 +98,8 @@ export default function ManualTab({
         return <div key={field}>
             <Label>{field.charAt(0).toUpperCase() + field.slice(1)}</Label>
             <Select
-                value={manualProfile[field]}
-                onValueChange={(value: any) => setManualProfile(x => ({ ...x, [field]: value }))}
+                value={manualProfile.vibeProfile[field]}
+                onValueChange={(value: any) => setManualProfile(x => ({ ...x, vibeProfile: { ...x.vibeProfile, [field]: value } }))}
             >
                 <SelectTrigger className="mt-3 w-full">
                     <SelectValue />
@@ -149,8 +148,8 @@ export default function ManualTab({
                                 id="vibe-name"
                                 type="text"
                                 placeholder="A name for the vibe..."
-                                value={manualProfile.vibe_name}
-                                onChange={(e) => setManualProfile(x => ({ ...x, vibe_name: e.target.value }))}
+                                value={manualProfile.vibeProfile.vibe_name}
+                                onChange={(e) => setManualProfile(x => ({ ...x, vibeProfile: { ...x.vibeProfile, vibe_name: e.target.value } }))}
                                 className="mt-3"
                             />
                         </div>
@@ -159,8 +158,8 @@ export default function ManualTab({
                             <Input
                                 id="language"
                                 placeholder="Language of the text..."
-                                value={manualProfile.language}
-                                onChange={(e) => setManualProfile(x => ({ ...x, language: e.target.value }))}
+                                value={manualProfile.vibeProfile.language}
+                                onChange={(e) => setManualProfile(x => ({ ...x, vibeProfile: { ...x.vibeProfile, language: e.target.value } }))}
                                 className="mt-3"
                             />
                         </div>
@@ -171,8 +170,8 @@ export default function ManualTab({
                         <Input
                             id="aesthetic"
                             placeholder="One phrase describing the overall aesthetic..."
-                            value={manualProfile.aesthetic}
-                            onChange={(e) => setManualProfile(x => ({ ...x, aesthetic: e.target.value }))}
+                            value={manualProfile.vibeProfile.aesthetic}
+                            onChange={(e) => setManualProfile(x => ({ ...x, vibeProfile: { ...x.vibeProfile, aesthetic: e.target.value } }))}
                             className="mt-3"
                         />
                     </div>
@@ -183,8 +182,8 @@ export default function ManualTab({
                             <Textarea
                                 id="voice-summary"
                                 placeholder="Description of the voice..."
-                                value={manualProfile.voice_summary}
-                                onChange={(e) => setManualProfile(x => ({ ...x, voice_summary: e.target.value }))}
+                                value={manualProfile.vibeProfile.voice_summary}
+                                onChange={(e) => setManualProfile(x => ({ ...x, vibeProfile: { ...x.vibeProfile, voice_summary: e.target.value } }))}
                                 className="flex-1 mt-3"
                             />
                         </div>
@@ -239,8 +238,8 @@ export default function ManualTab({
                         <Textarea
                             id="sample-text-manual"
                             placeholder="A few representative sentences or paragraphs..."
-                            value={manualProfile.sample_text}
-                            onChange={(e) => setManualProfile(x => ({ ...x, sample_text: e.target.value }))}
+                            value={manualProfile.vibeProfile.sample_text}
+                            onChange={(e) => setManualProfile(x => ({ ...x, vibeProfile: { ...x.vibeProfile, sample_text: e.target.value } }))}
                             className="mt-3 flex-1"
                         />
                     </div>
@@ -249,7 +248,7 @@ export default function ManualTab({
 
                     <Button
                         onClick={() => saveMutation.mutate(manualProfile)}
-                        disabled={saveMutation.isPending || !manualProfile.vibe_name || !manualProfile.voice_summary || !manualProfile.aesthetic || !manualProfile.sample_text || !manualProfile.language}
+                        disabled={saveMutation.isPending || !manualProfile.vibeProfile.vibe_name || !manualProfile.vibeProfile.voice_summary || !manualProfile.vibeProfile.aesthetic || !manualProfile.vibeProfile.sample_text || !manualProfile.vibeProfile.language}
                         className="w-full"
                     >
                         {saveMutation.isPending ? (

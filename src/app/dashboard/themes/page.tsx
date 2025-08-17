@@ -1,13 +1,36 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { sessionValidation } from "@/app/actions/serverActions";
+import { ThemeDisplay } from "./theme-display";
+import { prisma } from "@/lib/prisma";
 
-export default function Themes() {
+async function getThemes() {
+    const userId = await sessionValidation()
+    const themes = await prisma.starredTheme.findMany({
+        where: {
+            userId: userId
+        },
+        orderBy: {
+            id: 'asc'
+        }
+    })
+    return themes
+}
+
+export default async function Themes() {
+    const themes = await getThemes();
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-background p-4">
-            <Card className="w-full max-w-md">
-                <CardHeader>
-                    <CardTitle>Themes</CardTitle>
-                </CardHeader>
-            </Card>
+        <div className="bg-background p-36 pb-16 flex flex-col">
+            {/* Header */}
+            <div className="text-center mb-12">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                    Your Starred <span className="text-primary">Themes</span>
+                </h1>
+                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                    Themes you've starred for initial ideas.
+                </p>
+            </div>
+
+            <ThemeDisplay themes={themes} />
         </div>
     );
 }

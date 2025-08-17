@@ -7,7 +7,7 @@ import { authConfig } from '../api/auth/[...nextauth]/route'
 
 export const sessionValidation = async () => {
     const session = await getServerSession(authConfig);
-    if(!session?.user?.id) throw new Error('Unauthorized');
+    if (!session?.user?.id) throw new Error('Unauthorized');
     return session.user.id;
 }
 
@@ -16,30 +16,34 @@ export interface ProblemUpdateData {
     currentStep?: number;
     lastValidStep?: number;
     isCompleted?: boolean;
-    theme?: string;
-    vibeProfile?: any;
-    selectedLogline?: any;
-    narrative?: string;
-    selectedAlgorithms?: any;
-    problemProposal?: any;
-    formalizedProblem?: any;
-    technicalOutline?: string;
-    solutionCode?: string;
-    testGenerator?: string;
+    theme?: string | null;
+    vibeProfile?: any | null;
+    selectedLogline?: any | null;
+    narrative?: string | null;
+    selectedAlgorithms?: any | null;
+    problemProposal?: any | null;
+    formalizedProblem?: any | null;
+    technicalOutline?: string | null;
+    solutionCode?: string | null;
+    testGenerator?: string | null;
 }
 
 export interface VibeProfile {
-    vibe_name: string
-    voice_summary: string
-    vibe_keywords: string[]
-    stylistic_tags: string[]
-    formality: "Academic" | "Standard" | "Casual" | "Shitpost"
-    pacing: "Contemplative" | "Steady" | "Urgent"
-    complexity: "Minimalist" | "Standard" | "World-building"
-    humor_styles: ("None" | "Dry" | "Absurdist" | "Slapstick" | "Meme-based" | "Satire" | "Pun")[]
-    aesthetic: string
-    sample_text: string
-    language: string
+    id: string,
+    userId: string,
+    vibeProfile: {
+        vibe_name: string
+        voice_summary: string
+        vibe_keywords: string[]
+        stylistic_tags: string[]
+        formality: "Academic" | "Standard" | "Casual" | "Shitpost"
+        pacing: "Contemplative" | "Steady" | "Urgent"
+        complexity: "Minimalist" | "Standard" | "World-building"
+        humor_styles: ("None" | "Dry" | "Absurdist" | "Slapstick" | "Meme-based" | "Satire" | "Pun")[]
+        aesthetic: string
+        sample_text: string
+        language: string
+    }
 }
 
 export interface LoglineData {
@@ -79,7 +83,7 @@ export async function deleteProblem(problemId: string) {
 
 export async function updateProblem(problemId: string, data: ProblemUpdateData) {
     const userId = await sessionValidation();
-    
+
     const problem = await prisma.problemGeneration.update({
         where: {
             id: problemId,
@@ -95,7 +99,7 @@ export async function updateProblem(problemId: string, data: ProblemUpdateData) 
 // Specialized function for updating workflow progress
 export async function updateProblemStep(problemId: string, currentStep: number, stepData: Partial<ProblemUpdateData>) {
     const userId = await sessionValidation();
-    
+
     const problem = await prisma.problemGeneration.update({
         where: {
             id: problemId,
@@ -165,7 +169,7 @@ export async function unstarTheme(starredThemeId: string) {
     return starredTheme;
 }
 
-export async function createVibeProfile(vibeProfile: VibeProfile) {
+export async function createVibeProfile(vibeProfile: VibeProfile["vibeProfile"]) {
     const userId = await sessionValidation();
     const createdVibeProfile = await prisma.vibeProfile.create({
         data: {
@@ -191,7 +195,7 @@ export async function deleteVibeProfile(vibeProfileId: string) {
     return deletedVibeProfile
 }
 
-export async function editVibeProfile(vibeProfileId: string, vibeProfile: VibeProfile) {
+export async function editVibeProfile(vibeProfileId: string, vibeProfile: VibeProfile["vibeProfile"]) {
     const userId = await sessionValidation();
     const editedVibeProfile = await prisma.vibeProfile.update({
         where: {
@@ -205,4 +209,36 @@ export async function editVibeProfile(vibeProfileId: string, vibeProfile: VibePr
 
     revalidatePath('/')
     return editedVibeProfile;
+}
+
+export async function editLogline(loglineId: string, logline: LoglineData) {
+    const userId = await sessionValidation();
+    const editedLogline = await prisma.starredLogline.update({
+        where: {
+            id: loglineId,
+            userId: userId,
+        },
+        data: {
+            logline: JSON.stringify(logline),
+        },
+    })
+
+    revalidatePath('/')
+    return editedLogline;
+}
+
+export async function editTheme(themeId: string, theme: string) {
+    const userId = await sessionValidation();
+    const editedTheme = await prisma.starredTheme.update({
+        where: {
+            id: themeId,
+            userId: userId,
+        },
+        data: {
+            theme: theme,
+        },
+    })
+
+    revalidatePath('/')
+    return editedTheme;
 }

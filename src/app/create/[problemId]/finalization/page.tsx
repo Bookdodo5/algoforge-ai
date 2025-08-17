@@ -1,16 +1,20 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import React from 'react';
+import { prisma } from "@/lib/prisma";
+import { sessionValidation } from "@/app/actions/serverActions";
+import FinalizationClient from "./finalization-client";
 
-const FinalizationPage = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="w-full max-w-md">
-            <CardHeader>
-                <CardTitle>Finalization</CardTitle>
-            </CardHeader>
-        </Card>
-    </div>
-  );
-};
+export default async function FinalizationPage({
+    params,
+}: {
+    params: Promise<{ problemId: string }>;
+}) {
+    const { problemId } = await params;
+    await sessionValidation();
 
-export default FinalizationPage; 
+    const problem = await prisma.problemGeneration.findUnique({ where: { id: problemId } });
+
+    return (
+        <div className="h-full flex flex-grow items-center justify-center bg-background min-h-96 py-20 px-20">
+            <FinalizationClient problemId={problemId} problem={problem as any} />
+        </div>
+    );
+}

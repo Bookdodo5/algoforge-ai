@@ -22,7 +22,7 @@ export const POST = withAuth(async (request: Request, _session) => {
             throw new Error("Narrative and at least one algorithm are required");
         }
 
-        const message = `Develop 5 fully-fleshed-out Problem Proposals using the following narrative and algorithms:\n\nNarrative:\n${narrative}\n\nAlgorithms:\n${JSON.stringify(algorithms, null, 2)}`;
+        const message = `Develop 5 fully-fleshed-out High-level Problem Proposals using the following narrative and algorithms:\n\nNarrative:\n${narrative}\n\nAlgorithms:\n${JSON.stringify(algorithms, null, 2)}`;
 
         const result = await generateAiResponse(
             ALGORITHM_DIVERSIFICATION_SYSTEM_INSTRUCTION,
