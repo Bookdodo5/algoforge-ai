@@ -4,10 +4,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ALGORITHM_LIBRARY } from "@/lib/algorithms"
-import { ArrowLeft, Cpu, BookOpen, Target, Lightbulb, List, Crosshair, Info } from "lucide-react"
-import { diffColorMap } from "../page"
+import { ArrowLeft, Cpu, BookOpen, List, Crosshair, Info } from "lucide-react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
+
+const diffColorMap = {
+    "Beginner": "default",
+    "Intermediate": "secondary",
+    "Advanced": "accent",
+    "Expert": "destructive"
+}
 
 export default function AlgorithmDetailPage() {
     const { algorithmId } = useParams();
