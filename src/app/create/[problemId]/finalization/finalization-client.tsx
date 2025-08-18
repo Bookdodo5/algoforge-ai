@@ -72,8 +72,8 @@ export default function FinalizationClient({
                 </div>
             </CardHeader>
             <CardContent className="space-y-6 mt-4">
-                <div className="grid gap-6">
-                    <div className="space-y-2">
+                <div className="space-y-6">
+                    <div className="space-y-2 w-full">
                         <h4 className="text-sm font-medium text-foreground flex items-center gap-2">
                             <FileText className="size-4" /> Problem : {problem.formalizedProblem.problemTitle ?? "-"}
                         </h4>
@@ -84,7 +84,7 @@ export default function FinalizationClient({
                         </div>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-2 w-full">
                         <h4 className="text-sm font-medium text-foreground flex items-center gap-2">
                             <Code2 className="size-4" /> C++ Solution
                         </h4>
@@ -93,7 +93,7 @@ export default function FinalizationClient({
                         </div>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-2 w-full">
                         <h4 className="text-sm font-medium text-foreground flex items-center gap-2">
                             <FlaskConical className="size-4" /> Test Generator
                         </h4>

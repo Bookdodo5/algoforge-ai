@@ -17,9 +17,9 @@ export function ProblemDisplay({ problems }: { problems: any[] }) {
             "Theme Ideation",
             "Logline Expansion",
             "Narrative Generation",
+            "Algorithm Specification",
             "Problem Formalization",
             "Solution Formation",
-            "Algorithm Specification",
             "Finalization"
         ]
         return steps[step] || "Unknown Step"
@@ -120,7 +120,7 @@ export function ProblemDisplay({ problems }: { problems: any[] }) {
                         <Button
                             onClick={async () => {
                                 const newProblem = await createNewProblem();
-                                if(newProblem) router.push(`/create/${newProblem.id}/}`);
+                                if(newProblem) router.push(`/create/${newProblem.id}/`);
                             }}
                             className="mt-4"
                         >

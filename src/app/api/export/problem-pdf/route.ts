@@ -1,8 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { sessionValidation } from "@/app/actions/serverActions";
-import puppeteer from "puppeteer";
 import { marked } from "marked";
 import { NextResponse } from "next/server";
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 
 export const runtime = "nodejs";
 
@@ -297,13 +298,13 @@ export async function GET(req: Request) {
         const { searchParams } = new URL(req.url);
         const problemId = searchParams.get("problemId");
 
-        if (!problemId) return new Response("Missing problemId", { status: 400 });
+        if (!problemId) return new NextResponse("Missing problemId", { status: 400 });
 
         const problem = await prisma.problemGeneration.findUnique({
             where: { id: problemId, userId },
         });
 
-        if (!problem) return new Response("Not found", { status: 404 });
+        if (!problem) return new NextResponse("Not found", { status: 404 });
 
         const formalized = problem.formalizedProblem as any;
         const proposal = problem.problemProposal as any;
@@ -328,10 +329,12 @@ export async function GET(req: Request) {
 
         const html = createHtmlTemplate(data);
 
-        // Generate PDF
         const browser = await puppeteer.launch({
-            args: ["--no-sandbox", "--disable-setuid-sandbox"]
+            args: [...chromium.args, "--hide-scrollbars", "--disable-web-security", "--ignore-certificate-errors"],
+            executablePath: await chromium.executablePath(),
+            headless: true,
         });
+
         const page = await browser.newPage();
         await page.setContent(html, { waitUntil: "networkidle0" });
         const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
@@ -339,7 +342,7 @@ export async function GET(req: Request) {
 
         const filename = `${data.title.replace(/[^a-z0-9\-_]+/gi, "_")}.pdf`;
 
-        return new Response(pdfBuffer, {
+        return new NextResponse(pdfBuffer, {
             status: 200,
             headers: {
                 "Content-Type": "application/pdf",
@@ -349,7 +352,7 @@ export async function GET(req: Request) {
         });
     } catch (e) {
         console.error(e);
-        return new Response("Failed to generate PDF", { status: 500 });
+        return new NextResponse("Failed to generate PDF", { status: 500 });
     }
 }
 

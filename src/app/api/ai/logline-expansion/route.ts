@@ -26,6 +26,7 @@ export const POST = withAuth(async (request: Request, _session) => {
 Generate exactly 8 loglines based on this theme and voice profile:
 Theme: ${theme}
 Voice Profile: ${JSON.stringify(vibe, null, 2)}
+DON'T MAKE IT TOO VERBOSE.
 `;
 
         const result = await generateAiResponse(

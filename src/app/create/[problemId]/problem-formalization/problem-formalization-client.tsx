@@ -73,6 +73,8 @@ export default function ProblemFormalizationClient({
                 body: JSON.stringify({ narrative, problem: proposal, vibe: vibePayload }),
             });
 
+            console.log(res)
+
             if (!res.ok) throw new Error("Problem formalization failed");
 
             return res.json() as Promise<FormalizedProblem>;
@@ -144,7 +146,7 @@ export default function ProblemFormalizationClient({
                     ) : (
                         <>
                             <Wand2 className="size-4" />
-                            {formalization ? "Regenerate With AI" : "Generate With AI"}
+                            Generate With AI
                         </>
                     )}
                 </Button>
