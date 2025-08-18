@@ -56,7 +56,7 @@ async function getDashboardData() {
     }
 }
 
-export function StatsCard({
+function StatsCard({
     number,
     title,
     icon: Icon,
