@@ -12,7 +12,7 @@ export function withAuth<T>(
                 console.error(session)
                 return new NextResponse("Session Validation Error", { status: 400 }); ;;
             }
-            if (!session || !session.user) {
+            if (!session || !session.user || session instanceof Error) {
                 return NextResponse.json(
                     { error: "Authentication required. Please sign in." },
                     { status: 401 }

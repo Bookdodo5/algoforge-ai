@@ -7,7 +7,7 @@ export default async function CreateLayout({
     children: React.ReactNode;
 }) {
     const session = await sessionValidation();
-    if (!session) redirect("/auth/signin");
+    if (!session || session instanceof Error) redirect("/auth/signin");
 
     return <>{children}</>;
 }
