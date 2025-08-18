@@ -1,4 +1,4 @@
-import { PrismaClient } from '@/generated/prisma';
+import { PrismaClient } from '@prisma/client';
 // Extend the global object to include the PrismaClient instance
 declare global {
     var prisma: PrismaClient | undefined;

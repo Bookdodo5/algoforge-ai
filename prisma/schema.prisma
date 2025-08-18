@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -98,7 +97,6 @@ model ProblemGeneration {
   
   // Workflow tracking
   currentStep     Int     @default(1)
-  lastValidStep   Int     @default(0)
   isCompleted     Boolean @default(false)
   
   // Timestamps
