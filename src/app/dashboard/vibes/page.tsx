@@ -1,14 +1,20 @@
 import { prisma } from "@/lib/prisma"
 import { sessionValidation } from "@/app/actions/serverActions"
+import type { VibeProfile } from "@/app/actions/serverActions"
 import { VibesDisplay } from "./vibes-display"
 
 async function getVibes() {
-    const userId = await sessionValidation()
-    const vibes = await prisma.vibeProfile.findMany({
+    const session = await sessionValidation()
+    const userId = session.user.id
+    const vibesFromDb = await prisma.vibeProfile.findMany({
         where: {
             userId: userId
         }
     })
+    const vibes = vibesFromDb.map(v => ({
+        ...v,
+        vibeProfile: JSON.parse((v.vibeProfile as unknown as string).replace("`", ""))
+    })) as VibeProfile[]
     return vibes
 }
 

@@ -3,12 +3,43 @@
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { getServerSession } from 'next-auth'
-import { authConfig } from '../api/auth/[...nextauth]/route'
+import GithubProvider from "next-auth/providers/github"
+import GoogleProvider from "next-auth/providers/google"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import { Session } from "next-auth"
+import { User } from "next-auth"
+
+const authConfig = {
+    adapter: PrismaAdapter(prisma),
+    providers: [
+        GithubProvider({
+            clientId: process.env.GITHUB_ID!,
+            clientSecret: process.env.GITHUB_SECRET!,
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_ID!,
+            clientSecret: process.env.GOOGLE_SECRET!,
+        }),
+    ],
+    secret: process.env.NEXTAUTH_SECRET,
+    pages: {
+        signIn: '/auth/signin',
+        error: '/auth/error',
+    },
+    callbacks: {
+        async session({ session, user }: { session: Session, user: User }) {
+            if (session.user) {
+                session.user.id = user.id
+            }
+            return session
+        }
+    },
+}
 
 export const sessionValidation = async () => {
     const session = await getServerSession(authConfig);
     if (!session?.user?.id) throw new Error('Unauthorized');
-    return session.user.id;
+    return session;
 }
 
 export interface ProblemUpdateData {
@@ -55,7 +86,8 @@ export interface LoglineData {
 }
 
 export async function createNewProblem() {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const problem = await prisma.problemGeneration.create({
         data: {
             userId: userId,
@@ -69,7 +101,8 @@ export async function createNewProblem() {
 }
 
 export async function deleteProblem(problemId: string) {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const problem = await prisma.problemGeneration.delete({
         where: {
             id: problemId,
@@ -82,7 +115,8 @@ export async function deleteProblem(problemId: string) {
 }
 
 export async function updateProblem(problemId: string, data: ProblemUpdateData) {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
 
     const problem = await prisma.problemGeneration.update({
         where: {
@@ -96,29 +130,9 @@ export async function updateProblem(problemId: string, data: ProblemUpdateData) 
     return problem;
 }
 
-// Specialized function for updating workflow progress
-export async function updateProblemStep(problemId: string, currentStep: number, stepData: Partial<ProblemUpdateData>) {
-    const userId = await sessionValidation();
-
-    const problem = await prisma.problemGeneration.update({
-        where: {
-            id: problemId,
-            userId: userId,
-        },
-        data: {
-            ...stepData,
-            currentStep,
-            lastValidStep: currentStep,
-            updatedAt: new Date(),
-        },
-    })
-
-    revalidatePath('/')
-    return problem;
-}
-
 export async function starLogline(logline: Object) {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const starredLogline = await prisma.starredLogline.create({
         data: {
             userId: userId,
@@ -131,7 +145,8 @@ export async function starLogline(logline: Object) {
 }
 
 export async function unstarLogline(starredLoglineId: string) {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const starredLogline = await prisma.starredLogline.delete({
         where: {
             id: starredLoglineId,
@@ -144,7 +159,8 @@ export async function unstarLogline(starredLoglineId: string) {
 }
 
 export async function starTheme(theme: string) {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const starredTheme = await prisma.starredTheme.create({
         data: {
             userId: userId,
@@ -157,7 +173,8 @@ export async function starTheme(theme: string) {
 }
 
 export async function unstarTheme(starredThemeId: string) {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const starredTheme = await prisma.starredTheme.delete({
         where: {
             id: starredThemeId,
@@ -170,7 +187,8 @@ export async function unstarTheme(starredThemeId: string) {
 }
 
 export async function createVibeProfile(vibeProfile: VibeProfile["vibeProfile"]) {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const createdVibeProfile = await prisma.vibeProfile.create({
         data: {
             userId: userId,
@@ -183,7 +201,8 @@ export async function createVibeProfile(vibeProfile: VibeProfile["vibeProfile"])
 }
 
 export async function deleteVibeProfile(vibeProfileId: string) {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const deletedVibeProfile = await prisma.vibeProfile.delete({
         where: {
             id: vibeProfileId,
@@ -196,7 +215,8 @@ export async function deleteVibeProfile(vibeProfileId: string) {
 }
 
 export async function editVibeProfile(vibeProfileId: string, vibeProfile: VibeProfile["vibeProfile"]) {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const editedVibeProfile = await prisma.vibeProfile.update({
         where: {
             id: vibeProfileId,
@@ -212,7 +232,8 @@ export async function editVibeProfile(vibeProfileId: string, vibeProfile: VibePr
 }
 
 export async function editLogline(loglineId: string, logline: LoglineData) {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const editedLogline = await prisma.starredLogline.update({
         where: {
             id: loglineId,
@@ -228,7 +249,8 @@ export async function editLogline(loglineId: string, logline: LoglineData) {
 }
 
 export async function editTheme(themeId: string, theme: string) {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const editedTheme = await prisma.starredTheme.update({
         where: {
             id: themeId,

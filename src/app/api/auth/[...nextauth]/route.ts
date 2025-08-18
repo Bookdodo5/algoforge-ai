@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma"
 import { Session } from "next-auth"
 import { User } from "next-auth"
 
-export const authConfig = {
+const authConfig = {
     adapter: PrismaAdapter(prisma),
     providers: [
         GithubProvider({

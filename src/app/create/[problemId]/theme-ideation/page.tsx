@@ -10,7 +10,8 @@ export default async function ThemeIdeationPage({
     }>
 }) {
     const { problemId } = await params;
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
 
     // Fetch starred themes and current problem
     const [starredThemes, problem] = await Promise.all([

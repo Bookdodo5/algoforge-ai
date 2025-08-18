@@ -8,7 +8,8 @@ export default async function LoglineExpansionPage({
     params: Promise<{ problemId: string }>
 }) {
     const { problemId } = await params;
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
 
     const [problem, starredLoglines] = await Promise.all([
         prisma.problemGeneration.findUnique({

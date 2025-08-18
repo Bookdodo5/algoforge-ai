@@ -3,7 +3,8 @@ import { LoglineDisplay } from "@/app/dashboard/loglines/logline-display";
 import { prisma } from "@/lib/prisma";
 
 async function getLoglines() {
-    const userId = await sessionValidation()
+    const session = await sessionValidation()
+    const userId = session.user.id
     const loglines = await prisma.starredLogline.findMany({
         where: {
             userId: userId

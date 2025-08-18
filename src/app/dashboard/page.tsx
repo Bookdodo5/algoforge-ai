@@ -14,7 +14,8 @@ import {
 } from "lucide-react"
 
 async function getDashboardData() {
-    const userId = await sessionValidation()
+    const session = await sessionValidation()
+    const userId = session.user.id
 
     const [vibes, themes, loglines, problems] = await Promise.all([
         prisma.vibeProfile.count({ where: { userId } }),

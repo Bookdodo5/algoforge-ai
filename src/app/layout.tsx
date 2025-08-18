@@ -4,8 +4,7 @@ import { Providers } from "@/components/providers";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import "./globals.css";
-import { getServerSession } from "next-auth";
-import { authConfig } from "./api/auth/[...nextauth]/route";
+import { sessionValidation } from "@/app/actions/serverActions"
 import { Suspense } from "react";
 import { LoadingPage } from "@/components/ui/loading";
 
@@ -43,7 +42,7 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const session = await getServerSession(authConfig);
+    const session = await sessionValidation();
     return (
         <html lang="en" suppressHydrationWarning>
             <body

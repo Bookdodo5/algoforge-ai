@@ -3,7 +3,8 @@ import { ThemeDisplay } from "./theme-display";
 import { prisma } from "@/lib/prisma";
 
 async function getThemes() {
-    const userId = await sessionValidation()
+    const session = await sessionValidation()
+    const userId = session.user.id
     const themes = await prisma.starredTheme.findMany({
         where: {
             userId: userId

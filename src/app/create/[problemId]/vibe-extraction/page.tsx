@@ -10,7 +10,8 @@ export default async function VibeExtractionPage({
     }>
 }) {
     const { problemId } = await params;
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const vibesFromDb = await prisma.vibeProfile.findMany({
         where: {
             userId: userId

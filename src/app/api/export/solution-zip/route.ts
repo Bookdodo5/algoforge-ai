@@ -4,7 +4,8 @@ import JSZip from "jszip";
 
 export async function GET(req: Request) {
   try {
-    const userId = await sessionValidation();
+    const session = await sessionValidation();
+    const userId = session.user.id;
     const { searchParams } = new URL(req.url);
     const problemId = searchParams.get("problemId");
 

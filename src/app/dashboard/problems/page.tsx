@@ -3,7 +3,8 @@ import { ProblemDisplay } from "./problem-display";
 import { prisma } from "@/lib/prisma";
 
 async function getProblems() {
-    const userId = await sessionValidation()
+    const session = await sessionValidation()
+    const userId = session.user.id
     const problems = await prisma.problemGeneration.findMany({
         where: {
             userId: userId
