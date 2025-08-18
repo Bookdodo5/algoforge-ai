@@ -36,7 +36,7 @@ const authConfig = {
     },
 }
 
-export const sessionValidation = async () => {
+export async function sessionValidation() {
     const session = await getServerSession(authConfig);
     if (!session?.user?.id) throw new Error('Unauthorized');
     return session;

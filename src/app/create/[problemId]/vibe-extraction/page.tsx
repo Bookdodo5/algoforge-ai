@@ -17,7 +17,7 @@ export default async function VibeExtractionPage({
             userId: userId
         }
     })
-    const vibes = vibesFromDb.map(v => ({
+    const vibes = vibesFromDb.map((v: any) => ({
         ...v,
         vibeProfile: JSON.parse((v.vibeProfile as string).replace("`", ""))
     }));
