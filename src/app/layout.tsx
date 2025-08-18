@@ -43,10 +43,6 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const session = await sessionValidation();
-    if(session instanceof Error) {
-        console.error(session)
-        return null;
-    }
     return (
         <html lang="en" suppressHydrationWarning>
             <body
@@ -58,7 +54,7 @@ export default async function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <Navbar session={session} />
+                    <Navbar session={session instanceof Error ? null : session} />
                     <Suspense fallback={<LoadingPage text="Loading..." />}>
                         <main className="flex-1">
                             {children}
