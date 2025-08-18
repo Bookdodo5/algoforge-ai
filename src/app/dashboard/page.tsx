@@ -86,7 +86,7 @@ function StatsCard({
     )
 }
 
-export function RecentCard({ recent, title, icon: Icon, iconColor }: {
+function RecentCard({ recent, title, icon: Icon, iconColor }: {
     recent: string[],
     title: string,
     icon: React.ComponentType<{ className?: string }>,
