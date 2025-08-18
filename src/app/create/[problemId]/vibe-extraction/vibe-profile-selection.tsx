@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { VibeProfile, updateProblem } from "@/app/actions/serverActions";
 import { ArrowRight, Loader2, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";

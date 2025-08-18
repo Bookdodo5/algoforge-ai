@@ -1,6 +1,6 @@
 "use client"
 
-import { getProviders, signIn, useSession, getSession } from "next-auth/react"
+import { getProviders, signIn, useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"

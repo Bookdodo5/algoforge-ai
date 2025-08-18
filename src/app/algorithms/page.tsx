@@ -94,7 +94,7 @@ const AlgorithmsPage = () => {
                             No algorithms found.
                         </div>
                     ) :
-                        filteredAlgorithms.map((algo, index) => {
+                        filteredAlgorithms.map((algo) => {
                             return (
                                 <Link key={algo.id} href={`/algorithms/${algo.id}`}>
                                     <Card className="border-border hover:border-primary/50 border-2 transition-colors cursor-pointer">

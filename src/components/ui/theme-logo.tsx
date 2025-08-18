@@ -1,15 +1,16 @@
 import * as React from "react"
+import Image from "next/image"
 
 export function ThemeLogo({ className = "" }: {className?: string}) {
     
     return (
         <div className={`relative ${className}`}>
-            <img 
+            <Image 
                 src="/logo_dark.svg" 
                 alt="AlgoForge Logo" 
                 className={`dark:hidden`}
             />
-            <img 
+            <Image 
                 src="/logo_light.svg" 
                 alt="AlgoForge Logo" 
                 className={`hidden dark:block`}

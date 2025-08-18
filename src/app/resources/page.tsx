@@ -1,21 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import {
-    BookOpen,
-    Code,
-    Database,
-    ExternalLink,
-    FileText,
-    Lightbulb,
-    Play,
-    Users,
-    Zap,
-    Globe,
-    Book,
-    Video,
-    Target,
-    Trophy
-} from "lucide-react";
+import { Code, ExternalLink, FileText, Book } from "lucide-react";
 import React from 'react';
 
 const ResourcesPage = () => {

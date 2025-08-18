@@ -4,7 +4,6 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Button } from "@/components/ui/button"
 import { Edit, Trash2, Plus } from "lucide-react"
 import { VibeProfile, deleteVibeProfile } from "@/app/actions/serverActions"
-import { JsonValue } from "@prisma/client/runtime/library"
 import { useRouter } from "next/navigation"
 
 export function VibesDisplay({ vibes }: { vibes: VibeProfile[] }) {

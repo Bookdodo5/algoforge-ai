@@ -241,7 +241,7 @@ const createHtmlTemplate = (data: any) => `
     ${data.subtasks ? `
       <div class="section">
         <h2>Subtasks</h2>
-        ${data.subtasks.map((s: any, i: number) => `
+        ${data.subtasks.map((s: any) => `
           <div class="subtask-item">
             <div class="subtask-points">[${s.points ?? "?"} points]</div>
             <div class="subtask-description">${s.description}</div>

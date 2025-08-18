@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { createNewProblem } from "@/app/actions/serverActions"
 import { redirect } from "next/navigation"
@@ -9,7 +9,7 @@ export default function Create() {
     async function handleCreateNewProblem() {
         'use server'
         const problem = await createNewProblem()
-        redirect(`/create/${problem.id}`)
+        if(problem) redirect(`/create/${problem.id}`)
     }
 
     async function handleContinueProblem() {

@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, FileText, Loader2, Wand2, BookOpen, Network, Quote, Zap, ChevronRight, ChevronLeft, Plus, X } from "lucide-react";
+import { ArrowRight, FileText, Loader2, Wand2, BookOpen, Network, Zap, ChevronRight, ChevronLeft, Plus, X } from "lucide-react";
 import { updateProblem } from "@/app/actions/serverActions";
 
 type Subtask = {
@@ -94,13 +94,13 @@ export default function ProblemFormalizationClient({
         if (!formalization?.subtasks.length) return;
         if (currentSubtaskIdx >= formalization?.subtasks.length)
             setCurrentSubtaskIdx(i => i - 1)
-    }, [formalization?.subtasks.length])
+    }, [formalization?.subtasks.length, currentSubtaskIdx])
 
     useEffect(() => {
         if (!formalization?.exampleTestcases.length) return;
         if (currentExampleIdx >= formalization?.exampleTestcases.length)
             setCurrentExampleIdx(i => i - 1)
-    }, [formalization?.exampleTestcases.length])
+    }, [formalization?.exampleTestcases.length, currentExampleIdx])
 
     return (
         <Card className="w-full max-w-5xl mx-auto">
