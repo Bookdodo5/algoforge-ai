@@ -120,7 +120,7 @@ export function ProblemDisplay({ problems }: { problems: any[] }) {
                         <Button
                             onClick={async () => {
                                 const newProblem = await createNewProblem();
-                                router.push(`/create/${newProblem.id}/}`);
+                                if(newProblem) router.push(`/create/${newProblem.id}/}`);
                             }}
                             className="mt-4"
                         >
