@@ -5,6 +5,10 @@ import { VibesDisplay } from "./vibes-display"
 
 async function getVibes() {
     const session = await sessionValidation()
+    if(session instanceof Error) {
+        console.error(session)
+        return [];
+    }
     const userId = session.user.id
     const vibesFromDb = await prisma.vibeProfile.findMany({
         where: {

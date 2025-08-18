@@ -9,6 +9,10 @@ export default async function LoglineExpansionPage({
 }) {
     const { problemId } = await params;
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return <></>;
+    }
     const userId = session.user.id;
 
     const [problem, starredLoglines] = await Promise.all([

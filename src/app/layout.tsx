@@ -43,6 +43,10 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     return (
         <html lang="en" suppressHydrationWarning>
             <body

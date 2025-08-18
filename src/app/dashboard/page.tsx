@@ -15,6 +15,16 @@ import {
 
 async function getDashboardData() {
     const session = await sessionValidation()
+    if(session instanceof Error) {
+        console.error(session)
+        return {
+            stats: { vibes: 0, themes: 0, loglines: 0, problems: 0 },
+            recentVibes: [],
+            recentThemes: [],
+            recentLoglines: [],
+            recentProblems: []
+        };
+    }
     const userId = session.user.id
 
     const [vibes, themes, loglines, problems] = await Promise.all([

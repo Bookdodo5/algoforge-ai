@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { sessionValidation } from "@/app/actions/serverActions";
 import puppeteer from "puppeteer";
 import { marked } from "marked";
+import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
@@ -288,6 +289,10 @@ const createHtmlTemplate = (data: any) => `
 export async function GET(req: Request) {
     try {
         const session = await sessionValidation();
+        if(session instanceof Error) {
+            console.error(session)
+            return new NextResponse("Session Validation Error", { status: 400 }); ;
+        }
         const userId = session.user.id;
         const { searchParams } = new URL(req.url);
         const problemId = searchParams.get("problemId");

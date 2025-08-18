@@ -38,7 +38,7 @@ const authConfig = {
 
 export async function sessionValidation() {
     const session = await getServerSession(authConfig);
-    if (!session?.user?.id) throw new Error('Unauthorized');
+    if (!session?.user?.id) return new Error('Unauthorized');
     return session;
 }
 
@@ -87,6 +87,10 @@ export interface LoglineData {
 
 export async function createNewProblem() {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
     const problem = await prisma.problemGeneration.create({
         data: {
@@ -102,6 +106,10 @@ export async function createNewProblem() {
 
 export async function deleteProblem(problemId: string) {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
     const problem = await prisma.problemGeneration.delete({
         where: {
@@ -116,6 +124,10 @@ export async function deleteProblem(problemId: string) {
 
 export async function updateProblem(problemId: string, data: ProblemUpdateData) {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
 
     const problem = await prisma.problemGeneration.update({
@@ -132,6 +144,10 @@ export async function updateProblem(problemId: string, data: ProblemUpdateData) 
 
 export async function starLogline(logline: Object) {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
     const starredLogline = await prisma.starredLogline.create({
         data: {
@@ -146,6 +162,10 @@ export async function starLogline(logline: Object) {
 
 export async function unstarLogline(starredLoglineId: string) {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
     const starredLogline = await prisma.starredLogline.delete({
         where: {
@@ -160,6 +180,10 @@ export async function unstarLogline(starredLoglineId: string) {
 
 export async function starTheme(theme: string) {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
     const starredTheme = await prisma.starredTheme.create({
         data: {
@@ -174,6 +198,10 @@ export async function starTheme(theme: string) {
 
 export async function unstarTheme(starredThemeId: string) {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
     const starredTheme = await prisma.starredTheme.delete({
         where: {
@@ -188,6 +216,10 @@ export async function unstarTheme(starredThemeId: string) {
 
 export async function createVibeProfile(vibeProfile: VibeProfile["vibeProfile"]) {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
     const createdVibeProfile = await prisma.vibeProfile.create({
         data: {
@@ -202,6 +234,10 @@ export async function createVibeProfile(vibeProfile: VibeProfile["vibeProfile"])
 
 export async function deleteVibeProfile(vibeProfileId: string) {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
     const deletedVibeProfile = await prisma.vibeProfile.delete({
         where: {
@@ -216,6 +252,10 @@ export async function deleteVibeProfile(vibeProfileId: string) {
 
 export async function editVibeProfile(vibeProfileId: string, vibeProfile: VibeProfile["vibeProfile"]) {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
     const editedVibeProfile = await prisma.vibeProfile.update({
         where: {
@@ -233,6 +273,10 @@ export async function editVibeProfile(vibeProfileId: string, vibeProfile: VibePr
 
 export async function editLogline(loglineId: string, logline: LoglineData) {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
     const editedLogline = await prisma.starredLogline.update({
         where: {
@@ -250,6 +294,10 @@ export async function editLogline(loglineId: string, logline: LoglineData) {
 
 export async function editTheme(themeId: string, theme: string) {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
     const editedTheme = await prisma.starredTheme.update({
         where: {

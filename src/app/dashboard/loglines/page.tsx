@@ -4,6 +4,10 @@ import { prisma } from "@/lib/prisma";
 
 async function getLoglines() {
     const session = await sessionValidation()
+    if(session instanceof Error) {
+        console.error(session)
+        return [];
+    }
     const userId = session.user.id
     const loglines = await prisma.starredLogline.findMany({
         where: {
@@ -28,7 +32,7 @@ export default async function Loglines() {
                 </p>
             </div>
 
-            <LoglineDisplay loglines={loglines} />
+            <LoglineDisplay loglines={loglines ?? []} />
         </div>
     );
 }

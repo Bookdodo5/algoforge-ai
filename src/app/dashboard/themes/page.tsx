@@ -4,6 +4,10 @@ import { prisma } from "@/lib/prisma";
 
 async function getThemes() {
     const session = await sessionValidation()
+    if(session instanceof Error) {
+        console.error(session)
+        return [];
+    }
     const userId = session.user.id
     const themes = await prisma.starredTheme.findMany({
         where: {

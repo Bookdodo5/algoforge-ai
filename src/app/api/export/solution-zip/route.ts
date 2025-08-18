@@ -1,10 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { sessionValidation } from "@/app/actions/serverActions";
 import JSZip from "jszip";
+import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
     const session = await sessionValidation();
+    if(session instanceof Error) {
+      console.error(session)
+      return new NextResponse("Session Validation Error", { status: 400 }); ;
+  }
     const userId = session.user.id;
     const { searchParams } = new URL(req.url);
     const problemId = searchParams.get("problemId");

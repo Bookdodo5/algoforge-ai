@@ -8,6 +8,10 @@ export function withAuth<T>(
     return async (request: Request) => {
         try {
             const session = await sessionValidation();
+            if(session instanceof Error) {
+                console.error(session)
+                return new NextResponse("Session Validation Error", { status: 400 }); ;;
+            }
             if (!session || !session.user) {
                 return NextResponse.json(
                     { error: "Authentication required. Please sign in." },

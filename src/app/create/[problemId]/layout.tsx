@@ -15,6 +15,10 @@ export default async function CreateProblemLayout({
 }) {
     const { problemId } = await params;
     const session = await sessionValidation();
+    if(session instanceof Error) {
+        console.error(session)
+        return null;
+    }
     const userId = session.user.id;
     const problem = await prisma.problemGeneration.findUnique({
         where: {

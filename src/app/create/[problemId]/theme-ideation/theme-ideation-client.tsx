@@ -64,6 +64,7 @@ export default function ThemeIdeationClient({
     const starThemeMutation = useMutation({
         mutationFn: (theme: string) => starTheme(theme),
         onSuccess: (newStarredTheme) => {
+            if (!newStarredTheme) return;
             setStarredThemesList(prev => [...prev, newStarredTheme]);
         },
     });
