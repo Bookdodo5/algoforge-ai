@@ -9,16 +9,18 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { Session } from "next-auth"
 import { User } from "next-auth"
 
-const authConfig = {
+export const authConfig = {
     adapter: PrismaAdapter(prisma),
     providers: [
         GithubProvider({
             clientId: process.env.GITHUB_ID!,
             clientSecret: process.env.GITHUB_SECRET!,
+            allowDangerousEmailAccountLinking: true,
         }),
         GoogleProvider({
             clientId: process.env.GOOGLE_ID!,
             clientSecret: process.env.GOOGLE_SECRET!,
+            allowDangerousEmailAccountLinking: true,
         }),
     ],
     secret: process.env.NEXTAUTH_SECRET,
