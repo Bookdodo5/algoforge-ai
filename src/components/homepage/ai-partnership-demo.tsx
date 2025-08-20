@@ -100,7 +100,7 @@ Originality Notes: 'Combines classic DP with state compression, where the bomb's
                                 </div>
                                 <div className="space-y-2">
                                     <Label className="text-xs font-medium text-muted-foreground">AI Output</Label>
-                                    <div className="p-3 bg-primary/5 border border-primary/20 rounded-lg text-sm font-mono h-32 whitespace-pre-wrap">
+                                    <div className="p-3 bg-primary/5 border border-primary/20 rounded-lg overflow-auto text-sm font-mono h-32 whitespace-pre-wrap">
                                         {demo.output}
                                     </div>
                                 </div>
