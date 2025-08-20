@@ -2,7 +2,7 @@ import { z } from "zod";
 import { LOGLINE_EXPANSION_SYSTEM_INSTRUCTION } from "@/lib/prompts";
 import { NextResponse } from "next/server";
 import { generateAiResponse } from "@/lib/ai";
-import { withAuth } from "@/lib/auth-middleware";   
+import { withAuth } from "@/lib/auth-middleware";
 
 const loglineExpansionSchema = z.object({
     loglines: z.array(z.object({
@@ -25,8 +25,8 @@ export const POST = withAuth(async (request: Request, _session) => {
         const message = `
 Generate exactly 8 loglines based on this theme and voice profile:
 Theme: ${theme}
-Voice Profile: ${JSON.stringify(vibe, null, 2)}
-DON'T MAKE IT TOO VERBOSE.
+Voice Profile: ${JSON.stringify({ ...vibe, complexity: "Minimalist" }, null, 2)}
+DON'T MAKE IT TOO VERBOSE. KEEP THE LOGLINE CONCISE AND SHORT, WHILE CONVEYING THE MAIN IDEA. KEEP IT SIMPLE
 `;
 
         const result = await generateAiResponse(

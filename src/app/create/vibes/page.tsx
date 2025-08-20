@@ -79,12 +79,12 @@ export default function CreateVibes() {
 
             {/* Tab Navigation */}
             <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "ai" | "manual")}>
-                <TabsList className="grid w-96 grid-cols-2 mx-auto mb-4">
-                    <TabsTrigger value="ai" className="flex items-center gap-2">
+                <TabsList className="grid w-96 grid-cols-2 mx-auto mb-4 gap-1">
+                    <TabsTrigger value="ai" className="flex items-center gap-2 cursor-pointer hover:bg-card/70 transition-all">
                         <Wand2 className="size-4" />
                         AI Analysis
                     </TabsTrigger>
-                    <TabsTrigger value="manual" className="flex items-center gap-2">
+                    <TabsTrigger value="manual" className="flex items-center gap-2 cursor-pointer hover:bg-card/70 transition-all">
                         <Edit3 className="size-4" />
                         {isEdit ? "Edit Profile" : "Manual Creation"}
                     </TabsTrigger>

@@ -40,6 +40,9 @@ ${narrative}
 
 The authorial voice profile that should influence the writing style:
 ${JSON.stringify(vibe, null, 2)}
+
+!!DO NOT USE ANY LATEX CHARACTER FORMATS.
+!!USE MARKDOWN TO WRITE TEXT CONTENT.
         `;
 
         const result = await generateAiResponse(

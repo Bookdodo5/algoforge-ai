@@ -183,7 +183,7 @@ Your generation process MUST follow these core mandates:
 
 1.  **The Narrative Component Mandate:**
     Each generated logline MUST be a JSON object containing the core elements of a story. You will use the concepts of film pitching to structure your ideas. The object fields are:
-    - **protagonist**: A 2-5 word description of the main character, including a key personality trait. (e.g., "A cynical detective," "A naive young artist," "A hyper-caffeinated delivery drone").
+    - **protagonist**: A 2-4 word description of the main character, including a key personality trait. (e.g., "A cynical detective," "A naive young artist," "A hyper-caffeinated delivery drone").
     - **goal**: A concise phrase describing what the protagonist wants to achieve. (e.g., "to solve a bizarre murder," "to paint a masterpiece," "to deliver a package to the moon").
     - **obstacle**: The core conflict that makes the goal difficult. This MUST be the heart of the computational challenge. (e.g., "where all clues are paradoxical statements," "using a palette of colors that cyclically shift," "navigating a field of unstable wormholes").
     - **stakes**: A brief clause on what happens if they fail. This field can be null if it doesn't fit the vibe or makes the logline clunky. (e.g., "before the city descends into chaos," "or be forgotten by history").
@@ -244,7 +244,7 @@ Your generation process MUST follow these core mandates:
         "goal": "to recreate a lost elixir",
         "obstacle": "an ancient text where ingredients become inert if not added in a strict, unwritten sequence",
         "stakes": "to validate a foundational theory of ancient pharmacology",
-        "logline_sentence": "An alchemical historian attempts to recreate a lost elixir, but must deduce the correct mixing sequence from an ancient text, as ingredients become inert if the unwritten order is violated."
+        "logline_sentence": "An alchemical historian attempts to recreate a lost elixir, but must deduce the correct mixing sequence from an ancient text, as ingredients become inert if violated."
     },
     ...
     ]
@@ -304,7 +304,7 @@ Your generation process MUST follow these core mandates:
         "goal": "彼女の伝統的な漢方薬を煎じること",
         "obstacle": "家に伝わる処方箋には矛盾した指示があり、各薬草には加えるのに最適な時間帯がある",
         "stakes": "昔、祖母が自分にしてくれたように、彼女の気分が良くなるように手伝うため",
-        "logline_sentence": "病気の祖母の世話をする青年は、彼女の伝統的な漢方薬を煎じようとするが、家族の矛盾したメモを解読して、各薬草を加える最適な順序と時間を見つけなければならない。"
+        "logline_sentence": "病気の祖母の世話をする青年は、彼女の伝統的な漢方薬を煎じようとするが、家族の矛盾したメモを解読して、各薬草を加える最適な時間を見つけなければならない。"
     },
     ...
     ]
@@ -333,7 +333,7 @@ Your generation process MUST follow these core mandates:
         "goal": "ปรุง 'ยาระงับสติชั่วคราว' ให้กับเจ้านาย",
         "obstacle": "ส่วนผสมของยาจะเปลี่ยนลำดับที่ต้องการตามข้างขึ้นข้างแรมของดวงจันทร์     ซึ่งดันกะพริบแบบสุ่มไปมาอีก",
         "stakes": "ก่อนที่เจ้านายจะไปเซ็นสนธิสัญญากับเหล่าที่เย็บกระดาษมีชีวิต",
-        "logline_sentence": "พนักงานฝึกหัดในกระทรวงการปรุงยามหัศจรรย์ต้องปรุง     'ยาระงับสติชั่วคราว' ให้กับเจ้านาย     โดยต้องเดาลำดับส่วนผสมที่ถูกต้องซึ่งเปลี่ยนไปตามข้างขึ้นข้างแรมของดวงจันทร์ที่กะพริบไม่หยุดให้ได้ ก่อนที่เจ้านายจะเผลอไปเซ็นสัญญากับเหล่าที่เย็บกระดาษมีชีวิต"
+        "logline_sentence": "พนักงานในกระทรวงการปรุงยามหัศจรรย์ต้องปรุง     'ยาระงับสติชั่วคราว' ให้กับเจ้านาย     โดยต้องเดาลำดับส่วนผสมซึ่งเปลี่ยนไปตามข้างขึ้นข้างแรมของดวงจันทร์ให้ได้ ก่อนที่เจ้านายจะเผลอไปเซ็นสัญญากับเหล่าที่เย็บกระดาษมีชีวิต"
     }
     ]
 }
@@ -374,11 +374,13 @@ Your generation process MUST follow these core mandates:
 Return ONLY a valid JSON object with a single key, "loglines", which is an array of 8 distinct logline JSON objects. Do not include any other text or explanations.
 
 Each logline must be an object with these fields:
-- protagonist: A 2-5 word description of the main character
+- protagonist: A 2-4 word description of the main character
 - goal: What the protagonist wants to achieve
 - obstacle: The core conflict/challenge
 - stakes: What happens if they fail
 - logline_sentence: A complete sentence combining all elements
+
+**IMPORTANT** Keep the logline short and concise, but convey the complete idea of the story. DON'T MAKE IT LONGER THAN NEEDED
 `;
 
 export const NARRATIVE_GENERATION_SYSTEM_INSTRUCTION = `
@@ -731,6 +733,7 @@ Each ExampleTestcase object:
 - Use headings (\`##\`, \`###\`) only if the problem statement is long and needs clear sections (avoid overuse).
 - Keep formatting clean and minimal—clarity is the priority.
 - **IMPORTANT: When writing characters that are used normally in code such as " or \\ or \`, DON'T FORGET TO ESCAPE THEM WITH A BACKSLASH.**
+- **MOST IMPORTANT!!!**: DO NOT USE ANY LATEX CHARACTER FORMATS. WRITE THE SYMBOL DOWN DIRECTLY. USE THE UNICODE SYMBOL!!! ≤, ≥, ≠, ∈, ∅, ∑.
 `;
 
 export const IMPLEMENTATION_OUTLINE_SYSTEM_INSTRUCTION = `
@@ -816,6 +819,7 @@ You MUST adhere to the following coding standards to ensure the output is idioma
         - The meaning of each state in a DP array.
         - The purpose of complex or non-obvious calculations.
         - The high-level logic of each major block of code.
+        - **DO NOT ADD COMMENTS EXCESSIVELY. ONLY FOR IMPORTANT SECTIONS!!!
    - **Defining Functions:** define functions for separate piece of codes to prevent code duplication and make the code more readable.
 
 ---

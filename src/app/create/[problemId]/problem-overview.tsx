@@ -21,6 +21,8 @@ import React from "react"
 import { ThemeSyntax } from "@/components/homepage/theme-syntax"
 import oneLight from 'react-syntax-highlighter/dist/cjs/styles/prism/one-light';
 import oneDark from 'react-syntax-highlighter/dist/cjs/styles/prism/one-dark';
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 const DataSection = ({ title, data, fullWidth = false, code = false }: { title: string, data: any, fullWidth?: boolean, code?: boolean }) => {
     const isEmpty = data === null || data === undefined || (Array.isArray(data) && data.length === 0);
@@ -60,17 +62,22 @@ export default function ProblemOverview({
 }: {
     problem: ProblemUpdateData
 }) {
-    const [isPending, startTransition] = useTransition()
+    const [isRouting, setIsRouting] = useState(false)
     const { problemId } = useParams()
     const [title, setTitle] = useState(problem.title || "")
+    const router = useRouter();
 
-    const handleSave = () => {
-        startTransition(async () => {
+    const saveMutation = useMutation({
+        mutationFn: async () => {
             await updateProblem(problemId as string, {
                 title: title,
             })
-        })
-    }
+        },
+        onSuccess: () => {
+            router.push(`/create/${problemId}/vibe-extraction`)
+            setIsRouting(true)
+        }
+    })
 
     const {
         isCompleted,
@@ -114,9 +121,6 @@ export default function ProblemOverview({
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
-                        <Button onClick={handleSave} size="sm" disabled={isPending}>
-                            {isPending ? "Saving..." : "Save"}
-                        </Button>
                     </div>
                 </div>
 
@@ -138,12 +142,10 @@ export default function ProblemOverview({
                     } />
                     <DataSection title="Solution Code" data={solutionCode} code fullWidth />
                 </OverviewSection>
-                <Link href={`/create/${problemId}/vibe-extraction`}>
-                    <Button className="w-full">
-                        Next
-                        <ArrowRight className="size-4" />
-                    </Button>
-                </Link>
+                <Button className="w-full" onClick={()=>saveMutation.mutate()} disabled={saveMutation.isPending||isRouting}>
+                    Next
+                    <ArrowRight className="size-4" />
+                </Button>
             </CardContent>
         </Card>
     )

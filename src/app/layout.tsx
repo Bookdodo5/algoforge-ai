@@ -4,9 +4,6 @@ import { Providers } from "@/components/providers";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import "./globals.css";
-import { sessionValidation } from "@/app/actions/serverActions"
-import { Suspense } from "react";
-import { LoadingPage } from "@/components/ui/loading";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -37,12 +34,11 @@ export const metadata: Metadata = {
     },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const session = await sessionValidation();
     return (
         <html lang="en" suppressHydrationWarning>
             <body
@@ -54,12 +50,10 @@ export default async function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <Navbar session={session instanceof Error ? null : session} />
-                    <Suspense fallback={<LoadingPage text="Loading..." />}>
-                        <main className="flex-1">
-                            {children}
-                        </main>
-                    </Suspense>
+                    <Navbar />
+                    <main className="flex-1">
+                        {children}
+                    </main>
                     <Footer />
                 </Providers>
             </body>

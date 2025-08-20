@@ -1,11 +1,16 @@
-import { PrismaClient } from '@prisma/client';
-// Extend the global object to include the PrismaClient instance
-declare global {
-    var prisma: PrismaClient | undefined;
+import { PrismaClient } from '@prisma/client'
+
+const isDevelopment = process.env.NODE_ENV === 'development'
+
+let prisma: PrismaClient
+
+if (isDevelopment) {
+    if (!(global as any).prisma) {
+        (global as any).prisma = new PrismaClient()
+    }
+    prisma = (global as any).prisma
+} else {
+    prisma = new PrismaClient()
 }
 
-export const prisma = globalThis.prisma || new PrismaClient();
-// Ensure the PrismaClient instance is not recreated in development
-if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
-
-export default prisma;
+export { prisma }

@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { Code, ExternalLink, FileText, Book } from "lucide-react";
 import React from 'react';
+import ContentAnimator from "@/components/content-animator";
 
 const ResourcesPage = () => {
     const externalResources = [
@@ -83,60 +84,64 @@ const ResourcesPage = () => {
     return (
         <div className="min-h-screen bg-background p-36 pb-16 flex flex-col">
             {/* Header */}
-            <div className="text-center mb-16">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    External <span className="text-primary">Algorithmic Resources</span>
-                </h1>
-                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                    Resources for learning / finding inspirations, and more...
-                </p>
-            </div>
+            <ContentAnimator>
+                <div className="text-center mb-16">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                        External <span className="text-primary">Algorithmic Resources</span>
+                    </h1>
+                    <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                        Resources for learning / finding inspirations, and more...
+                    </p>
+                </div>
+            </ContentAnimator>
 
             {/* Resource Categories */}
-            <div className="grid md:grid-cols-2 gap-12 mb-8">
-                {externalResources.map((category, index) => (
-                    <Card key={index} className="border-border hover:border-primary/50 border-2 transition-colors">
-                        <CardHeader>
-                            <div className="flex items-center space-x-3 mb-2">
-                                <div className={`p-2 ${category.bgColor} rounded-lg`}>
-                                    <category.icon className={`size-4 ${category.color}`} />
+            <ContentAnimator delay={0.2}>
+                <div className="grid md:grid-cols-2 gap-12 mb-8">
+                    {externalResources.map((category, index) => (
+                        <Card key={index} className="border-border hover:border-primary/50 border-2 transition-colors">
+                            <CardHeader>
+                                <div className="flex items-center space-x-3 mb-2">
+                                    <div className={`p-2 ${category.bgColor} rounded-lg`}>
+                                        <category.icon className={`size-4 ${category.color}`} />
+                                    </div>
+                                    <CardTitle className="text-xl">{category.title}</CardTitle>
                                 </div>
-                                <CardTitle className="text-xl">{category.title}</CardTitle>
-                            </div>
-                            <CardDescription>
-                                {category.description}
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            {category.resources.map((resource, resourceIndex) => (
-                                <div key={resourceIndex}>
-                                    <a
-                                        href={resource.href}
-                                        target="_blank"
-                                        className="flex items-start justify-between mt-2 p-2 rounded-lg hover:bg-primary/5 transition-colors group"
-                                    >
-                                        <div className="flex flex-col items-start flex-1 p-1">
-                                            <div className="flex items-center space-x-4">
-                                                <FileText className="size-4 text-muted-foreground group-hover:text-primary" />
-                                                <p className="font-medium group-hover:text-primary transition-colors">
-                                                    {resource.name}
+                                <CardDescription>
+                                    {category.description}
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                {category.resources.map((resource, resourceIndex) => (
+                                    <div key={resourceIndex}>
+                                        <a
+                                            href={resource.href}
+                                            target="_blank"
+                                            className="flex items-start justify-between mt-2 p-2 rounded-lg hover:bg-primary/5 transition-colors group"
+                                        >
+                                            <div className="flex flex-col items-start flex-1 p-1">
+                                                <div className="flex items-center space-x-4">
+                                                    <FileText className="size-4 text-muted-foreground group-hover:text-primary" />
+                                                    <p className="font-medium group-hover:text-primary transition-colors">
+                                                        {resource.name}
+                                                    </p>
+                                                </div>
+                                                <p className="max-w-7/8 text-sm text-muted-foreground mt-1 ml-8">
+                                                    {resource.description}
                                                 </p>
                                             </div>
-                                            <p className="max-w-7/8 text-sm text-muted-foreground mt-1 ml-8">
-                                                {resource.description}
-                                            </p>
-                                        </div>
-                                        <ExternalLink className="size-4 text-primary opacity-0 group-hover:opacity-100 transition-all" />
-                                    </a>
-                                    {resourceIndex < category.resources.length - 1 && (
-                                        <Separator className="my-2" />
-                                    )}
-                                </div>
-                            ))}
-                        </CardContent>
-                    </Card>
-                ))}
-            </div>
+                                            <ExternalLink className="size-4 text-primary opacity-0 group-hover:opacity-100 transition-all" />
+                                        </a>
+                                        {resourceIndex < category.resources.length - 1 && (
+                                            <Separator className="my-2" />
+                                        )}
+                                    </div>
+                                ))}
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
+            </ContentAnimator>
         </div>
     );
 };

@@ -188,7 +188,7 @@ export default function LoglineExpansionClient({
                                     </div>
                                 </div>
                                 <div
-                                    className={`border border-border bg-muted/20 rounded-md transition-all cursor-pointer ${isStarred(selected) && getStarredId(selected) === currentStarred?.id ? "border-2 border-primary" : ""}`}
+                                    className={`border border-border bg-muted/20 rounded-md transition-all cursor-pointer ${isStarred(selected) && getStarredId(selected) === currentStarred?.id ? "ring-primary ring-2" : ""}`}
                                 >
                                     <div
                                         onClick={() => {
@@ -257,7 +257,7 @@ export default function LoglineExpansionClient({
 
                             {generatedLoglines.length > 0 && currentGenerated && (
                                 <div
-                                    className={`border border-border/70 bg-muted/20 rounded-md transition-colors cursor-pointer ${selected.logline_sentence === currentGenerated.logline_sentence ? "border-2 border-primary" : ""}`}
+                                    className={`border border-border/70 bg-muted/20 rounded-md transition-colors cursor-pointer ${selected.logline_sentence === currentGenerated.logline_sentence ? "ring-primary ring-2" : ""}`}
                                 >
                                     <div
                                         onClick={() => setSelected(currentGenerated)}

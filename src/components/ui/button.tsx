@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "cursor-pointer bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:from-primary/90 hover:to-primary/80 dark:shadow-primary/25",
+          "cursor-pointer border-2 border-primary bg-primary text-primary-foreground shadow-lg hover:shadow-xl hover:from-primary/90 hover:to-primary/80 dark:shadow-primary/25",
         destructive:
           "cursor-pointer bg-chart-2 text-white shadow-xs hover:bg-chart-2/80 focus-visible:ring-chart-2/20 dark:focus-visible:ring-chart-2/40",
         outline:

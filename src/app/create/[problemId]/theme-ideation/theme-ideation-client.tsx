@@ -152,7 +152,7 @@ export default function ThemeIdeationClient({
                                 </Button>
                             </div>
                         </div>
-                        <div className={`border border-border bg-muted/20 flex items-center justify-between rounded-md hover:bg-muted transition-all cursor-pointer ${selectedTheme === currentStarredTheme.theme ? "border-2 border-primary" : ""}`}>
+                        <div className={`border border-border bg-muted/20 flex items-center justify-between rounded-md hover:bg-muted transition-all cursor-pointer ${selectedTheme === currentStarredTheme.theme ? "ring-primary ring-2" : ""}`}>
                             <div
                                 onClick={() => setSelectedTheme(currentStarredTheme.theme)}
                                 className="cursor-pointer text-sm flex-1 flex items-center justify-between p-2 px-3"
@@ -214,7 +214,7 @@ export default function ThemeIdeationClient({
                                     </Button>
                                 </div>
                             </div>
-                            <div className={`border border-border/70 bg-muted/20 flex items-center justify-between rounded-md hover:bg-muted transition-colors cursor-pointer ${selectedTheme === currentGeneratedTheme ? "border-2 border-primary" : ""}`}>
+                            <div className={`border border-border/70 bg-muted/20 flex items-center justify-between rounded-md hover:bg-muted transition-colors cursor-pointer ${selectedTheme === currentGeneratedTheme ? "ring-primary ring-2" : ""}`}>
                                 <div
                                     onClick={() => setSelectedTheme(currentGeneratedTheme)}
                                     className="cursor-pointer text-sm flex-1 flex items-center justify-between p-2 px-3"

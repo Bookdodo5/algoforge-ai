@@ -4,7 +4,7 @@ import { ThemeToggle } from "./ui/theme-toggle";
 import { ThemeLogo } from "./ui/theme-logo";
 import { Button } from "./ui/button"
 import Link from "next/link"
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import * as React from "react"
 import {
     NavigationMenu,
@@ -29,7 +29,6 @@ import {
     Database,
     Rocket
 } from "lucide-react"
-import { Session } from "next-auth";
 
 function ListItem({
     title,
@@ -63,7 +62,8 @@ function ListItem({
     )
 }
 
-export default function Navbar({ session }: { session: Session | null }) {
+export default function Navbar() {
+    const { data: session } = useSession();
     return (
         <div className="h-16 flex justify-between items-center px-24 bg-background/80  backdrop-blur-sm fixed border-b-2 border-muted w-full z-50">
             <div className="flex items-center gap-8">

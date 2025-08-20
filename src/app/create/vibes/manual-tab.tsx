@@ -218,7 +218,7 @@ export default function ManualTab({
                             </Button>
                         </TagWrapper>
                         <TagWrapper key="humor_styles" field="humor_styles" manualProfile={manualProfile} removeFromManual={removeFromManual}>
-                            <Select value={undefined} onValueChange={(value) => addToManual(value, "humor_styles")}>
+                            <Select value="" onValueChange={(value) => addToManual(value, "humor_styles")}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Select humor style..." />
                                 </SelectTrigger>

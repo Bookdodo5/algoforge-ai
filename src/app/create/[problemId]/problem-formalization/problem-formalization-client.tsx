@@ -163,7 +163,7 @@ export default function ProblemFormalizationClient({
                         />
                     </div>
                     <div className="space-y-3 col-span-2">
-                        <Label htmlFor="problemStatement">Problem Statement (Markdown)</Label>
+                        <Label htmlFor="problemStatement">Problem Statement (Markdown + Latex)</Label>
                         <Textarea
                             id="problemStatement"
                             rows={12}
@@ -174,7 +174,7 @@ export default function ProblemFormalizationClient({
                         />
                     </div>
                     <div className="space-y-3">
-                        <Label htmlFor="inputFormat">Input Format (Markdown)</Label>
+                        <Label htmlFor="inputFormat">Input Format (Markdown + Latex)</Label>
                         <Textarea
                             id="inputFormat"
                             rows={6}
@@ -185,7 +185,7 @@ export default function ProblemFormalizationClient({
                         />
                     </div>
                     <div className="space-y-3">
-                        <Label htmlFor="outputFormat">Output Format (Markdown)</Label>
+                        <Label htmlFor="outputFormat">Output Format (Markdown + Latex)</Label>
                         <Textarea
                             id="outputFormat"
                             rows={6}
@@ -196,7 +196,7 @@ export default function ProblemFormalizationClient({
                         />
                     </div>
                     <div className="space-y-3">
-                        <Label htmlFor="constraints">Constraints (Markdown)</Label>
+                        <Label htmlFor="constraints">Constraints (Markdown + Latex)</Label>
                         <Textarea
                             id="constraints"
                             rows={6}

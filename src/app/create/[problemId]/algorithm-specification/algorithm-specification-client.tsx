@@ -171,7 +171,7 @@ export default function AlgorithmSpecificationClient({
                             </div>
                             {suggestions.length > 0 && (
                                 <label
-                                    className={`p-3 border border-border bg-muted/20 rounded-md transition-all flex items-start gap-3 cursor-pointer ${selectedAlgos.includes(currentSuggestion.id) && "border-primary border-2"}`}
+                                    className={`p-3 border border-border bg-muted/20 rounded-md transition-all flex items-start gap-3 cursor-pointer ${selectedAlgos.includes(currentSuggestion.id) && "ring-primary ring-2"}`}
                                     htmlFor={"checkBox" + currentSuggestionIndex}
                                 >
                                     <input
@@ -223,9 +223,9 @@ export default function AlgorithmSpecificationClient({
                                 <h4 className="font-medium text-sm text-foreground mr-6">Algorithm Library</h4>
                                 <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search" className="flex-1" />
                             </div>
-                            <div className="gap-2 flex flex-col overflow-y-auto flex-1">
+                            <div className="gap-2 flex flex-col overflow-y-auto flex-1 p-2">
                                 {filteredLibrary.map((a) => (
-                                    <label key={a.id} className={`border border-border rounded-md p-3 cursor-pointer ${selectedAlgos.includes(a.id) && "border-primary border-2"}`}>
+                                    <label key={a.id} className={`border border-border rounded-md p-3 cursor-pointer ${selectedAlgos.includes(a.id) && "ring-primary ring-2"}`}>
                                         <div className="flex items-start gap-3">
                                             <input
                                                 type="checkbox"
@@ -283,7 +283,7 @@ export default function AlgorithmSpecificationClient({
                             </div>
                             {proposals.length > 0 && (
                                 <div
-                                    className={`p-3 space-y-1 border border-border bg-muted/20 rounded-md transition-all cursor-pointer ${JSON.stringify(currentProposal) == JSON.stringify(finalProposal) && "border-2 border-primary"}`}
+                                    className={`p-3 space-y-1 border border-border bg-muted/20 rounded-md transition-all cursor-pointer ${JSON.stringify(currentProposal) == JSON.stringify(finalProposal) && "ring-primary ring-2"}`}
                                     onClick={() => setFinalProposal(currentProposal)}
                                 >
                                     <div className="flex justify-between items-center">
@@ -307,9 +307,9 @@ export default function AlgorithmSpecificationClient({
 
                                     <Tabs defaultValue="description" className="mt-3 bg-muted rounded-md">
                                         <TabsList className="w-full">
-                                            <TabsTrigger value="description" className="text-xs h-8">Description</TabsTrigger>
-                                            <TabsTrigger value="justification" className="text-xs h-8">Why It Fits</TabsTrigger>
-                                            <TabsTrigger value="originality" className="text-xs h-8">Originality</TabsTrigger>
+                                            <TabsTrigger value="description" className="text-xs h-8 hover:bg-card/70 transition-all">Description</TabsTrigger>
+                                            <TabsTrigger value="justification" className="text-xs h-8 hover:bg-card/70 transition-all">Why It Fits</TabsTrigger>
+                                            <TabsTrigger value="originality" className="text-xs h-8 hover:bg-card/70 transition-all">Originality</TabsTrigger>
                                         </TabsList>
 
                                         <TabsContent value="description" className="px-3 pb-3">
