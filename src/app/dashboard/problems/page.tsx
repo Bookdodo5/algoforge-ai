@@ -1,10 +1,11 @@
 import { sessionValidation } from "@/app/actions/serverActions";
 import { ProblemDisplay } from "./problem-display";
 import { prisma } from "@/lib/prisma";
+import ContentAnimator from "@/components/content-animator";
 
 async function getProblems() {
     const session = await sessionValidation()
-    if(session instanceof Error) {
+    if (session instanceof Error) {
         console.error(session)
         return [];
     }
@@ -28,16 +29,20 @@ export default async function Problems() {
     return (
         <div className="bg-background p-36 pb-16 flex flex-col">
             {/* Header */}
-            <div className="text-center mb-12">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    Your Programming <span className="text-primary">Problems</span>
-                </h1>
-                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                    Problems you've created with our system.
-                </p>
-            </div>
+            <ContentAnimator>
+                <div className="text-center mb-12">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                        Your Programming <span className="text-primary">Problems</span>
+                    </h1>
+                    <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                        Problems you've created with our system.
+                    </p>
+                </div>
+            </ContentAnimator>
 
-            <ProblemDisplay problems={serializableProblems as any} />
+            <ContentAnimator delay={0.2}>
+                <ProblemDisplay problems={serializableProblems as any} />
+            </ContentAnimator>
         </div>
     );
 }

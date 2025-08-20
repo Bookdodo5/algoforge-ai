@@ -11,10 +11,11 @@ import {
     FileCode2,
     ArrowRight
 } from "lucide-react"
+import ContentAnimator from "@/components/content-animator"
 
 async function getDashboardData() {
     const session = await sessionValidation()
-    if(session instanceof Error) {
+    if (session instanceof Error) {
         console.error(session)
         return {
             stats: { vibes: 0, themes: 0, loglines: 0, problems: 0 },
@@ -135,70 +136,76 @@ export default async function Dashboard() {
     return (
         <div className="bg-background p-36 pb-16 flex flex-col">
             {/* Header */}
-            <div className="text-center mb-12">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    Your <span className="text-primary">Dashboard</span>
-                </h1>
-                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                    All the stats for your creative problems.
-                </p>
-            </div>
+            <ContentAnimator>
+                <div className="text-center mb-12">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                        Your <span className="text-primary">Dashboard</span>
+                    </h1>
+                    <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                        All the stats for your creative problems.
+                    </p>
+                </div>
+            </ContentAnimator>
 
             {/* Creation Counts */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <StatsCard
-                    number={stats.vibes}
-                    title="Vibes"
-                    icon={Sparkles}
-                    iconColor="text-destructive"
-                />
-                <StatsCard
-                    number={stats.themes}
-                    title="Themes"
-                    icon={Palette}
-                    iconColor="text-accent"
-                />
-                <StatsCard
-                    number={stats.loglines}
-                    title="Loglines"
-                    icon={ScrollText}
-                    iconColor="text-chart-4"
-                />
-                <StatsCard
-                    number={stats.problems}
-                    title="Problems"
-                    icon={FileCode2}
-                    iconColor="text-primary"
-                />
-            </div>
+            <ContentAnimator delay={0.2}>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <StatsCard
+                        number={stats.vibes}
+                        title="Vibes"
+                        icon={Sparkles}
+                        iconColor="text-destructive"
+                    />
+                    <StatsCard
+                        number={stats.themes}
+                        title="Themes"
+                        icon={Palette}
+                        iconColor="text-accent"
+                    />
+                    <StatsCard
+                        number={stats.loglines}
+                        title="Loglines"
+                        icon={ScrollText}
+                        iconColor="text-chart-4"
+                    />
+                    <StatsCard
+                        number={stats.problems}
+                        title="Problems"
+                        icon={FileCode2}
+                        iconColor="text-primary"
+                    />
+                </div>
+            </ContentAnimator>
 
             {/* Recent Activities - Separated by Category */}
-            <div className="grid md:grid-cols-2 gap-6">
-                <RecentCard
-                    recent={recentVibes.map((vibe) => JSON.parse(vibe.vibeProfile as string).vibe_name)}
-                    title="Recent Vibes"
-                    icon={Sparkles}
-                    iconColor="text-destructive"
-                />
-                <RecentCard
-                    recent={recentThemes.map((theme) => theme.theme)}
-                    title="Recent Themes"
-                    icon={Palette}
-                    iconColor="text-accent"
-                />
-                <RecentCard
-                    recent={recentLoglines.map((logline) => JSON.parse(logline.logline as string).logline_sentence)}
-                    title="Recent Loglines"
-                    icon={ScrollText}
-                    iconColor="text-chart-4"
-                />
-                <RecentCard
-                    recent={recentProblems.map((problem) => problem.title)}
-                    title="Recent Problems"
-                    icon={FileCode2}
-                    iconColor="text-primary"
-                />
-            </div>
+            <ContentAnimator delay={0.4}>
+                <div className="grid md:grid-cols-2 gap-6">
+                    <RecentCard
+                        recent={recentVibes.map((vibe) => JSON.parse(vibe.vibeProfile as string).vibe_name)}
+                        title="Recent Vibes"
+                        icon={Sparkles}
+                        iconColor="text-destructive"
+                    />
+                    <RecentCard
+                        recent={recentThemes.map((theme) => theme.theme)}
+                        title="Recent Themes"
+                        icon={Palette}
+                        iconColor="text-accent"
+                    />
+                    <RecentCard
+                        recent={recentLoglines.map((logline) => JSON.parse(logline.logline as string).logline_sentence)}
+                        title="Recent Loglines"
+                        icon={ScrollText}
+                        iconColor="text-chart-4"
+                    />
+                    <RecentCard
+                        recent={recentProblems.map((problem) => problem.title)}
+                        title="Recent Problems"
+                        icon={FileCode2}
+                        iconColor="text-primary"
+                    />
+                </div>
+            </ContentAnimator>
 
         </div>
     );

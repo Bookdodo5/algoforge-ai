@@ -1,6 +1,7 @@
 import { sessionValidation } from "@/app/actions/serverActions";
 import { ThemeDisplay } from "./theme-display";
 import { prisma } from "@/lib/prisma";
+import ContentAnimator from "@/components/content-animator";
 
 async function getThemes() {
     const session = await sessionValidation()
@@ -26,6 +27,7 @@ export default async function Themes() {
     return (
         <div className="bg-background p-36 pb-16 flex flex-col">
             {/* Header */}
+            <ContentAnimator>
             <div className="text-center mb-12">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
                     Your Starred <span className="text-primary">Themes</span>
@@ -34,8 +36,11 @@ export default async function Themes() {
                     Themes you've starred for initial ideas.
                 </p>
             </div>
+            </ContentAnimator>
 
+            <ContentAnimator delay={0.2}>
             <ThemeDisplay themes={themes} />
+            </ContentAnimator>
         </div>
     );
 }

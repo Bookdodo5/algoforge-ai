@@ -1,10 +1,11 @@
 import { sessionValidation } from "@/app/actions/serverActions";
 import { LoglineDisplay } from "@/app/dashboard/loglines/logline-display";
 import { prisma } from "@/lib/prisma";
+import ContentAnimator from "@/components/content-animator";
 
 async function getLoglines() {
     const session = await sessionValidation()
-    if(session instanceof Error) {
+    if (session instanceof Error) {
         console.error(session)
         return [];
     }
@@ -23,16 +24,20 @@ export default async function Loglines() {
     return (
         <div className="bg-background p-36 pb-16 flex flex-col">
             {/* Header */}
-            <div className="text-center mb-12">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    Your Starred <span className="text-primary">Loglines</span>
-                </h1>
-                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                    Loglines you've starred for the initial ideation of problem narrative.
-                </p>
-            </div>
+            <ContentAnimator>
+                <div className="text-center mb-12">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                        Your Starred <span className="text-primary">Loglines</span>
+                    </h1>
+                    <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                        Loglines you've starred for the initial ideation of problem narrative.
+                    </p>
+                </div>
+            </ContentAnimator>
 
-            <LoglineDisplay loglines={loglines ?? []} />
+            <ContentAnimator delay={0.2}>
+                <LoglineDisplay loglines={loglines ?? []} />
+            </ContentAnimator>
         </div>
     );
 }
